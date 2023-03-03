@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.menuitem {
+    @apply hover:text-red-500 hover:cursor-pointer;
+}
