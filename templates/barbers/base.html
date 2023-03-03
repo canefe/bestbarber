@@ -1,0 +1,24 @@
+{% load static %} 
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>
+			BestBarber
+		</title>
+		<link rel="stylesheet" href="{% static "css/output.css" %}?{% now " u"="" %}"="">
+	</head>
+	<body>
+        <div class="h-20 bg-slate-700 text-yellow-50">
+			<div class="flex space-x-1.5">
+				<img src="{% static "images/logo.png" %}"></img>
+				<div  class="flex space-x-10 uppercase text-xl mt-6">
+					<div class="menuitem">Main</div>
+					<div class="menuitem">Barbers</div>
+					<div class="menuitem">Login</div>
+				</div>
+			</div>
+		</div>
+		<div>{% block body_block %} {% endblock %}</div>
+	</body>
+</html>
