@@ -19,18 +19,23 @@
 		<script src="{% static "js/base.js" %}"></script>
 		<!-- GSAP -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+
+		{% block head %}
+		{% endblock %}
 	</head>
 	<body>
         <div class="h-20 bg-slate-700 text-white font-['Roboto']">
 			<div class="flex justify-between items-center">
 				<img src="{% static "images/logo.png" %}" id="logo" class="flex-initial ml-3 mt-3 hover:cursor-pointer"></img>
 				<ul  class="hidden md:flex space-x-10 text-xl mt-6 flex-auto justify-end mr-40">
-					<li class="menuitem" id="menu1"><a href="{% url 'barbers:index' %}">Home</a></li>
-					<li class="menuitem" id="menu2"><a href="{% url 'barbers:barbers' %}">Barbers</a></li>
-					<li class="menuitem" id="menu3">Login</li>
+					<li class="menuitem"><a href="{% url 'barbers:index' %}">Home</a></li>
+					<li class="menuitem"><a href="{% url 'barbers:barbers' %}">Barbers</a></li>
+					<li class="menuitem">Login</li>
 				</ul>
 				<!--To do: add burger menu-->
 				<img src="{% static "images/burger.png" %}" class="md:hidden mt-5 mr-5"/>
+				<!-- add a burger menu for mobile-->
+				
 			</div>
 		</div>
 		<div class="bg-[#394f66] min-h-screen">{% block body_block %} {% endblock %}</div>

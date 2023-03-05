@@ -1,5 +1,11 @@
 {% extends 'barbers/base.html' %} {% load static %} {% block title_block %}
-Barbers {% endblock %} {% block body_block %}
+Barbers {% endblock %} 
+{% block head %}
+<!-- Import js/barbers.js -->
+<script src="{% static 'js/barbers.js' %}"></script>
+{% endblock %}
+{% block body_block %}
+
 <div
 	class="flex flex-col items-center justify-center bg-[#394f66] p-5 text-white"
 >
@@ -28,7 +34,7 @@ Barbers {% endblock %} {% block body_block %}
 				<a class="text-green-700">Cheap</a>
 				<a class="text-red-500">Boring</a>
 			</div>
-			<button class="bg-green-500 text-2xl p-2 text-white">
+			<button class="book bg-green-500 text-2xl p-2 text-white">
 				Book
 			</button>
 		</div>

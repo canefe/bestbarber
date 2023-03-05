@@ -12,24 +12,12 @@ $(function() {
         gsap.to('#logo', {duration: 0.5, scale: 1});
     });
     
-    $('#menu1').on('mouseenter',function(){
-        gsap.to('#menu1', {duration: 0.5, scale: 1.1});
+    $('.menuitem').on('mouseenter',function(){
+        gsap.to(this, {duration: 0.5, scale: 1.1});
     });
-    $('#menu2').on('mouseenter',function(){
-        gsap.to('#menu2', {duration: 0.5, scale: 1.1});
+    $('.menuitem').on('mouseleave',function(){
+        gsap.to(this, {duration: 0.5, scale: 1});
     });
-    $('#menu3').on('mouseenter',function(){
-        gsap.to('#menu3', {duration: 0.5, scale: 1.1});
-    });
-    // General mouseleave function for all menu items starting from #menu1
-    $('#menu1').on('mouseleave',function(){
-        gsap.to('#menu1', {duration: 0.5, scale: 1});
-    });
-    $('#menu2').on('mouseleave',function(){
-        gsap.to('#menu2', {duration: 0.5, scale: 1});
-    });
-    $('#menu3').on('mouseleave',function(){
-        gsap.to('#menu3', {duration: 0.5, scale: 1});
-    });
+
 
 });
