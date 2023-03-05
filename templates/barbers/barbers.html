@@ -11,10 +11,10 @@ Barbers {% endblock %} {% block body_block %}
 
           </div>
     </div>
-	<div class="flex text-black mt-5 w-screen space-x-5 items-center justify-center">
+	<div class="flex text-black mt-5 max-w-screen space-x-5 items-center justify-center">
 		<!-- For loop comes here -->
         {% for i in "123" %} {% if forloop.counter > 3 %} {% endif %}
-		<div class="bg-white rounded-xl w-[350px] h-auto flex flex-col items-center space-y-5 shadow-2xl pb-5">
+		<div class="bg-white rounded-xl h-auto flex flex-col items-center space-y-5 shadow-2xl pb-5">
 			<img src="{% static "images/example.png" %}" class="rounded-t-xl "/>
 			<h3 class="mt-5 text-3xl">Barbershop</h3>
 			<div class="flex space-x-1">
