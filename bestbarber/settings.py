@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "barbers",
+    "registration",
 ]
 
 MIDDLEWARE = [
@@ -101,6 +102,20 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+#Registration Variables
+
+#If True, users can register.
+REGISTRATION_OPEN = True
+
+#If True, the user will be auto logged in after registering
+REGISTRATION_AUTO_LOGIN = True
+
+#The URL that Django redirects users to afer logging in.
+# LOGIN_REDIRECT_URL = ''
+
+# The page users are directed to if they are not logged in.
+LOGIN_URL = 'auth_login'
 
 
 # Internationalization
