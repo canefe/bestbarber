@@ -1,17 +1,17 @@
-{% load static %} 
-
 <!DOCTYPE html>
+{% load static %}
+
 <html>
 	<head>
 		<title>
 			BestBarber
 		</title>
-		<link rel="stylesheet" href="{% static "css/output.css" %}?{% now " u"="" %}"="">
+		<link rel="stylesheet" href="{% static 'css/output.css' %}?{% now ' u'='' %}'='">
 	</head>
 	<body>
         <div class="h-20 bg-slate-700 text-yellow-50">
 			<div class="flex md:space-x-96">
-				<img src="{% static "images/logo.png" %}" class="m-2"></img>
+				<img src="{% static 'images/logo.png' %}" class="m-2">
 				<div  class="flex space-x-10 uppercase text-2xl mt-6">
 					<div class="menuitem">Main</div>
 					<div class="menuitem">Barbers</div>
