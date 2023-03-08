@@ -4,7 +4,9 @@
 <html>
 	<head>
 		<title>
-			BestBarber
+			{% block title_block %}
+				BestBarber
+			{% endblock %}
 		</title>
 		<link rel="stylesheet" href="{% static 'css/output.css' %}?{% now ' u'='' %}'='">
 	</head>
