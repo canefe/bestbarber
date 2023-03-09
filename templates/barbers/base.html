@@ -21,7 +21,11 @@
 				</div>
 			</div>
 		</div>
-		<div>{% block body_block %} {% endblock %}</div>
+		<div>
+			{% block body_block %}
+
+			 {% endblock %}
+		</div>
 		<div>
 		  <ul>
 			{% if user.is_authenticated %}
@@ -33,7 +37,6 @@
 			  <li><a href="{% url 'auth_login' %}">Login</a></li>
 			{% endif %}
 			  <!-- Outside the conditional statements, ALWAYS show -->
-<!--			  <li><a href="{% url 'rango:about' %}">About</a></li>-->
 			  <li><a href="{% url 'barbers:index' %}">Index</a></li>
 		  </ul>
 		</div>
