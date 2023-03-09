@@ -22,5 +22,20 @@
 			</div>
 		</div>
 		<div>{% block body_block %} {% endblock %}</div>
+		<div>
+		  <ul>
+			{% if user.is_authenticated %}
+			  <!-- Show these links when the user is logged in -->d
+			  <li><a href="{% url 'auth_logout' %}?next={% url 'barbers:index '%}">Logout</a></li>
+			{% else %}
+			  <!-- Show these links when the user is NOT logged in -->
+			  <li><a href="{% url 'registration_register' %}">Sign Up</a></li>
+			  <li><a href="{% url 'auth_login' %}">Login</a></li>
+			{% endif %}
+			  <!-- Outside the conditional statements, ALWAYS show -->
+<!--			  <li><a href="{% url 'rango:about' %}">About</a></li>-->
+			  <li><a href="{% url 'barbers:index' %}">Index</a></li>
+		  </ul>
+		</div>
 	</body>
 </html>
