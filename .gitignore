@@ -1,2 +1,8 @@
 db.sqlite3
 tailwindcss
+*.xml
+*.pyc
+*.py
+/.idea/bestbarber.iml
+/.idea/.gitignore
+/templates/registration/testRegis.html

@@ -1,22 +1,109 @@
 {% extends 'barbers/base.html' %}
 
 {% block title_block %}
-    Login
+Login
 {% endblock %}
-
 {% block body_block %}
-<h1>Login</h1>
-<form method="post" action=".">
-{% csrf_token %}
+<head>
+		<style	type="text/css"	media="screen">
+				div.login
+				{
+				position:relative;
+				top: 150px;
+				margin: auto;
 
-{{ form.as_p }}
+				width:800px;
+				height:500px;
+				}
+				.center
+				{
+				text-align:center;
 
-  <input type="submit" value="Log In" />
-  <input type="hidden" name="next" value="{{ next }}" />
-</form>
+				}
+				.left-100
+				{
+				margin-left:100px;
+				text-align:left;
 
-<p>
-  Not registered?
-  <a href="{% url 'registration_register' %}">Register here!</a>
-</p>
+				}
+
+
+				input.input_box
+				{
+				position: absolute;
+				right: 150px;
+				width: 400px;
+				}
+
+
+				.right-110
+				{
+				margin-right:110px;
+				text-align:right;
+
+				}
+
+				b{
+				color:white;
+				}
+
+				.form-button {
+				background: #005288;
+				box-sizing: content-box;
+				-moz-box-sizing: content-box;
+				color: #ffffff;
+				cursor: pointer;
+				}
+
+				.form-element {
+				padding: 15px 24px;
+				line-height: 40px;
+				}
+
+				.form-text{
+				color:white;
+				line-height: 40px;
+				font-size: 20px;
+				}
+
+				.form-heading {
+				padding: 15px 24px;
+				border: none;
+				font-size: 30px;
+				border-radius: 4px;
+				}
+		</style>
+</head>
+<body>
+		<div class="login bg-slate-700">
+			<br>
+				<div class="center">
+					<br>
+					<b class="space-x-10 uppercase form-heading whiteFont">Login</b>
+					<br>
+					<br>
+					</div>
+				<form  id="login_form" method="post">
+					{% csrf_token %}
+					<div class="form-element relative left-100">
+						<div>
+							<b > Username: </b> <input class = "input_box" type="text" name="username" value="" size="45" />
+						</div><br>
+						<div>
+							<b > Password: </b> <input class = "input_box" type="password" name="password" value="" size="46" />
+						</div><br>
+						<div>
+							<b> Remember me </b> <input type="checkbox" name="docache" value="1" size="20">
+					</div> <b>Not registered?</b>
+					<a  href="{% url 'barbers:auth_register' %}"><b>Register here!</b></a>
+					</div>
+
+			<div class = "center" >
+				<button class="form-element form-button" type="submit" name="login">Login</button>
+			</div>
+			</form>
+			<
+		</div>
+
+</body>
 {% endblock %}

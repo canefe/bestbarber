@@ -66,6 +66,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -115,7 +116,7 @@ REGISTRATION_AUTO_LOGIN = True
 LOGIN_REDIRECT_URL = 'barbers:index'
 
 # The page users are directed to if they are not logged in.
-LOGIN_URL = 'auth_login'
+LOGIN_URL = 'barbers:auth_login'
 
 
 # Internationalization
@@ -139,3 +140,7 @@ STATICFILES_DIRS = [STATIC_DIR, ]
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+MEDIA_DIR = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = MEDIA_DIR
+MEDIA_URL = '/media/'

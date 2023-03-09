@@ -15,9 +15,17 @@
 			<div class="flex md:space-x-96">
 				<img src="{% static 'images/logo.png' %}" class="m-2">
 				<div  class="flex space-x-10 uppercase text-2xl mt-6">
-					<div class="menuitem">Main</div>
+					<!-- Outside the conditional statements, ALWAYS show -->
+					<a href="{% url 'barbers:index' %}">Main</a>
 					<div class="menuitem">Barbers</div>
-					<div class="menuitem">Login</div>
+
+					{% if user.is_authenticated %}
+					<!-- Show these links when the user is logged in -->
+					<div class="menuitem"><a href="{% url 'auth_logout' %}?next={% url 'barbers:index'%}">Logout</a></div>
+					{% else %}
+					<!-- Show these links when the user is NOT logged in -->
+					<div class="menuitem"><a href="{% url 'barbers:auth_login' %}">Login</a></div>
+					{% endif %}
 				</div>
 			</div>
 		</div>
@@ -28,16 +36,8 @@
 		</div>
 		<div>
 		  <ul>
-			{% if user.is_authenticated %}
-			  <!-- Show these links when the user is logged in -->d
-			  <li><a href="{% url 'auth_logout' %}?next={% url 'barbers:index '%}">Logout</a></li>
-			{% else %}
-			  <!-- Show these links when the user is NOT logged in -->
-			  <li><a href="{% url 'registration_register' %}">Sign Up</a></li>
-			  <li><a href="{% url 'auth_login' %}">Login</a></li>
-			{% endif %}
-			  <!-- Outside the conditional statements, ALWAYS show -->
-			  <li><a href="{% url 'barbers:index' %}">Index</a></li>
+
+
 		  </ul>
 		</div>
 	</body>

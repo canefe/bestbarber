@@ -1,16 +1,183 @@
 {% extends 'barbers/base.html' %}
-
+{% load static %}
 {% block title_block %}
-    Register
+Register
 {% endblock %}
 
+
 {% block body_block %}
-<h1>Register Here</h1>
+<head>
+		<style	type="text/css"	media="screen">
+				.register
+				{
+				position:absolute;
+				top: 150px;
+				right: 150px;
 
-<form method="post" action=".">
-  {% csrf_token %}
-  {{ form.as_p }}
+				width:800px;
+				height:1200px;
+				}
 
-  <input type="submit" value="Register" />
-</form>
+				.image_container
+				{
+				position:relative;
+				top: 65px;
+				left: 100px;
+				width:800px;
+				height:1200px;
+				}
+
+				.regi_image
+				{
+				position:relative;
+				top: 65px;
+				}
+
+				input
+				{
+				position: absolute;
+				right: 150px;
+				width: 300px;
+				}
+
+				.warn_pass_not_match{
+				colour: red;
+				}
+
+				.center
+				{
+				text-align:center;
+
+				}
+				.left-50
+				{
+				margin-left:50px;
+				text-align:left;
+
+				}
+				.left-80
+				{
+				margin-left:80px;
+				text-align:left;
+
+				}
+				.left-100
+				{
+				margin-left:100px;
+				text-align:left;
+
+				}
+
+
+				.left-120
+				{
+				margin-left:120px;
+				text-align:left;
+
+				}
+
+				.left-140
+				{
+				margin-left:140px;
+				text-align:left;
+
+				}
+
+				.inline{
+				display: inline;
+
+
+				}
+				.left-160
+				{
+				margin-left:160px;
+				text-align:left;
+
+				}
+
+				.form-button_blue {
+				background: #005288;
+				box-sizing: content-box;
+				-moz-box-sizing: content-box;
+				color: #ffffff;
+				cursor: pointer;
+				}
+
+				.form-button_green {
+				background: #008852;
+				box-sizing: content-box;
+				-moz-box-sizing: content-box;
+				color: #ffffff;
+				cursor: pointer;
+				}
+
+				.form-element {
+				padding: 15px 24px;
+				line-height: 40px;
+				}
+
+				.form-text{
+				color:white;
+				line-height: 60px;
+				font-size: 20px;
+				}
+
+				.form-heading {
+				padding: 15px 24px;
+				border: none;
+				font-size: 30px;
+				border-radius: 4px;
+				}
+		</style>
+</head>
+<body>
+		<div class="register bg-slate-700">
+			<br>
+				<div class="center">
+					<br>
+					<br>
+					<b class="space-x-10 uppercase form-heading form-text ">
+						Register</b>
+					<br>
+					<br>
+				</div>
+			<div class="left-50" >
+				{% if registered %}
+				<b  class="form-text"><strong>thank you for registering!</strong>
+				<a href="{% url 'barbers:index' %}">Return to the homepage.</a><br /></b>
+				{% else %}
+				<form method="post" method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					<div class="form-element">
+							{% for field in user_form %}
+								<div > <b class="form-text input_box">{{ field.errors }}
+								{{ field.label_tag }}</b>{{ field }} </div>
+
+							{% endfor %}
+
+							{% for field in profile_form %}
+								<div > <b class="form-text">{{ field.errors }}
+								{{ field.label_tag }}</b>  {{ field }}  </div>
+
+
+							{% endfor %}
+
+				</div>
+					<button class="form-element form-button_blue  left-120" type="submit" name="submit" value="Register">Barber</button>
+					<button class="form-element form-button_green left-140" type="submit" name="submit" value="Register">Customer</button>
+				</form>
+				{% endif %}
+		</div>
+</div>
+
+
+		<div class= "image_container">
+			<img src="{% static 'images/barber1.png' %}" class="m-2 regi_image">
+
+</div>
+
+
+</body>
+
+
 {% endblock %}
