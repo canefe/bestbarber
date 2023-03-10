@@ -8,8 +8,12 @@ Register
 {% block body_block %}
 <head>
 		<style	type="text/css"	media="screen">
+
+				/* Register Box */
+
 				.register
 				{
+				display:block;
 				position:absolute;
 				top: 150px;
 				right: 150px;
@@ -18,20 +22,22 @@ Register
 				height:1200px;
 				}
 
-				.image_container
-				{
-				position:relative;
-				top: 65px;
-				left: 100px;
-				width:800px;
-				height:1200px;
-				}
+<!--				.image_container-->
+<!--				{-->
+<!--				position:relative;-->
+<!--				top: 65px;-->
+<!--				left: 100px;-->
+<!--				width:800px;-->
+<!--				height:1200px;-->
+<!--				}-->
 
-				.regi_image
-				{
-				position:relative;
-				top: 65px;
-				}
+
+<!--				.regi_image-->
+<!--				{-->
+<!--				display:block;-->
+<!--				position:relative;-->
+<!--				top: 65px;-->
+<!--				}-->
 
 				input
 				{
@@ -127,7 +133,7 @@ Register
 				border: none;
 				font-size: 30px;
 				border-radius: 4px;
-				}
+
 		</style>
 </head>
 <body>
@@ -168,13 +174,13 @@ Register
 				</form>
 				{% endif %}
 		</div>
-</div>
+<!--</div>-->
 
+<!--		//Register Image-->
+<!--		<div class= "image_container">-->
+<!--			<img src="{% static 'images/barber1.png' %}" class="m-2 regi_image">-->
 
-		<div class= "image_container">
-			<img src="{% static 'images/barber1.png' %}" class="m-2 regi_image">
-
-</div>
+<!--</div>-->
 
 
 </body>
