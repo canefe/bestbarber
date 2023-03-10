@@ -9,7 +9,7 @@ class UserProfile(models.Model):
     title = models.CharField(max_length=50)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    school = models.CharField(max_length=50, null=True)
+    # school = models.CharField(max_length=50, null=True)
     phoneNumber = models.CharField(max_length=50, null=True)
     email = models.CharField(max_length=50, null=True)
 
