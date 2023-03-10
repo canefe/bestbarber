@@ -70,3 +70,6 @@ def register(request):
 
 
 
+def barbers(request):
+    response = render(request, 'barbers/barbers.html')
+    return response

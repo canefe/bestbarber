@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 .menuitem {
-    @apply hover:text-red-500 hover:cursor-pointer;
+    @apply hover:text-slate-400 hover:cursor-pointer;
 }

@@ -4,21 +4,30 @@
 <html>
 	<head>
 		<title>
-			{% block title_block %}
-				BestBarber
-			{% endblock %}
+			BestBarber - {% block title_block %} 
+            {% endblock %}
 		</title>
-		<link rel="stylesheet" href="{% static 'css/output.css' %}?{% now ' u'='' %}'='">
+		<!-- CSS -->
+		<link rel="stylesheet" href="{% static "css/output.css" %}?{% now " u"="" %}"="">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<!-- Roboto Font -->
+		<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+		<!-- JQuery -->
+		<script src="{% static "js/jquery-3.6.3.min.js" %}"></script>
+		<!-- base.js -->
+		<script src="{% static "js/base.js" %}"></script>
+		<!-- GSAP -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+
+		{% block head %}
+		{% endblock %}
 	</head>
 	<body>
-        <div class="h-20 bg-slate-700 text-yellow-50">
-			<div class="flex md:space-x-96">
-				<img src="{% static 'images/logo.png' %}" class="m-2">
-				<div  class="flex space-x-10 uppercase text-2xl mt-6">
-					<!-- Outside the conditional statements, ALWAYS show -->
-					<a href="{% url 'barbers:index' %}">Main</a>
-					<div class="menuitem">Barbers</div>
-
+        <div class="h-20 bg-slate-700 text-white font-['Roboto']">
+			<div class="flex justify-between items-center">
+				<img src="{% static "images/logo.png" %}" id="logo" class="flex-initial ml-3 mt-3 hover:cursor-pointer"></img>
+				
 					{% if user.is_authenticated %}
 					<!-- Show these links when the user is logged in -->
 					<div class="menuitem"><a href="{% url 'auth_logout' %}?next={% url 'barbers:index'%}">Logout</a></div>
@@ -26,19 +35,13 @@
 					<!-- Show these links when the user is NOT logged in -->
 					<div class="menuitem"><a href="{% url 'barbers:auth_login' %}">Login</a></div>
 					{% endif %}
-				</div>
+       
+				<!--To do: add burger menu-->
+				<img src="{% static "images/burger.png" %}" class="md:hidden mt-5 mr-5"/>
+				<!-- add a burger menu for mobile-->
+				
 			</div>
 		</div>
-		<div>
-			{% block body_block %}
-
-			 {% endblock %}
-		</div>
-		<div>
-		  <ul>
-
-
-		  </ul>
-		</div>
+		<div class="bg-[#394f66] min-h-screen">{% block body_block %} {% endblock %}</div>
 	</body>
 </html>
