@@ -47,3 +47,12 @@ class BarberShop(models.Model):
 
     def __str__(self):
         return self.mana
+    
+class Review(models.Model):
+    comment = models.CharField(max_length=300)
+    rating = models.IntegerField()
+    shop = models.ForeignKey(BarberShop, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+
+    def _str_(self):
+        return self.comment

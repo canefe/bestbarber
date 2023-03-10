@@ -1,5 +1,6 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+
 *.py[cod]
 *$py.class
 tailwindcss
@@ -112,6 +113,7 @@ celerybeat.pid
 .venv
 env/
 venv/
+v/
 ENV/
 env.bak/
 venv.bak/
