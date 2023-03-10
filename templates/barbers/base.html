@@ -1,6 +1,6 @@
-{% load static %} 
-
 <!DOCTYPE html>
+{% load static %}
+
 <html>
 	<head>
 		<title>
@@ -27,11 +27,15 @@
         <div class="h-20 bg-slate-700 text-white font-['Roboto']">
 			<div class="flex justify-between items-center">
 				<img src="{% static "images/logo.png" %}" id="logo" class="flex-initial ml-3 mt-3 hover:cursor-pointer"></img>
-				<ul  class="hidden md:flex space-x-10 text-xl mt-6 flex-auto justify-end mr-40">
-					<li class="menuitem"><a href="{% url 'barbers:index' %}">Home</a></li>
-					<li class="menuitem"><a href="{% url 'barbers:barbers' %}">Barbers</a></li>
-					<li class="menuitem">Login</li>
-				</ul>
+				
+					{% if user.is_authenticated %}
+					<!-- Show these links when the user is logged in -->
+					<div class="menuitem"><a href="{% url 'auth_logout' %}?next={% url 'barbers:index'%}">Logout</a></div>
+					{% else %}
+					<!-- Show these links when the user is NOT logged in -->
+					<div class="menuitem"><a href="{% url 'barbers:auth_login' %}">Login</a></div>
+					{% endif %}
+       
 				<!--To do: add burger menu-->
 				<img src="{% static "images/burger.png" %}" class="md:hidden mt-5 mr-5"/>
 				<!-- add a burger menu for mobile-->

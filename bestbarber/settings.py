@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 
@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "barbers",
+    "registration",
 ]
 
 MIDDLEWARE = [
@@ -56,7 +58,7 @@ ROOT_URLCONF = "bestbarber.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [TEMPLATE_DIR, ],
+        "DIRS": [TEMPLATE_DIR, os.path.join(TEMPLATE_DIR, 'barbers'), ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -64,6 +66,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -78,7 +81,7 @@ WSGI_APPLICATION = "bestbarber.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -100,6 +103,20 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+#Registration Variables
+
+#If True, users can register.
+REGISTRATION_OPEN = True
+
+#If True, the user will be auto logged in after registering
+REGISTRATION_AUTO_LOGIN = True
+
+#The URL that Django redirects users to afer logging in.
+LOGIN_REDIRECT_URL = 'barbers:index'
+
+# The page users are directed to if they are not logged in.
+LOGIN_URL = 'barbers:auth_login'
 
 
 # Internationalization
@@ -123,3 +140,7 @@ STATICFILES_DIRS = [STATIC_DIR, ]
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+MEDIA_DIR = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = MEDIA_DIR
+MEDIA_URL = '/media/'

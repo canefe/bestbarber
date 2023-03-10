@@ -3,6 +3,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 tailwindcss
+*.xml
+*.pyc
+*.py
+/.idea/bestbarber.iml
+/.idea/.gitignore
+/templates/registration/testRegis.html
 # C extensions
 *.so
 
