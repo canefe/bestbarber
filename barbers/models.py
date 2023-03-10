@@ -56,3 +56,13 @@ class Review(models.Model):
 
     def _str_(self):
         return self.comment
+    
+class Appointment(models.Model):
+    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    shop = models.ForeignKey(BarberShop, on_delete=models.CASCADE)
+    date = models.DateField()
+    time = models.TimeField()
+    status = models.CharField(max_length=50)
+
+    def _str_(self):
+        return self.status
