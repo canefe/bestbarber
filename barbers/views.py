@@ -78,11 +78,12 @@ def Add_barber(request):
     manage = request.user
     if request.method == 'POST':
         barber_form = BarberShopForm(request.POST)
-        barber_form.manage_by = request.user.username
+        barber_form.manage_by = request.user
         if barber_form.is_valid():
             barber = barber_form.save(commit=False)
             barber.manage_by = manage
             barber.save()
+            return redirect(reverse('barbers:index'))
         else:
             print(BarberShopForm.errors)
     else:
