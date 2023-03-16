@@ -1,5 +1,5 @@
 
-from barbers.forms import UserForm,UserProfileForm
+from barbers.forms import UserForm,UserProfileForm,BarberShopForm
 from barbers.models import User;
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -55,12 +55,10 @@ def register(request):
         else:
             print(user_form.errors, profile_form.errors)
     else:
-        # Not a HTTP POST, so we render our form using two ModelForm instances.
-        # These forms will be blank, ready for user input.
+
         user_form = UserForm()
         profile_form = UserProfileForm()
 
-    # Render the template depending on the context.
     return render(request,
                   'registration/registration_form.html',
                   context={'user_form': user_form,
@@ -73,3 +71,23 @@ def register(request):
 def barbers(request):
     response = render(request, 'barbers/barbers.html')
     return response
+
+
+def Add_barber(request):
+    registered = False
+    manage = request.user
+    if request.method == 'POST':
+        barber_form = BarberShopForm(request.POST)
+        barber_form.manage_by = request.user.username
+        if barber_form.is_valid():
+            barber = barber_form.save(commit=False)
+            barber.manage_by = manage
+            barber.save()
+        else:
+            print(BarberShopForm.errors)
+    else:
+        barber_form = BarberShopForm()
+    return render(request,
+                  'barbers/add_barbers.html',
+                  context={'barber_form': barber_form,
+                           'registered': registered})
