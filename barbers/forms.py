@@ -1,6 +1,7 @@
 from django import forms
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import User
-from barbers.models import  UserProfile
+from barbers.models import UserProfile
 
 
 
@@ -15,3 +16,10 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('title','first_name','last_name','phoneNumber')
+
+class UserUpdateForm(forms.ModelForm):
+    email = forms.EmailField()
+
+    class Meta:
+        model = get_user_model()
+        fields = ['first_name', 'last_name', 'email', 'description']
