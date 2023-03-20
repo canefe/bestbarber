@@ -18,7 +18,7 @@ def index(request):
     response = render(request, 'barbers/index.html')
     return response
 
-def User_login(request):
+def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -67,7 +67,24 @@ def register(request):
                            'profile_form': profile_form,
                            'registered': registered})
 
+@login_required
+def register_profile(request):
+    form = UserProfileForm()
 
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            user_profile = form.save(commit=False)
+            user_profile.user = request.user
+            user_profile.save()
+
+            return redirect(reverse('rango:index'))
+        else:
+            print(form.errors)
+
+    context_dict = {'form': form}
+    return render(request, 'barbers/profile_registration.html', context_dict)
 
 
 def barbers(request):
