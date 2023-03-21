@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "barbers",
     "registration",
+    "widget_tweaks",
 ]
 
 MIDDLEWARE = [

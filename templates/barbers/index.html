@@ -1,24 +1,59 @@
 {% extends 'barbers/base.html' %}
-{% load static %} 
+{% load static %}
 
-{% block title_block %} 
-	Home Page
-{% endblock %} 
+{% block title_block %}
+    Home Page
+{% endblock %}
+{% block head %}
+<!-- Import js/index.js -->
+    <script src="{% static 'js/index.js' %}"></script>
+{% endblock %}
 
-{% block body_block %} 
-<h2>Most Liked Barbershops</h2>
-<div>
-    {% if barberShops %}
-        <ul>
-        {% for barber in barberShops %}
-        <li>
-            <!-- The following line is changed to add an HTML hyperlink -->
-            <a href="/barber/{{ barber.slug }}/">{{ barber.name }}</a>
-        </li>
-        {% endfor %}
-        </ul>
+{% block body_block %}
+    {% if user.is_authenticated %}
+        <section class="text-6xl text-white">
+            Welcome back, {{ user.username }}!
+        </section>
     {% else %}
-    <strong>There are no categories present.</strong>
+        <section id="hero" class="items-center w-100 h-[75vh] bg-cover bg-[url('../images/heading.png')]">
+            <div class="p-20" data-aos="zoom-out" data-aos-delay="100">
+                <h1 class="m-0 w-fit md:text-6xl text-white bg-[#00000031] shadow-2xl">Find the Best Barber </h1><br>
+                <h1 class="m-0 w-fit md:text-6xl text-white bg-[#00000031] shadow-2xl">For you. </h1>
+            </div>
+        </section>
     {% endif %}
-</div>
+    <div>
+	<!-- Trending Barbershops use tailwindcss -->
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-bold text-center text-white shadow-2xl m-10">TRENDING</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="bg-white rounded-lg shadow-lg barbershop">
+                    <img class="w-full h-56 object-cover rounded-t-lg" src="{% static 'images/example.png' %}" alt="image1">
+                    <div class="p-4">
+                        <h1 class="text-xl font-bold text-gray-800">Barber Shop 1</h1>
+                        <p class="text-gray-600">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg barbershop">
+                    <img class="w-full h-56 object-cover rounded-t-lg" src="{% static 'images/example.png' %}" alt="image2">
+                    <div class="p-4">
+                        <h1 class="text-xl font-bold text-gray-800">Barber Shop 2</h1>
+                        <p class="text-gray-600">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg barbershop">
+                    <img class="w-full h-56 object-cover rounded-t-lg" src="{% static 'images/example.png' %}" alt="image3">
+                    <div class="p-4">
+                        <h1 class="text-xl font-bold text-gray-800">Barber Shop 3</h1>
+                        <p class="text-gray-600">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-lg barbershop">
+                    <img class="w-full h-56 object-cover rounded-t-lg" src="{% static 'images/example.png' %}" alt="image4">
+                    <div class="p-4">
+                        <h1 class="text-xl font-bold text-gray-800">Barber Shop 4</h1>
+                        <p class="text-gray-600">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.</p>
+                    </div>
+                </div>
+            </div>
 {% endblock %}

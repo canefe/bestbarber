@@ -2,47 +2,48 @@
 {% load static %}
 
 <html>
-	<head>
-		<title>
-			BestBarber - {% block title_block %} 
+    <head>
+        <title>
+            BestBarber - {% block title_block %}
             {% endblock %}
-		</title>
+        </title>
 		<!-- CSS -->
-		<link rel="stylesheet" href="{% static "css/output.css" %}?{% now " u"="" %}"="">
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="{% static "css/output.css" %}?{% now " u"="" %}"="">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<!-- Roboto Font -->
-		<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 		<!-- JQuery -->
-		<script src="{% static "js/jquery-3.6.3.min.js" %}"></script>
+        <script src="{% static "js/jquery-3.6.3.min.js" %}"></script>
 		<!-- base.js -->
-		<script src="{% static "js/base.js" %}"></script>
+        <script src="{% static "js/base.js" %}"></script>
 		<!-- GSAP -->
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
 
-		{% block head %}
-		{% endblock %}
-	</head>
-	<body>
+        {% block head %}
+        {% endblock %}
+    </head>
+    <body>
         <div class="h-20 bg-slate-700 text-white font-['Roboto']">
-			<div class="flex items-center">
-				<img src="{% static "images/logo.png" %}" id="logo" class="flex-initial ml-3 mt-3 hover:cursor-pointer"></img>
-					<div class="menuitem"><a href="{% url 'barbers:barbers' %}">View Barbershop</a></div>
-					{% if user.is_authenticated %}
-					<!-- Show these links when the user is logged in -->
-					<div class="menuitem"><a href="{% url 'barbers:add_barbers' %}">Add barbers</a></div>
-					<div class="menuitem"><a href="{% url 'auth_logout' %}?next={% url 'barbers:index'%}">Logout</a></div>
-					{% else %}
-					<!-- Show these links when the user is NOT logged in -->
-					<div class="menuitem"><a href="{% url 'barbers:auth_login' %}">Login</a></div>
-					{% endif %}
-       
+            <div class="flex justify-between items-center">
+                <img src="{% static "images/logo.png" %}" id="logo" class="flex-initial ml-3 mt-3 hover:cursor-pointer"></img>
+
+                <ul  class="hidden md:flex space-x-10 text-xl mt-6 flex-auto justify-end mr-40">
+                    <li class="menuitem"><a href="{% url 'barbers:index' %}">Home</a></li>
+                    <li class="menuitem"><a href="{% url 'barbers:barbers' %}">Barbers</a></li>
+                    {% if user.is_authenticated %}
+                        <li class="menuitem"><a href="{% url 'auth_logout' %}?next={% url 'barbers:account'%}">Account</a></li>
+                        <li class="menuitem"><a href="{% url 'auth_logout' %}?next={% url 'barbers:index'%}">Logout</a></li>
+                    {% else %}
+                        <li class="menuitem"><a href="{% url 'barbers:auth_login' %}">Login</a></li>
+                    {% endif %}
+                </ul>
 				<!--To do: add burger menu-->
-				<img src="{% static "images/burger.png" %}" class="md:hidden mt-5 mr-5"/>
+                <img src="{% static "images/burger.png" %}" class="md:hidden mt-5 mr-5"/>
 				<!-- add a burger menu for mobile-->
-				
-			</div>
-		</div>
-		<div class="bg-[#394f66] min-h-screen">{% block body_block %} {% endblock %}</div>
-	</body>
+
+            </div>
+        </div>
+        <div class="bg-[#394f66] min-h-screen">{% block body_block %} {% endblock %}</div>
+    </body>
 </html>

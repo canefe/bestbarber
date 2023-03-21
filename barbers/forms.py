@@ -14,8 +14,7 @@ class UserForm(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ('title', 'first_name', 'last_name', 'phone_number')
-
+        fields = ('first_name','last_name','phone_number')
 
 class BarberShopForm(forms.ModelForm):
     class Meta:
@@ -27,3 +26,5 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('comment_text', 'rating')
+
+# make a django login form using username and password only

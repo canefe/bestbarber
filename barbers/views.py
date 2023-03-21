@@ -60,7 +60,7 @@ def register(request):
 
             registered = True
         else:
-            print(user_form.errors, profile_form.errors)
+            return render(request, 'registration/registration_form.html', {'form': user_form}) 
     else:
 
         user_form = UserForm()
@@ -72,6 +72,11 @@ def register(request):
                            'profile_form': profile_form,
                            'registered': registered})
 
+
+@login_required
+def account(request):
+    response = render(request, 'barbers/account.html')
+    return response
 
 def barbers(request):
     barbers_list = BarberShop.objects.order_by('-name')[:5]

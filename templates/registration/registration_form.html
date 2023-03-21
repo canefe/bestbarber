@@ -1,189 +1,98 @@
 {% extends 'barbers/base.html' %}
+{% load widget_tweaks %}
 {% load static %}
 {% block title_block %}
-Register
+    Register
 {% endblock %}
 
+{% block head %}
+    <style>
+    </style>
+{% endblock %}
 
 {% block body_block %}
-<head>
-		<style	type="text/css"	media="screen">
+    <div class="flex-col flex items-start justify-start text-white">
+        <div class="bg-slate-800 flex-col flex items-start justify-start p-20 w-[100vw] md:w-[100vw]">
+            <div class="mb-5">
+                <b class="uppercase text-3xl">Register</b>
+            </div>
+            <div class="flex-col flex items-center justify-center">
+                {% if registered %}
+                    <b  class=""><strong>Thank you for registering!</strong>
+                        <a href="{% url 'barbers:auth_login' %}">Now you may login.</a><br /></b>
+                {% else %}
+		<!-- Make a good looking form using django form and tailwindcss-->
+                    <form method="post" action="{% url 'barbers:auth_register' %}">
+			<!-- add django errorlist form-->
+                        {% if form.errors %}
+                            <div class="text-white p-5 m-5 bg-red-900 ounded-sm text-center items-center justify-center">
+                                {{ form.errors }}
+                            </div>
+                        {% endif %}
 
-				/* Register Box */
+                        {% csrf_token %}
+                        <div class="flex flex-col md:flex-row items-center justify-center space-y-5 md:space-y-0 md:space-x-20 text-black">
+				<!-- add title, first name, last name-->
+                            <div class="pl-0 p-12">
+                                {% for field in user_form %}
+                                    <div class="relative">
+                                        {{ field|add_class:"border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm w-full py-5 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer" }}
 
-				.register
-				{
-				display:block;
-				position:absolute;
-				top: 150px;
-				right: 150px;
+                                        <div class="absolute inset-y-0 left-0 -top-5 flex items-center px-2 pointer-events-none peer-focus:hidden peer-span">
+                                            <span class="text-gray-700 text-md transition-all duration-100 top-0">
+                                                {{ field.label }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="pl-0 first-letter:p-12">
+                                {% for field in profile_form %}
+					<!-- if the field is called title ignore-->
+                                    <div class="relative">
+                                        {{ field|add_class:"border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm w-full py-5 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer" }}
 
-				width:800px;
-				height:1200px;
-				}
+                                        <div class="absolute inset-y-0 left-0 -top-5 flex items-center px-2 pointer-events-none peer-focus:hidden peer-empty:text-red-500 peer-span">
+                                            <span class="text-gray-700 text-md transition-all duration-100 top-0">
+                                                {{ field.label }}
+                                            </span>
+                                        </div>
+                                    </div>
 
-<!--				.image_container-->
-<!--				{-->
-<!--				position:relative;-->
-<!--				top: 65px;-->
-<!--				left: 100px;-->
-<!--				width:800px;-->
-<!--				height:1200px;-->
-<!--				}-->
-
-
-<!--				.regi_image-->
-<!--				{-->
-<!--				display:block;-->
-<!--				position:relative;-->
-<!--				top: 65px;-->
-<!--				}-->
-
-				input
-				{
-				position: absolute;
-				right: 150px;
-				width: 300px;
-				}
-
-				.warn_pass_not_match{
-				colour: red;
-				}
-
-				.center
-				{
-				text-align:center;
-
-				}
-				.left-50
-				{
-				margin-left:50px;
-				text-align:left;
-
-				}
-				.left-80
-				{
-				margin-left:80px;
-				text-align:left;
-
-				}
-				.left-100
-				{
-				margin-left:100px;
-				text-align:left;
-
-				}
+                                {% endfor %}
+				<!-- use tailwindcss to make a django form -->
+				<!-- add submit button-->
+                            </div>
+                        </div>
+                        <div class="flex flex-col md:flex-row items-start justify-start space-y-5 md:space-y-0 md:space-x-20 text-black">
+                            <div class="pl-0 pt-0 p-12">
+                                <button type="submit" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+		<!-- add a submit button that doesnt cause input elements to pushed up-->
 
 
-				.left-120
-				{
-				margin-left:120px;
-				text-align:left;
 
-				}
+                {% endif %}
+            </div>
+        </div>
 
-				.left-140
-				{
-				margin-left:140px;
-				text-align:left;
-
-				}
-
-				.inline{
-				display: inline;
-
-
-				}
-				.left-160
-				{
-				margin-left:160px;
-				text-align:left;
-
-				}
-
-				.form-button_blue {
-				background: #005288;
-				box-sizing: content-box;
-				-moz-box-sizing: content-box;
-				color: #ffffff;
-				cursor: pointer;
-				}
-
-				.form-button_green {
-				background: #008852;
-				box-sizing: content-box;
-				-moz-box-sizing: content-box;
-				color: #ffffff;
-				cursor: pointer;
-				}
-
-				.form-element {
-				padding: 15px 24px;
-				line-height: 40px;
-				}
-
-				.form-text{
-				color:white;
-				line-height: 60px;
-				font-size: 20px;
-				}
-
-				.form-heading {
-				padding: 15px 24px;
-				border: none;
-				font-size: 30px;
-				border-radius: 4px;
-
-		</style>
-</head>
-<body>
-		<div class="register bg-slate-700">
-			<br>
-				<div class="center">
-					<br>
-					<br>
-					<b class="space-x-10 uppercase form-heading form-text ">
-						Register</b>
-					<br>
-					<br>
-				</div>
-			<div class="left-50" >
-				{% if registered %}
-				<b  class="form-text"><strong>thank you for registering!</strong>
-				<a href="{% url 'barbers:index' %}">Return to the homepage.</a><br /></b>
-				{% else %}
-				<form method="post" method="post" enctype="multipart/form-data">
-					{% csrf_token %}
-					<div class="form-element">
-							{% for field in user_form %}
-								<div > <b class="form-text input_box">{{ field.errors }}
-								{{ field.label_tag }}</b>{{ field }} </div>
-
-							{% endfor %}
-
-							{% for field in profile_form %}
-								<div > <b class="form-text">{{ field.errors }}
-								{{ field.label_tag }}</b>  {{ field }}  </div>
-
-
-							{% endfor %}
-
-				</div>
-					<button class="form-element form-button_blue  left-120" type="submit" name="submit" value="Register">Barber</button>
-					<button class="form-element form-button_green left-140" type="submit" name="submit" value="Register">Customer</button>
-				</form>
-				{% endif %}
-		</div>
-<!--</div>-->
-
-<!--		//Register Image-->
-<!--		<div class= "image_container">-->
-<!--			<img src="{% static 'images/barber1.png' %}" class="m-2 regi_image">-->
-
-<!--</div>-->
-
-
-</body>
-
+        <script>
+            $(document).ready(function() {
+                $('.peer').on('input', function() {
+                    var $span = $(this).siblings('.peer-span');
+                    if ($(this).val().length > 0) {
+                        $span.addClass('hidden');
+                    } else {
+                        $span.removeClass('hidden');
+                        $span.addClass('flex');
+                        $span.addClass('peer-focus:hidden');
+                    }
+                });
+            });
+        </script>
 
 {% endblock %}

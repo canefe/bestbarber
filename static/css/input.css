@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-.menuitem {
-    @apply hover:text-slate-400 hover:cursor-pointer;
+@layer components {
+    .menuitem {
+        @apply text-gray-500 hover:text-red-500 hover:cursor-pointer;
+    }
+    select {
+        @apply border-gray-300  h-5 text-black rounded-lg text-sm focus:outline-none;
+        position: absolute;
+        @apply -top-2;
+    }
+    /*
+    Make select box look like input box and make it not impact the layout make it not take up space make it absolute
+    */
+    #id_title {
+        @apply border-gray-300  h-5 text-black rounded-lg text-sm focus:outline-none;
+        position: absolute;
+        @apply -top-2;
+    }
+
 }
