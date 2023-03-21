@@ -53,12 +53,13 @@ def register(request):
 
             registered = True
         else:
-            print(user_form.errors, profile_form.errors)
+            return render(request, 'registration/registration_form.html', {'form': user_form}) 
     else:
         # Not a HTTP POST, so we render our form using two ModelForm instances.
         # These forms will be blank, ready for user input.
         user_form = UserForm()
         profile_form = UserProfileForm()
+        
 
     # Render the template depending on the context.
     return render(request,
@@ -68,7 +69,10 @@ def register(request):
                            'registered': registered})
 
 
-
+@login_required
+def account(request):
+    response = render(request, 'barbers/account.html')
+    return response
 
 def barbers(request):
     response = render(request, 'barbers/barbers.html')
