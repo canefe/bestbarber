@@ -1,3 +1,4 @@
+from django import forms
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
@@ -6,13 +7,14 @@ from django.template.defaultfilters import slugify
 class UserProfile(models.Model):
     max_length = 50
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+
     user_type = models.CharField(max_length=20)
-    title = models.CharField(max_length=20)
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
+    title = models.CharField(max_length=50)    
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
     # school = models.CharField(max_length=50, null=True)
-    phoneNumber = models.CharField(max_length=20, null=True)
-    email = models.CharField(max_length=20, null=True)
+    phone_number = models.CharField(max_length=50, null=True)
+    email = models.CharField(max_length=50, null=True)
 
     def __str__(self):
         return self.first_name + self.last_name
@@ -38,6 +40,7 @@ class BarberShop(models.Model):
 
     def __str__(self):
         return self.name
+        
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     barberShop = models.ForeignKey(BarberShop, on_delete=models.CASCADE, null=True, blank=True)
@@ -45,3 +48,4 @@ class Comment(models.Model):
     rating = models.IntegerField(null=True,blank=True)
     def __str__(self):
         return self.barberShop.name
+
