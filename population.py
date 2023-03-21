@@ -9,7 +9,6 @@ django.setup()
 from barbers.models import BarberShop, User
 
 
-
 def populate():
     barbers_barbershop = [
         {
@@ -28,11 +27,6 @@ def populate():
             'type': 'type2',
             'style': 'style2',
             'price': 20},
-
-    ]
-
-
-    barbers_barbershop2 = [
         {'name': 'shop3',
          'location': 'location3',
          'description': 'barber3_description',
@@ -48,22 +42,30 @@ def populate():
          'style': 'style4',
          'price': 40},
 
+    ]
+
+    barbers_barbershop2 = [
+        {'name': 'shop5',
+         'location': 'location5',
+         'description': 'barber5_description',
+         'service': 'barber5_service',
+         'type': 'type5',
+         'style': 'style5',
+         'price': 50},
 
     ]
 
     barbers_managerprofile = {'manager1': {'password': '11111', 'shop': barbers_barbershop},
                               'manager2': {'password': '11111', 'shop': barbers_barbershop2}}
 
-
     def add_user(name, password):
-
         user = User.objects.get_or_create(username=name)[0]
         user.set_password(password)
         user.save()
         return user
 
     def add_shop(user, name, location, description, service, type, style, price):
-        c = BarberShop.objects.get_or_create(manage_by=user)[0]
+        c = BarberShop.objects.get_or_create(manage_by=user,name=name)[0]
         c.name = name
         c.location = location
         c.description = description
@@ -77,6 +79,7 @@ def populate():
     for manager, manager_data in barbers_managerprofile.items():
         user = add_user(manager, manager_data["password"])
         for p in manager_data['shop']:
+            print(p)
             add_shop(user,
                      p['name'],
                      p['location'],
