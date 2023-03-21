@@ -15,4 +15,7 @@ class UserProfileForm(forms.ModelForm):
         model = UserProfile
         fields = ('first_name','last_name','phone_number')
 
-# make a django login form using username and password only
+class LoginForm(forms.Form):
+    username = forms.CharField()
+    password = forms.CharField(widget= forms.PasswordInput)
+    remember_me = forms.BooleanField(required=False)

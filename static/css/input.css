@@ -4,7 +4,7 @@
 
 @layer components {
     .menuitem {
-        @apply text-gray-500 hover:text-red-500 hover:cursor-pointer;
+        @apply text-gray-500 hover:text-gray-800 hover:cursor-pointer;
     }
     select {
         @apply border-gray-300  h-5 text-black rounded-lg text-sm focus:outline-none;

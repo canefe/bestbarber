@@ -1,7 +1,13 @@
-{% extends 'barbers/base.html' %} {% load widget_tweaks %} {% load static %} {%
-block title_block %} Login {% endblock %} {% block head %}
+{% extends 'barbers/base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block title_block %}
+    Login
+{% endblock %}
+{% block head %}
     <style></style>
-{% endblock %} {% block body_block %}
+{% endblock %}
+{% block body_block %}
     <div class="flex-col flex items-start justify-start text-white">
         <div
             class="bg-slate-800 flex-col flex items-start justify-start p-20 w-[100vw] md:w-[100vw]"
@@ -10,121 +16,131 @@ block title_block %} Login {% endblock %} {% block head %}
                 <b class="uppercase text-3xl">Login</b>
             </div>
             <div class="flex-col flex items-center justify-center">
-                {% if registered %}
-                    <b class=""
-                    ><strong>Thank you for registering!</strong>
-                        <a href="{% url 'barbers:auth_login' %}">Now you may login.</a
-                            ><br
-                            /></b>
-                {% else %}
-			<!-- Make a good looking form using django form and tailwindcss-->
-                    <form method="post" action="{% url 'barbers:auth_login' %}">
+                <form id="form" method="post" action="{% url 'barbers:auth_login' %}">
 				<!-- add django errorlist form-->
-                        {% if form.errors %}
-                            <div
-                                class="text-white p-5 m-5 bg-red-900 ounded-sm text-center items-center justify-center"
-                            >
-                                {{ form.errors }}
-                            </div>
-                        {% endif %} {% csrf_token %}
+                    {% if form.errors %}
                         <div
-                            class="flex flex-col md:flex-row items-center justify-center space-y-5 md:space-y-0 md:space-x-20 text-black"
+                            class="text-white p-5 m-5 bg-red-900 ounded-sm text-center items-center justify-center"
                         >
+                            {{ form.errors }}
+                        </div>
+                    {% endif %} {% csrf_token %}
+                    <div
+                        class="flex flex-col md:flex-row items-center justify-center space-y-5 md:space-y-0 md:space-x-20 text-black"
+                    >
 					<!-- add title, first name, last name-->
-                            <div class="pl-0 p-12">
-                                <div class="relative">
-                                    <input
-                                        class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm w-full py-5 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer"
-                                        type="text"
-                                        name="username"
-                                        value=""
-                                        size="45"
-                                    />
-                                    <div
-                                        class="absolute inset-y-0 left-0 -top-5 flex items-center px-2 pointer-events-none peer-focus:hidden peer-span"
-                                    >
-                                        <span
-                                            class="text-gray-700 text-md transition-all duration-100 top-0"
-                                        >
-                                            Username
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="relative">
-                                    <input
-                                        class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm w-full py-5 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer"
-                                        type="password"
-                                        name="password"
-                                        value=""
-                                        size="46"
-                                    />
-                                    {{ field|add_class:"border-gray-300
-                                    focus:border-indigo-500 focus:ring-indigo-500
-                                    shadow-sm w-full py-5 pl-3 pr-24 leading-5
-                                    text-gray-900 sm:text-sm sm:leading-5 mb-5 peer" }}
+                        <div class="pl-0 p-12">
+                            <div class="relative mb-12">
+                                <div id="form-messages" class="absolute hidden p-3 bg-green-500 -top-14 duration-75  rounded-sm text-center items-center justify-center m-5 text-white">
 
-                                    <div
-                                        class="absolute inset-y-0 left-0 -top-5 flex items-center px-2 pointer-events-none peer-focus:hidden peer-span"
-                                    >
-                                        <span
-                                            class="text-gray-700 text-md transition-all duration-100 top-0"
-                                        >
-                                            Password
+                                </div>
+                            </div>
+                            {% for field in form %}
+                                <div class="relative">
+                                    {{ field|add_class:"border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm w-full py-5 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer" }}
+
+                                    <div class="absolute inset-y-0 left-0 -top-5 flex items-center px-2 pointer-events-none peer-focus:hidden peer-span">
+                                        <span class="text-gray-700 text-md transition-all duration-100 top-0">
+                                            {{ field.label }}
                                         </span>
                                     </div>
-                                    <div>
-                                        <b> Remember me </b>
-                                        <input
-                                            type="checkbox"
-                                            name="docache"
-                                            value="1"
-                                            size="20"
-                                        />
-                                    </div>
                                 </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div
+                        class="flex flex-col items-start justify-start space-y-10 text-black"
+                    >
+                        <div class="text-white">
+                            Don't have an account?
+                            <a
+                                class="text-blue-500 hover:text-blue-600 duration-75"
+                                href="{% url 'barbers:auth_register' %}"
+                            >Register</a
+                                >
+                            </div>
+                            <div class="pl-0 pt-0 p-12">
+                                <button
+                                    type="submit"
+                                    class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
+                                >
+                                    Login
+                                </button>
                             </div>
                         </div>
-                        <div
-                            class="flex flex-col items-start justify-start space-y-10 text-black"
-                        >
-                            <div class="text-white">
-                                Don't have an account?
-                                <a
-                                    class="text-blue-500 hover:text-blue-600 duration-75"
-                                    href="{% url 'barbers:auth_register' %}"
-                                >Register</a
-                                    >
-                                </div>
-                                <div class="pl-0 pt-0 p-12">
-                                    <button
-                                        type="submit"
-                                        class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
-                                    >
-                                        Login
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-			<!-- add a submit button that doesnt cause input elements to pushed up-->
-
-                {% endif %}
+                    </form>
+                </div>
             </div>
-        </div>
 
-        <script>
-            $(document).ready(function () {
-                $(".peer").on("input", function () {
-                    var $span = $(this).siblings(".peer-span");
-                    if ($(this).val().length > 0) {
-                        $span.addClass("hidden");
-                    } else {
-                        $span.removeClass("hidden");
-                        $span.addClass("flex");
-                        $span.addClass("peer-focus:hidden");
-                    }
+            <script>
+                $(document).ready(function () {
+                    $('.peer').each(function() {
+                    // Get the value of the current input field
+                        var inputValue = $(this).val();
+
+                    // Check if the input has text
+                        if (inputValue.length > 0) {
+                            $(this).siblings(".peer-span").addClass("hidden");
+                        }
+                    });
+                    $(".peer").on("input", function () {
+                        var $span = $(this).siblings(".peer-span");
+                        if ($(this).val().length > 0) {
+                            $span.addClass("hidden");
+                        } else {
+                            $span.removeClass("hidden");
+                            $span.addClass("flex");
+                            $span.addClass("peer-focus:hidden");
+                        }
+                    });
+                // create an ajax request on submit form
+                    $('#form', this).submit(function (e) {
+                        e.preventDefault();
+                        var form = $(this);
+        // create an ajax post request
+                        $.ajax({
+                            url: form.attr('action'),
+                            type: form.attr('method'),
+                            data: form.serialize(),
+                            success: function (response) {
+                    // check if the response contains a success message
+                                if (response.success) {
+                        // update the login status
+                        // display the success message and show a countdown of 3 seconds then redirect to the home page
+                                    let countdown = 3;
+                                    const countdownInterval = setInterval(() => {
+                                        $('#form-messages').removeClass("bg-red-900").html(`Login successful. Redirecting in ${countdown} seconds...`).fadeIn(500); // 500ms duration
+                                        countdown--;
+                                        if (countdown < 0) {
+                                            clearInterval(countdownInterval);
+              // Redirect to the home page
+                                            window.location.href = '/';
+                                        }
+                                    }, 1000);
+
+                                } else {
+                        // display the error message
+                                    console.log('error')
+                                    $('#form-messages').html("Invalid details. Please try again.").addClass("bg-red-900").fadeIn(500);
+                        // fade out the error message after 3 seconds
+                                    setTimeout(function () {
+                                        $('#form-messages').fadeOut(500);
+                                    }, 1500);
+                                }
+                            },
+                            error: function () {
+                    // display a generic error message
+                                $('#form-messages').html('An error occurred. Please try again later.').addClass("bg-red-900").fadeIn(500);
+                    // fade out the error message after 3 seconds
+                                setTimeout(function () {
+                                    $('#form-messages').fadeOut(500);
+                                    location.reload();
+                                }, 1500);
+                            }
+                        });
+                    });
                 });
-            });
-        </script>
+            </script>
 
 {% endblock %}
 </div>

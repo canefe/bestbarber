@@ -1,7 +1,7 @@
 
-from barbers.forms import UserForm,UserProfileForm
+from barbers.forms import LoginForm, UserForm,UserProfileForm
 from barbers.models import User;
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth import authenticate, login
@@ -18,22 +18,29 @@ def index(request):
     response = render(request, 'barbers/index.html')
     return response
 
-def User_login(request):
+def user_login(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(username=username, password=password)
-        if user:
-            if user.is_active:
-                login(request, user)
-                return redirect(reverse('barbers:index'))
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            remember_me = form.fields['remember_me']
+            user = authenticate(username=username, password=password)
+            if user:
+                if user.is_active:
+                    login(request, user)
+                    if not remember_me:
+                        request.session.set_expiry(0)
+                    response_data = {'success': True, 'redirect_url': reverse('barbers:index')}
+                    return JsonResponse(response_data)
+                else:
+                    response_data = {'success': False, 'error': 'Your account is disabled.'}
+                    return JsonResponse(response_data)
             else:
-                return HttpResponse("Your account is disabled.")
-        else:
-            print(f"Invalid login details: {username}, {password}")
-            return HttpResponse("Invalid login details supplied.")
+                response_data = {'success': False, 'error': 'Your account is disabled.'}
+                return JsonResponse(response_data)
     else:
-        return render(request, 'registration/login.html')
+        return render(request, 'registration/login.html', {'form': LoginForm()})
 
 
 def register(request):

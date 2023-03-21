@@ -6,12 +6,11 @@ from django.template.defaultfilters import slugify
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-
-    title = models.CharField(max_length=50)    
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     phone_number = models.CharField(max_length=50, null=True)
     email = models.CharField(max_length=50, null=True)
+    completed = models.BooleanField(default=False)
 
     def __str__(self):
         return self.first_name + self.last_name
@@ -19,15 +18,13 @@ class UserProfile(models.Model):
 
 class ManagerProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-
-    manger_name = models.CharField(max_length=50, unique=True)
-    role = models.CharField(max_length=50, unique=True)
+    owned_barbershop = models.ForeignKey('Barbershop', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.manger_name
 
 
-class BarberShop(models.Model):
+class Barbershop(models.Model):
     comment_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE ,null=True)
     manage_by = models.ManyToManyField(ManagerProfile)
     max_length = 128
@@ -43,7 +40,7 @@ class BarberShop(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
-        super(BarberShop, self).save(*args, **kwargs)
+        super(Barbershop, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.mana
+        return self.name
