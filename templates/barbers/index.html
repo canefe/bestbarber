@@ -32,8 +32,9 @@
     {% else %}
         <section id="hero" class="items-center w-100 h-[75vh] bg-cover bg-[url('../images/heading.png')]">
             <div class="p-20" data-aos="zoom-out" data-aos-delay="100">
-                <h1 class="m-0 w-fit md:text-6xl text-white bg-[#00000031] shadow-2xl">Find the Best Barber </h1><br>
-                <h1 class="m-0 w-fit md:text-6xl text-white bg-[#00000031] shadow-2xl">For you. </h1>
+                <h1 class="m-0 w-fit text-4xl md:text-6xl text-white bg-[#00000031] shadow-2xl">Find the Best Barber </h1><br>
+                <h1 class="m-0 w-fit text-4xl md:text-6xl text-white bg-[#00000031] shadow-2xl">For you. </h1><br>
+                <a href="{% url 'barbers:auth_register' %}" class="text-white bg-green-500 p-2 text-lg rounded-lg hover:bg-green-700 duration-500">Join Today</a>
             </div>
         </section>
     {% endif %}
@@ -42,28 +43,28 @@
         <div class="container mx-auto">
             <h2 class="text-3xl font-bold text-center text-white shadow-2xl m-10">TRENDING</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div class="bg-white rounded-lg shadow-lg barbershop">
+                <div class="bg-white rounded-lg shadow-lg barbershop m-10 md:m-0">
                     <img class="w-full h-56 object-cover rounded-t-lg" src="{% static 'images/example.png' %}" alt="image1">
                     <div class="p-4">
                         <h1 class="text-xl font-bold text-gray-800">Barber Shop 1</h1>
                         <p class="text-gray-600">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.</p>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg shadow-lg barbershop">
+                <div class="bg-white rounded-lg shadow-lg barbershop m-10 md:m-0">
                     <img class="w-full h-56 object-cover rounded-t-lg" src="{% static 'images/example.png' %}" alt="image2">
                     <div class="p-4">
                         <h1 class="text-xl font-bold text-gray-800">Barber Shop 2</h1>
                         <p class="text-gray-600">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.</p>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg shadow-lg barbershop">
+                <div class="bg-white rounded-lg shadow-lg barbershop m-10 md:m-0">
                     <img class="w-full h-56 object-cover rounded-t-lg" src="{% static 'images/example.png' %}" alt="image3">
                     <div class="p-4">
                         <h1 class="text-xl font-bold text-gray-800">Barber Shop 3</h1>
                         <p class="text-gray-600">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quae.</p>
                     </div>
                 </div>
-                <div class="bg-white rounded-lg shadow-lg barbershop">
+                <div class="bg-white rounded-lg shadow-lg barbershop m-10 md:m-0">
                     <img class="w-full h-56 object-cover rounded-t-lg" src="{% static 'images/example.png' %}" alt="image4">
                     <div class="p-4">
                         <h1 class="text-xl font-bold text-gray-800">Barber Shop 4</h1>

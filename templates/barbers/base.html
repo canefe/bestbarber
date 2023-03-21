@@ -24,7 +24,7 @@
         {% endblock %}
     </head>
     <body>
-        <div class="h-20 bg-slate-700 text-white font-['Roboto']">
+        <div class="h-20 bg-slate-700 text-white font-['Roboto'] fixed block z-50 w-full">
             <div class="flex justify-between items-center">
                 <img src="{% static "images/logo.png" %}" id="logo" class="flex-initial ml-3 mt-3 hover:cursor-pointer"></img>
 
@@ -38,12 +38,32 @@
                         <li class="menuitem"><a href="{% url 'barbers:auth_login' %}">Login</a></li>
                     {% endif %}
                 </ul>
-				<!--To do: add burger menu-->
-                <img src="{% static "images/burger.png" %}" class="md:hidden mt-5 mr-5"/>
-				<!-- add a burger menu for mobile-->
+                <img src="{% static "images/burger.png" %}" class="burger md:hidden mt-5 mr-5"/>
+                <div
+                    class="menu md:hidden z-100 absolute top-0 left-0 right-0 opacity-0 invisible flex flex-col bottom-0 justify-center  items-center w-full h-screen mt-20 bg-slate-900 text-center ease-in duration-300">
+                    <ul class="flex flex-col space-y-10 mt-6 flex-auto justify-center text-4xl w-full">
+                        <li class="burgeritem"><a href="{% url 'barbers:index' %}">Home</a></li>
+                        <li class="burgeritem"><a href="{% url 'barbers:barbers' %}">Barbers</a></li>
+                        {% if user.is_authenticated %}
+                            <li class="burgeritem"><a href="{% url 'barbers:account'%}">Account</a></li>
+                            <li class="burgeritem"><a href="{% url 'auth_logout' %}?next={% url 'barbers:index'%}">Logout</a></li>
+                        {% else %}
+                            <li class="burgeritem"><a href="{% url 'barbers:auth_login' %}">Login</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
 
             </div>
         </div>
-        <div class="bg-[#394f66] min-h-screen">{% block body_block %} {% endblock %}</div>
+        <div class="bg-[#394f66] min-h-screen pt-20">{% block body_block %} {% endblock %}</div>
+        <script>
+            $(document).ready(function() {
+                $('.burger').click(function() {
+                    console.log('burger clicked');
+                    $('.menu').toggleClass('invisible');
+                    $('.menu').toggleClass('opacity-100');
+                });
+            });
+        </script>
     </body>
 </html>
