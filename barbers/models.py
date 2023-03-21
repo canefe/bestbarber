@@ -29,6 +29,7 @@ class BarberShop(models.Model):
     type = models.CharField(max_length=300,null=True,blank=True)
     style = models.CharField(max_length=300,null=True,blank=True)
     price = models.FloatField(null=True,blank=True)
+    rating = models.IntegerField(null=True, blank=True)
     slug = models.SlugField(unique=True)
 
     def save(self, *args, **kwargs):
@@ -39,8 +40,8 @@ class BarberShop(models.Model):
         return self.name
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    commented = models.ForeignKey(BarberShop, on_delete=models.CASCADE, null=True, blank=True)
+    barberShop = models.ForeignKey(BarberShop, on_delete=models.CASCADE, null=True, blank=True)
     comment_text = models.CharField(max_length=300,null=True,blank=True)
     rating = models.IntegerField(null=True,blank=True)
     def __str__(self):
-        return self.commented.name
+        return self.barberShop.name

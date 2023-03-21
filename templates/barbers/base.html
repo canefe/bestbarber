@@ -25,9 +25,9 @@
 	</head>
 	<body>
         <div class="h-20 bg-slate-700 text-white font-['Roboto']">
-			<div class="flex justify-between items-center">
+			<div class="flex items-center">
 				<img src="{% static "images/logo.png" %}" id="logo" class="flex-initial ml-3 mt-3 hover:cursor-pointer"></img>
-				
+					<div class="menuitem"><a href="{% url 'barbers:barbers' %}">View Barbershop</a></div>
 					{% if user.is_authenticated %}
 					<!-- Show these links when the user is logged in -->
 					<div class="menuitem"><a href="{% url 'barbers:add_barbers' %}">Add barbers</a></div>

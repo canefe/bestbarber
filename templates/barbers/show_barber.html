@@ -1,0 +1,71 @@
+{% extends 'barbers/base.html' %} {% load static %} {% block title_block %}
+Barbers {% endblock %} 
+{% block head %}
+<!-- Import js/barbers.js -->
+<script src="{% static 'js/barbers.js' %}"></script>
+{% endblock %}
+{% block body_block %}
+
+<div class="flex flex-col items-center justify-center bg-[#394f66] p-5 text-white">
+
+	<div class=" flex text-black mt-5 max-w-screen space-x-5 items-center justify-center">
+		<div class="bg-white rounded-xl h-auto flex flex-col items-center space-y-5 shadow-2xl pb-5">
+			<img src="{% static "images/example.png" %}" class="rounded-t-xl "/>
+			<h3 class="mt-5 text-3xl">{{ barber.name }}</h3>
+			<div class="flex space-x-1">
+				{% for i in "12345" %} {% if forloop.counter > 5 %} {% endif %}
+				<img src="{% static "images/star.png" %}" class="rounded-t-xl"/>
+				{% endfor %}
+			</div>
+			<div>
+				Manage by: {{barber.manage_by}}
+			</div>
+		</div>
+		<div class="bg-white rounded-xl h-auto flex flex-col items-center space-y-5 shadow-2xl pb-5">
+			<div>
+				location:
+				<div>{{barber.location}}</div>
+			</div>
+			<div>
+				Description:
+				<div>{{barber.description}}</div>
+			</div>
+			<div>
+				service:
+				<div>{{barber.service}}</div>
+			</div>
+			<div>
+				style:
+				<div>{{barber.style}}</div>
+			</div>
+			<div>
+				price:
+				<div>{{barber.price}}</div>
+			</div>
+			<div>
+				type:
+				<div>{{barber.type}}</div>
+			</div>
+		</div>
+		<div class="bg-white rounded-xl h-auto flex flex-col items-center space-y-5 shadow-2xl pb-5">
+			<form method="post" method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					<div class="form-element">
+						{% for field in comment_form %}
+						<div > <b class="form-text input_box">{{ field.errors }}
+							{{ field.label_tag }}</b>{{ field }} </div>
+						{% endfor %}
+
+				</div>
+            <button class="form-element form-button_blue center" type="submit" name="submit" value="Register">Submit</button>
+          	</form>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+</div>
+
+			</div>
+			</div>
+		</div>

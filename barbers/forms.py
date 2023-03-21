@@ -21,3 +21,9 @@ class BarberShopForm(forms.ModelForm):
     class Meta:
         model = BarberShop
         fields = ('name', 'location', 'picture', 'description', 'service', 'type', 'style', 'price')
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('comment_text', 'rating')

@@ -623,8 +623,25 @@ video {
   flex-direction: column;
 }
 
+.flex-warp {
+  flex-direction: column;
+}
+
+.flex-basis-80px{
+  flex-basis: 80px;;
+}
+
+
 .items-center {
   align-items: center;
+}
+
+.items-left {
+  align-items: left;
+}
+
+.items-right {
+  align-items: right;
 }
 
 .justify-end {

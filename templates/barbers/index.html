@@ -6,5 +6,19 @@
 {% endblock %} 
 
 {% block body_block %} 
-		<a>This is the Index Page</a>
+<h2>Most Liked Barbershops</h2>
+<div>
+    {% if barberShops %}
+        <ul>
+        {% for barber in barberShops %}
+        <li>
+            <!-- The following line is changed to add an HTML hyperlink -->
+            <a href="/barber/{{ barber.slug }}/">{{ barber.name }}</a>
+        </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+    <strong>There are no categories present.</strong>
+    {% endif %}
+</div>
 {% endblock %}

@@ -12,7 +12,6 @@ from barbers.models import BarberShop, User
 def populate():
     barbers_barbershop = [
         {
-            'id': 1,
             'name': 'shop1',
             'location': 'location1',
             'description': 'barber1_description',
@@ -21,7 +20,6 @@ def populate():
             'style': 'style1',
             'price': 10},
         {
-            'id': 2,
             'name': 'shop2',
             'location': 'location2',
             'description': 'barber2_description',
@@ -29,26 +27,31 @@ def populate():
             'type': 'type2',
             'style': 'style2',
             'price': 20},
-
-    ]
-
-    barbers_barbershop2 = [
-        {'id':3,
-        'name': 'shop3',
+        {'name': 'shop3',
          'location': 'location3',
          'description': 'barber3_description',
          'service': 'barber3_service',
          'type': 'type3',
          'style': 'style3',
          'price': 30},
-        {'id':4,
-        'name': 'shop4',
+        {'name': 'shop4',
          'location': 'location4',
          'description': 'barber4_description',
          'service': 'barber4_service',
          'type': 'type4',
          'style': 'style4',
          'price': 40},
+
+    ]
+
+    barbers_barbershop2 = [
+        {'name': 'shop5',
+         'location': 'location5',
+         'description': 'barber5_description',
+         'service': 'barber5_service',
+         'type': 'type5',
+         'style': 'style5',
+         'price': 50},
 
     ]
 
@@ -61,8 +64,8 @@ def populate():
         user.save()
         return user
 
-    def add_shop(user,id, name, location, description, service, type, style, price):
-        c = BarberShop.objects.get(manage_by=user,id = id)
+    def add_shop(user, name, location, description, service, type, style, price):
+        c = BarberShop.objects.get_or_create(manage_by=user,name=name)[0]
         c.name = name
         c.location = location
         c.description = description
@@ -78,7 +81,6 @@ def populate():
         for p in manager_data['shop']:
             print(p)
             add_shop(user,
-                     p['id'],
                      p['name'],
                      p['location'],
                      p['description'],
