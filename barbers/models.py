@@ -48,4 +48,4 @@ class Comment(models.Model):
     rating = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
-        return self.barber_shop.name
+        return self.barber_shop.name + self.user.username
