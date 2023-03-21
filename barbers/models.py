@@ -40,8 +40,8 @@ class BarberShop(models.Model):
         return self.name
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    barberShop = models.ForeignKey(BarberShop, on_delete=models.CASCADE, null=True, blank=True)
+    barber_shop = models.ForeignKey(BarberShop, on_delete=models.CASCADE, null=True, blank=True)
     comment_text = models.CharField(max_length=300,null=True,blank=True)
     rating = models.IntegerField(null=True,blank=True)
     def __str__(self):
-        return self.barberShop.name
+        return self.barber_shop.name

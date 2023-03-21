@@ -19,17 +19,18 @@ Barbers {% endblock %}
     </div>
 	<div class="flex text-black mt-5 max-w-screen space-x-5 items-center justify-center">
 		<!-- For loop comes here -->
-        {% for i in barberShops %} {% if forloop.counter > 3 %} {% endif %}
+        {% for barber in barberShops %} {% if forloop.counter > 3 %} {% endif %}
 		<div class="bg-white rounded-xl h-auto flex flex-col items-center space-y-5 shadow-2xl pb-5">
-			<img src="{% static "images/example.png" %}" class="rounded-t-xl "/>
-			<h3 class="mt-5 text-3xl">{{ i.name }}</h3>
+			<a href="/barber/{{ barber.slug }}/">
+				<img src="{% static "images/example.png" %}" class="rounded-t-xl "/></a>
+			<h3 class="mt-5 text-3xl">{{ barber.name }}</h3>
 			<div class="flex space-x-1">
-				{% for i in "12345" %} {% if forloop.counter > 5 %} {% endif %}
+				{% for barber in "12345" %} {% if forloop.counter > 5 %} {% endif %}
 				<img src="{% static "images/star.png" %}" class="rounded-t-xl"/>
 				{% endfor %}
 			</div>
 			<div>
-				Manage by: {{i.manage_by}}
+				Manage by: {{barber.manage_by}}
 			</div>
 			<div>Users rated it</div>
 			<div class="flex space-x-10 font-semibold">

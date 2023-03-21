@@ -92,7 +92,7 @@ def show_barber(request, barber_name_slug):
         barber = BarberShop.objects.get(slug=barber_name_slug)
         context_dict['barber'] = barber
 
-        comments = Comment.objects.filter(barberShop=barber)
+        comments = Comment.objects.filter(barber_shop=barber)
         context_dict['comments'] = comments
 
         try:
@@ -107,7 +107,7 @@ def show_barber(request, barber_name_slug):
             if comment_form.is_valid():
                 if comment_form:
                     comment = comment_form.save(commit=False)
-                    comment.barberShop = barber
+                    comment.barber_shop = barber
                     comment.user = request.user
                     comment.save()
                     return redirect(reverse('barbers:show_barber',
@@ -121,7 +121,6 @@ def show_barber(request, barber_name_slug):
     except BarberShop.DoesNotExist:
         context_dict['comments'] = None
         context_dict['barberShop'] = None
-
 
     return render(request, 'barbers/show_barber.html', context=context_dict)
 
@@ -148,7 +147,6 @@ def add_barber(request):
 
 
 def add_comment(request, barber_name_slug):
-
     return True
 
 
