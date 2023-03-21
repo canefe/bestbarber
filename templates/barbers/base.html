@@ -34,6 +34,8 @@
                     {% if user.is_authenticated %}
                         <li class="menuitem"><a href="{% url 'auth_logout' %}?next={% url 'barbers:account'%}">Account</a></li>
                         <li class="menuitem"><a href="{% url 'auth_logout' %}?next={% url 'barbers:index'%}">Logout</a></li>
+                        <li class="menuitem"><a href="{% url 'barbers:add_barbers'%}">Add Barber</a></li>
+
                     {% else %}
                         <li class="menuitem"><a href="{% url 'barbers:auth_login' %}">Login</a></li>
                     {% endif %}

@@ -79,7 +79,7 @@ def account(request):
     return response
 
 def barbers(request):
-    barbers_list = BarberShop.objects.order_by('-name')[:5]
+    barbers_list = BarberShop.objects.order_by('-name')
 
     context_dict = {}
     context_dict['barberShops'] = barbers_list

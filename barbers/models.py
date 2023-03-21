@@ -5,9 +5,8 @@ from django.template.defaultfilters import slugify
 
 
 class UserProfile(models.Model):
-    max_length = 50
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     user_type = models.CharField(max_length=20)
     title = models.CharField(max_length=50)
     first_name = models.CharField(max_length=50)
@@ -15,6 +14,7 @@ class UserProfile(models.Model):
     # school = models.CharField(max_length=50, null=True)
     phone_number = models.CharField(max_length=50, null=True)
     email = models.CharField(max_length=50, null=True)
+
 
     def __str__(self):
         return self.first_name + self.last_name
@@ -49,3 +49,4 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.barber_shop.name + self.user.username
+
