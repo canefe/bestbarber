@@ -136,3 +136,4 @@ dmypy.json
 static/.DS_Store
 .DS_Store
 tailwindcss.exe
+/media
