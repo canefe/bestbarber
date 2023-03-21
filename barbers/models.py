@@ -28,9 +28,7 @@ class ManagerProfile(models.Model):
 
 
 class BarberShop(models.Model):
-    comment_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE ,null=True)
     manage_by = models.ManyToManyField(ManagerProfile)
-    max_length = 128
     name = models.CharField(max_length=100, unique=True)
     location = models.CharField(max_length=200, unique=True)
     picture = models.ImageField(upload_to='shop_profile_images', blank=True)
@@ -46,7 +44,7 @@ class BarberShop(models.Model):
         super(BarberShop, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.mana
+        return self.name
     
 class Review(models.Model):
     comment = models.CharField(max_length=300)

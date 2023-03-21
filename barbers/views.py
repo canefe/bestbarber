@@ -10,8 +10,10 @@ from django.urls import reverse
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
-
 from django.shortcuts import render, redirect
+
+from barbers.forms import AddBarberShopForm
+from barbers.forms import AddReviewForm
 
 
 def index(request):
@@ -42,7 +44,6 @@ def register(request):
         user_form = UserForm(request.POST)
         profile_form = UserProfileForm(request.POST)
         if user_form.is_valid() and profile_form.is_valid():
-
             user = user_form.save()
             user.set_password(user.password)
             user.save()
@@ -73,3 +74,31 @@ def register(request):
 def barbers(request):
     response = render(request, 'barbers/barbers.html')
     return response
+
+def add_barber(request):
+    if request.method == 'POST':
+        Addshopform = AddBarberShopForm(request.POST)
+        if Addshopform.is_valid():
+            Addshopform.save()
+            return index(request)
+        else:
+            print(Addshopform.errors)
+    else:
+        Addshopform = AddBarberShopForm()
+    return render(request, 'barbers/add_barber.html', 
+                  context={'Addshopform': Addshopform})
+
+def add_review(request):
+    ##we still have to add the user.id which is current user.Not finish yet this part
+    if request.method == 'POST':
+        ReviewForm = AddReviewForm(request.POST)
+        if ReviewForm.is_valid():
+            ReviewForm.user = request.user
+            ReviewForm.save()
+            return index(request)
+        else:
+            print(ReviewForm.errors)
+    else:
+        ReviewForm = AddReviewForm()
+    return render(request, 'barbers/add_review.html',
+                  context={'ReviewForm': ReviewForm})
