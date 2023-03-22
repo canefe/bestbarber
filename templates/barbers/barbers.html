@@ -1,5 +1,7 @@
-{% extends 'barbers/base.html' %} {% load static %} {% block title_block %}
-Barbers {% endblock %} 
+{% extends 'barbers/base.html' %} {% load static %}
+{% block title_block %}
+Barbers
+{% endblock %}
 {% block head %}
 <!-- Import js/barbers.js -->
 <script src="{% static 'js/barbers.js' %}"></script>
@@ -40,9 +42,11 @@ Barbers {% endblock %}
 					<a id = "attr" > {{i}}</a>
 				{%endfor%}
 			</div>
-			<button class="book bg-green-500 text-2xl p-2 text-white">
+			<a href="/barber/{{ barber.slug }}/booking">
+			<button class="book bg-green-500 text-2xl p-2 text-white" >
 				Book
 			</button>
+			</a>
 		</div>
         {% endfor %}
 	</div>

@@ -1,8 +1,8 @@
-from barbers.forms import LoginForm, UserForm,UserProfileForm
+from barbers.forms import LoginForm, UserForm, UserProfileForm
 from barbers.models import User;
 
 from django.http import HttpResponse, JsonResponse
-from barbers.forms import UserForm, UserProfileForm, BarberShopForm, CommentForm
+from barbers.forms import UserForm, UserProfileForm, BarberShopForm, CommentForm, BookingForm
 from barbers.models import User, BarberShop, Comment, UserProfile
 from django.contrib.auth import authenticate, login
 from django.urls import reverse
@@ -12,7 +12,6 @@ from django.shortcuts import render, redirect
 
 
 def index(request):
-
     barbers_list = BarberShop.objects.order_by('name')
     trend_list = BarberShop.objects.order_by('-user_rating')[:6]
     context_dict = {}
@@ -109,7 +108,7 @@ def show_barber(request, barber_name_slug):
 
         comments = Comment.objects.filter(barber_shop=barber)
         context_dict['comments'] = comments
-
+        comment_form = CommentForm(request.POST)
         context_dict['attributes'] = ["Clean",
                                       "Cheap",
                                       "Boring",
@@ -118,15 +117,7 @@ def show_barber(request, barber_name_slug):
                                       "Student",
                                       "Fun"
                                       ]
-
-        try:
-            barber = BarberShop.objects.get(slug=barber_name_slug)
-        except BarberShop.DoesNotExist:
-            barber = None
-
-        comment_form = CommentForm()
         if request.method == 'POST':
-            comment_form = CommentForm(request.POST)
 
             if comment_form.is_valid():
                 if comment_form:
@@ -143,7 +134,8 @@ def show_barber(request, barber_name_slug):
                     for i in comments:
                         rating += i.rating
                         counter += 1
-                        attr += i.attr + ","
+                        if i.attr is not None:
+                            attr += i.attr + ","
                     attr = attr.rstrip(",")
                     barber.user_rating = rating / counter
                     # rating of a barber shop = average comment rating
@@ -152,6 +144,7 @@ def show_barber(request, barber_name_slug):
                     barber.user_attr = ",".join(list(attr.keys())[:3])
                     # read the attributes from Comment
                     # 3 attributes with most repetition will be store in barber model
+                    # update everytime comment is submitted
                     barber.save()
 
                     return redirect(reverse('barbers:show_barber',
@@ -167,6 +160,34 @@ def show_barber(request, barber_name_slug):
         context_dict['barberShop'] = None
 
     return render(request, 'barbers/show_barber.html', context=context_dict)
+
+
+def booking(request, barber_name_slug):
+    context_dict = {}
+
+    try:
+        barber = BarberShop.objects.get(slug=barber_name_slug)
+        context_dict['barber'] = barber
+        booking_form = BookingForm(request.POST)
+        if request.method == 'POST':
+            if booking_form.is_valid():
+                if booking_form:
+                    print(booking_form)
+                    booking = booking_form.save(commit=False)
+                    booking.barber_shop = barber
+                    booking.user = request.user
+                    booking.save()
+
+                    return redirect(reverse('barbers:show_barber',
+                                            kwargs={'barber_name_slug':
+                                                        barber_name_slug}))
+            else:
+                print(booking_form.errors)
+        context_dict['booking_form'] = booking_form
+        context_dict['barbers'] = barber
+    except BarberShop.DoesNotExist:
+        context_dict['barbers'] = None
+    return render(request, 'barbers/booking.html', context=context_dict)
 
 
 def add_barber(request):
@@ -193,10 +214,6 @@ def add_barber(request):
                   'barbers/add_barbers.html',
                   context={'barber_form': barber_form,
                            'registered': registered})
-
-
-def add_comment(request, barber_name_slug):
-    return True
 
 
 # A helper method

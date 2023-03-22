@@ -5,62 +5,76 @@ Barbers {% endblock %}
 {% block body_block %}
 
 <div class=" bg-[#394f66] p-5 text-white">
-	<div class=" text-black">
-		<div class="bg-white rounded-xl h-100 flex flex-col  items-center space-y-5 shadow-2xl pb-5">
-			<img src="{% static "images/example.png" %}" class="rounded-t-xl "/>
+	<div class="text-black">
+		<div class="bg-white rounded-xl flex">
+			<div class="flex flex-col  items-center space-y-4">
+			<img src="{% static "images/example.png" %}" />
 			<h3 class="mt-5 text-3xl">{{ barber.name }}</h3>
 			<div class="flex space-x-1">
 				{% for i in ''|rjust:barber.user_rating %}
 				<img src="{% static "images/star.png" %}" class="rounded-t-xl"/>
 				{% endfor %}
-			</div>
-			<div>
+			</div><div>
 				Manage by: {{barber.manage_by}}
 			</div>
-		</div>
-		<div class="bg-white  rounded-xl h-100">
+			</div>
+			<div class="font-bold space-y-4">
 			<div>
-				location:
-				<div>{{barber.location}}</div>
+				location: {{barber.location}}
 			</div>
 			<div>
-				Description:
-				<div>{{barber.description}}</div>
+				Description: {{barber.description}}
 			</div>
 			<div>
-				service:
-				<div>{{barber.service}}</div>
+				service: {{barber.service}}
 			</div>
 			<div>
-				style:
-				<div>{{barber.style}}</div>
+				style: {{barber.style}}
 			</div>
 			<div>
-				price:
-				<div>{{barber.price}}</div>
+				price: {{barber.price}}
 			</div>
 			<div>
-				type:
-				<div>{{barber.type}}</div>
-			</div>
+				type: {{barber.type}}
+			</div></div>
 		</div>
 		{% if user.is_authenticated %}
 		<div class="bg-white rounded-xl h-100 flex flex-col">
-			<form method="post" method="post" enctype="multipart/form-data">
+			<form method="post" enctype="multipart/form-data">
 					{% csrf_token %}
-					<div class="form-element">
+					<div>
 						{% for field in comment_form %}
 						<div > <b class="form-text input_box">{{ field.errors }}
 							{{ field.label_tag }}</b>{{ field }} </div>
 						{% endfor %}
 					</div>
 					{% for attr in attributes %}
-						<input type="checkbox" name="attr[]" value={attr}}> {{attr}}<br>
+						<input type="checkbox" name="attr[]" value={{attr}}> {{attr}} <br>
 					{% endfor %}
-            <button class="form-element form-button_blue center" type="submit" name="submit" value="Register">Submit</button>
+            <button class="book bg-green-500 text-2xl p-2 text-white" type="submit" name="submit">Submit</button>
           	</form>
 		</div>
 		{% endif%}
+		<div class="bg-white rounded-xl flex-col flex">
+			{% for i in comments %}
+				<div>
+					User : {{i.user}}
+				</div>
+				<div>
+					Comment : {{i.comment_text}}
+				</div>
+				<div class="flex space-x-1">
+					{% for i in ''|rjust:i.rating %}
+					<img src="{% static "images/star.png" %}" class="rounded-t-xl"/>
+					{% endfor %}
+				</div>
+				{% if i.attr %}
+					{{i.attr}}
+				{% endif %}
+
+			{% endfor %}
+		</div>
+
 	</div>
 </div>
 

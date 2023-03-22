@@ -54,3 +54,12 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.barber_shop.name + self.user.username
+
+
+class Booking(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    barber_shop = models.ForeignKey(BarberShop, on_delete=models.CASCADE, null=True, blank=True)
+    date = models.DateTimeField()
+    message = models.CharField(max_length=300, null=True, blank=True)
+    def __str__(self):
+        return self.user.username + "book" + self.barber_shop.name

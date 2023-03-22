@@ -11,4 +11,5 @@ urlpatterns = [
     path('account' , views.account, name='account'),
     path('add_barbers/', views.add_barber, name='add_barbers'),
     path('barber/<slug:barber_name_slug>/', views.show_barber, name='show_barber'),
+    path('barber/<slug:barber_name_slug>/booking', views.booking, name='booking'),
 ]
