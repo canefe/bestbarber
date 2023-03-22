@@ -1,5 +1,5 @@
 from barbers.forms import LoginForm, UserForm,UserProfileForm
-from barbers.models import ManagerProfile, User;
+from barbers.models import User;
 
 from django.http import HttpResponse, JsonResponse
 from barbers.forms import UserForm, UserProfileForm, BarberShopForm, CommentForm
