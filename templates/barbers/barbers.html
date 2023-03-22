@@ -19,20 +19,26 @@ Barbers {% endblock %}
     </div>
 	<div class="flex text-black mt-5 max-w-screen space-x-5 items-center justify-center">
 		<!-- For loop comes here -->
-        {% for i in "123" %} {% if forloop.counter > 3 %} {% endif %}
-		<div class="bg-white rounded-xl h-auto flex flex-col items-center space-y-5 shadow-2xl pb-5">
-			<img src="{% static "images/example.png" %}" class="rounded-t-xl "/>
-			<h3 class="mt-5 text-3xl">Barbershop</h3>
+        {% for barber in barberShops %} {% if forloop.counter > 3 %} {% endif %}
+		<div class="bg-white rounded-xl h-auto flex flex-col items-center space-y-5 shadow-2xl pb-5 barbershop">
+			<a href="/barber/{{ barber.slug }}/">
+				{%if barber.picture%}
+				<img src="{{MEDIA_URL}}{{barber.picture}}" class="rounded-t-xl "/>
+				{% else %}
+				<img src="{% static "images/example.png" %}" class="rounded-t-xl"/>
+				{% endif%}
+			</a>
+			<h3 class="mt-5 text-3xl">{{ barber.name }}</h3>
 			<div class="flex space-x-1">
-				{% for i in "12345" %} {% if forloop.counter > 5 %} {% endif %}
-				<img src="{% static "images/star.png" %}" class="rounded-t-xl"/>
+				{% for i in ''|rjust:barber.user_rating %}
+					<img src="{% static "images/star.png" %}" class="rounded-t-xl"/>
 				{% endfor %}
 			</div>
 			<div>Users rated it</div>
-			<div class="flex space-x-10 font-semibold">
-				<a class="text-green-400">Fun</a>
-				<a class="text-green-700">Cheap</a>
-				<a class="text-red-500">Boring</a>
+			<div  class="flex space-x-10 font-semibold">
+				{% for i in barber.user_attr%}
+					<a id = "attr" > {{i}}</a>
+				{%endfor%}
 			</div>
 			<button class="book bg-green-500 text-2xl p-2 text-white">
 				Book

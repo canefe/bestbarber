@@ -33,6 +33,7 @@
                     <li class="menuitem"><a href="{% url 'barbers:barbers' %}">Barbers</a></li>
                     {% if user.is_authenticated %}
                         <li class="menuitem"><a href="{% url 'barbers:account'%}">Account</a></li>
+                        <li class="menuitem"><a href="{% url 'barbers:add_barbers'%}">Add Barbershop</a></li>
                         <li class="menuitem"><a href="{% url 'auth_logout' %}?next={% url 'barbers:index'%}">Logout</a></li>
                     {% else %}
                         <li class="menuitem"><a href="{% url 'barbers:auth_login' %}">Login</a></li>
