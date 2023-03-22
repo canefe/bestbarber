@@ -735,6 +735,10 @@ select {
   height: 14rem;
 }
 
+.h-112 {
+  height: 28rem;
+}
+
 .h-\[75vh\] {
   height: 75vh;
 }
@@ -787,6 +791,10 @@ select {
 
 .flex-col {
   flex-direction: column;
+}
+
+.flex-warp {
+    flex-flow: wrap;
 }
 
 .items-start {

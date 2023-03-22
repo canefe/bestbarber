@@ -16,6 +16,7 @@ def populate():
             'location': 'location1',
             'description': 'barber1_description',
             'service': 'barber1_service',
+            'rating':0,
             'type': 'type1',
             'style': 'style1',
             'price': 10},
@@ -24,23 +25,28 @@ def populate():
             'location': 'location2',
             'description': 'barber2_description',
             'service': 'barber2_service',
+            'rating': 0,
             'type': 'type2',
             'style': 'style2',
             'price': 20},
-        {'name': 'shop3',
-         'location': 'location3',
-         'description': 'barber3_description',
-         'service': 'barber3_service',
-         'type': 'type3',
-         'style': 'style3',
-         'price': 30},
-        {'name': 'shop4',
-         'location': 'location4',
-         'description': 'barber4_description',
-         'service': 'barber4_service',
-         'type': 'type4',
-         'style': 'style4',
-         'price': 40},
+        {
+            'name': 'shop3',
+            'location': 'location3',
+            'description': 'barber3_description',
+            'service': 'barber3_service',
+            'rating': 0,
+            'type': 'type3',
+            'style': 'style3',
+            'price': 30},
+        {
+            'name': 'shop4',
+            'location': 'location4',
+            'description': 'barber4_description',
+            'service': 'barber4_service',
+            'rating': 0,
+            'type': 'type4',
+            'style': 'style4',
+            'price': 40},
 
     ]
 
@@ -49,6 +55,7 @@ def populate():
          'location': 'location5',
          'description': 'barber5_description',
          'service': 'barber5_service',
+         'rating': 0,
          'type': 'type5',
          'style': 'style5',
          'price': 50},
@@ -64,12 +71,13 @@ def populate():
         user.save()
         return user
 
-    def add_shop(user, name, location, description, service, type, style, price):
-        c = BarberShop.objects.get_or_create(manage_by=user,name=name)[0]
+    def add_shop(user, name, location, description, service, rating, type, style, price):
+        c = BarberShop.objects.get_or_create(manage_by=user, name=name)[0]
         c.name = name
         c.location = location
         c.description = description
         c.service = service
+        c.rating = rating
         c.type = type
         c.style = style
         c.price = price
@@ -85,6 +93,7 @@ def populate():
                      p['location'],
                      p['description'],
                      p['service'],
+                     p['rating'],
                      p['type'],
                      p['style'],
                      p['price'])

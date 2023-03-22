@@ -15,9 +15,10 @@ from django.shortcuts import render, redirect
 
 def index(request):
     barbers_list = BarberShop.objects.order_by('name')
-
+    trend_list = BarberShop.objects.order_by('-rating')[:3]
     context_dict = {}
     context_dict['barberShops'] = barbers_list
+    context_dict['trend_list'] = trend_list
 
     visitor_cookie_handler(request)
     response = render(request, 'barbers/index.html', context=context_dict)
@@ -60,7 +61,7 @@ def register(request):
 
             registered = True
         else:
-            return render(request, 'registration/registration_form.html', {'form': user_form}) 
+            return render(request, 'registration/registration_form.html', {'form': user_form})
     else:
 
         user_form = UserForm()
@@ -78,12 +79,12 @@ def account(request):
     response = render(request, 'barbers/account.html')
     return response
 
+
 def barbers(request):
     barbers_list = BarberShop.objects.order_by('-name')
 
     context_dict = {}
     context_dict['barberShops'] = barbers_list
-
     visitor_cookie_handler(request)
     response = render(request, 'barbers/barbers.html', context=context_dict)
 
@@ -112,9 +113,20 @@ def show_barber(request, barber_name_slug):
             if comment_form.is_valid():
                 if comment_form:
                     comment = comment_form.save(commit=False)
+                    attr = request.POST.getlist("attr[]")
+                    comment.attr = ','.join(attr)
                     comment.barber_shop = barber
                     comment.user = request.user
                     comment.save()
+
+                    rating = 0
+                    counter = 0
+                    for i in comments:
+                        rating += i.rating
+                        counter += 1
+                    barber.rating = rating/counter
+                    barber.save()
+
                     return redirect(reverse('barbers:show_barber',
                                             kwargs={'barber_name_slug':
                                                         barber_name_slug}))
@@ -134,11 +146,13 @@ def add_barber(request):
     registered = False
     manage = request.user
     if request.method == 'POST':
-        barber_form = BarberShopForm(request.POST)
+        barber_form = BarberShopForm(request.POST,request.FILES)
         barber_form.manage_by = request.user
         if barber_form.is_valid():
             barber = barber_form.save(commit=False)
             barber.manage_by = manage
+            barber.picture = barber_form.cleaned_data['picture']
+            barber.rating = 0
             barber.save()
             return redirect(reverse('barbers:index'))
         else:

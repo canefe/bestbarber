@@ -17,16 +17,21 @@ Barbers {% endblock %}
 
           </div>
     </div>
-	<div class="flex text-black mt-5 max-w-screen space-x-5 items-center justify-center">
+	<div class="flex text-black  flex-warp mt-5 max-w-screen space-x-5 items-center justify-center">
 		<!-- For loop comes here -->
         {% for barber in barberShops %} {% if forloop.counter > 3 %} {% endif %}
 		<div class="bg-white rounded-xl h-auto flex flex-col items-center space-y-5 shadow-2xl pb-5">
 			<a href="/barber/{{ barber.slug }}/">
-				<img src="{% static "images/example.png" %}" class="rounded-t-xl "/></a>
+				{%if barber.picture%}
+				<img src="{{MEDIA_URL}}{{barber.picture}}" class="rounded-t-xl "/>
+				{% else %}
+				<img src="{% static "images/example.png" %}" class="rounded-t-xl"/>
+				{% endif%}
+			</a>
 			<h3 class="mt-5 text-3xl">{{ barber.name }}</h3>
 			<div class="flex space-x-1">
-				{% for barber in "12345" %} {% if forloop.counter > 5 %} {% endif %}
-				<img src="{% static "images/star.png" %}" class="rounded-t-xl"/>
+				{% for i in ''|rjust:barber.rating %}
+					<img src="{% static "images/star.png" %}" class="rounded-t-xl"/>
 				{% endfor %}
 			</div>
 			<div>
