@@ -1,179 +1,63 @@
 {% extends 'barbers/base.html' %}
+{% load widget_tweaks %}
 {% load static %}
 {% block title_block %}
-Register
+    Login
 {% endblock %}
-
-
+{% block head %}
+    <style></style>
+{% endblock %}
 {% block body_block %}
-<head>
-		<style	type="text/css"	media="screen">
+    <div class="flex-col flex items-start justify-start text-white">
+        <div
+            class="bg-slate-800 flex-col flex items-start justify-start p-20 w-[100vw] md:w-[100vw]"
+        >
+            <div class="mb-5">
+                <b class="uppercase text-3xl">Add Barber Shop</b>
+            </div>
+            <div class="flex-col flex items-center justify-center">
+                <form id="form" method="post">
+                    {% if form.errors %}
+                        <div
+                            class="text-white p-5 m-5 bg-red-900 ounded-sm text-center items-center justify-center"
+                        >
+                            {{ form.errors }}
+                        </div>
+                    {% endif %} {% csrf_token %}
+                    <div
+                        class="flex flex-col md:flex-row items-center justify-center space-y-5 md:space-y-0 md:space-x-20 text-black"
+                    >
+                        <div class="pl-0 p-12">
+                            <div class="relative z-30">
+                                <div id="form-messages" class="absolute hidden p-3 bg-green-500 -top-14 duration-75  rounded-sm text-center items-center justify-center m-5 text-white">
+                                </div>
+                            </div>
+                            {% for field in barber_form %}
+                                <div class="relative">
+                                    <p class="text-white text-md transition-all duration-100 top-0">
+                                                {{ field.label }}
+                                            </p>
+                                        {{ field|add_class:"border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm w-full py-5 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer" }}
 
-				/* Register Box */
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div
+                        class="flex flex-col items-start justify-start space-y-10 text-black"
+                    >
 
-				.register
-				{
-				display:block;
-				position:absolute;
-				top: 150px;
-				right: 150px;
-
-				width:800px;
-				height:830px;
-				}
-
-<!--				.image_container-->
-<!--				{-->
-<!--				position:relative;-->
-<!--				top: 65px;-->
-<!--				left: 100px;-->
-<!--				width:800px;-->
-<!--				height:1200px;-->
-<!--				}-->
-
-
-<!--				.regi_image-->
-<!--				{-->
-<!--				display:block;-->
-<!--				position:relative;-->
-<!--				top: 65px;-->
-<!--				}-->
-
-				input
-				{
-				position: absolute;
-				right: 150px;
-				width: 300px;
-				}
-
-				.warn_pass_not_match{
-				colour: red;
-				}
-
-				.center
-				{
-				text-align:center;
-
-				}
-				.left-50
-				{
-				margin-left:50px;
-				text-align:left;
-
-				}
-				.left-80
-				{
-				margin-left:80px;
-				text-align:left;
-
-				}
-				.left-100
-				{
-				margin-left:100px;
-				text-align:left;
-
-				}
-
-
-				.left-120
-				{
-				margin-left:120px;
-				text-align:left;
-
-				}
-
-				.left-140
-				{
-				margin-left:140px;
-				text-align:left;
-
-				}
-
-				.inline{
-				display: inline;
-
-
-				}
-				.left-160
-				{
-				margin-left:160px;
-				text-align:left;
-
-				}
-
-				.form-button_blue {
-				background: #005288;
-				box-sizing: content-box;
-				-moz-box-sizing: content-box;
-				color: #ffffff;
-				cursor: pointer;
-				}
-
-				.form-button_green {
-				background: #008852;
-				box-sizing: content-box;
-				-moz-box-sizing: content-box;
-				color: #ffffff;
-				cursor: pointer;
-				}
-
-				.form-element {
-				padding: 15px 24px;
-				line-height: 40px;
-				}
-
-				.form-text{
-				color:white;
-				line-height: 60px;
-				font-size: 20px;
-				}
-
-				.form-heading {
-				padding: 15px 24px;
-				border: none;
-				font-size: 30px;
-				border-radius: 4px;
-
-		</style>
-</head>
-<body>
-		<div class="register bg-slate-700">
-			<br>
-				<div class="center">
-					<br>
-					<br>
-					<b class="space-x-10 uppercase form-heading form-text ">
-						Add Barber Shop</b>
-					<br>
-					<br>
-				</div>
-			<div class="left-50" >
-
-				<form method="post" method="post" enctype="multipart/form-data">
-					{% csrf_token %}
-					<div class="form-element">
-							{% for field in barber_form %}
-								{% if field.name != "manage_by" %}
-									<div > <b class="form-text input_box">{{ field.errors }}
-									{{ field.label_tag }}</b>{{ field }} </div>
-						 		{% endif %}
-
-							{% endfor %}
-
-				</div>
-					<button class="form-element form-button_blue center" type="submit" name="submit" value="Register">Submit</button>
-				</form>
-		</div>
-<!--</div>-->
-
-<!--		//Register Image-->
-<!--		<div class= "image_container">-->
-<!--			<img src="{% static 'images/barber1.png' %}" class="m-2 regi_image">-->
-
-<!--</div>-->
-
-
-</body>
-
-
+                            <div class="pl-0 pt-0 p-12">
+                                <button
+                                    type="submit"
+                                    class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
+                                >
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
 {% endblock %}
+</div>

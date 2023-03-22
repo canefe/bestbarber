@@ -112,7 +112,7 @@ def show_barber(request, barber_name_slug):
         context_dict['attributes'] = ["Clean",
                                       "Cheap",
                                       "Boring",
-                                      "Long wait",
+                                      "Long_wait",
                                       "Professional",
                                       "Student",
                                       "Fun"
@@ -172,7 +172,6 @@ def booking(request, barber_name_slug):
         if request.method == 'POST':
             if booking_form.is_valid():
                 if booking_form:
-                    print(booking_form)
                     booking = booking_form.save(commit=False)
                     booking.barber_shop = barber
                     booking.user = request.user
