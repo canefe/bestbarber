@@ -1,6 +1,6 @@
 
 from barbers.forms import LoginForm, UserForm,UserProfileForm
-from barbers.models import ManagerProfile, User;
+from barbers.models import Barbershop, ManagerProfile, User;
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -15,6 +15,7 @@ from django.shortcuts import render, redirect
 
 
 def index(request):
+    barbershops = Barbershop.objects.all()
     if request.method == 'POST':
         # check incoming ajax request action if equal to customer
         user = request.user
@@ -32,7 +33,7 @@ def index(request):
                 manager_profile.save()
                 user.userprofile.save()
                 return JsonResponse(response_data)
-    response = render(request, 'barbers/index.html')
+    response = render(request, 'barbers/index.html', context={'barbershops': barbershops})
     return response
 
 def user_login(request):
@@ -99,5 +100,6 @@ def account(request):
     return response
 
 def barbers(request):
-    response = render(request, 'barbers/barbers.html')
+    barbershops = Barbershop.objects.all()
+    response = render(request, 'barbers/barbers.html', context={'barbershops': barbershops})
     return response

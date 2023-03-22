@@ -1,44 +1,54 @@
 {% extends 'barbers/base.html' %} {% load static %} {% block title_block %}
-Barbers {% endblock %} 
+    Barbers {% endblock %}
 {% block head %}
 <!-- Import js/barbers.js -->
-<script src="{% static 'js/barbers.js' %}"></script>
+    <script src="{% static 'js/barbers.js' %}"></script>
 {% endblock %}
 {% block body_block %}
 
-<div
-	class="flex flex-col items-center justify-center bg-[#394f66] p-5 text-white"
->
-    <div class="w-full relative flex my-10 justify-center items-center">
-        <h1 class="text-4xl absolute  left-1/2 -translate-x-1/2">Barbers</h1>
-        <h1 class="text-lg absolute right-10 mr-10">Filter</h1>
-        
-        <div class="relative inline-block">
+    <div
+        class="flex flex-col items-center justify-center md:items-start md:justify-start m-5 min-w-screen"
+    >
+        <div class="bg-gray-200 p-20 w-full">
+            <div class="min-w-min relative flex my-10 justify-center items-center md:items-start md:justify-start flex-1 w-full">
+                <h1 class="text-4xl absolute  left-1/2 md:left-12 md:bottom-5 -translate-x-1/2">Barbers</h1>
+                <h1 class="text-lg absolute right-0">Filter</h1>
 
-          </div>
+                <div class="relative inline-block">
+                </div>
+            </div>
+            <div class="flex flex-col md:flex-row text-black mt-5 space-y-5 md:space-y-0 md:space-x-5 items-center justify-center md:items-start md:justify-start">
+				<!-- For loop comes here -->
+                {% for barbers in barbershop %}
+                    <div class="bg-white rounded-xl h-auto flex flex-col items-center space-y-5 shadow-2xl pb-5">
+                        <img src="{% static "images/example.png" %}" class="rounded-t-xl "/>
+                        <h3 class="mt-5 text-3xl">Barbershop</h3>
+                        <div class="flex space-x-1">
+                            {% for i in "12345" %} {% if forloop.counter > 5 %} {% endif %}
+                                <img src="{% static "images/star.png" %}" class="rounded-t-xl"/>
+                            {% endfor %}
+                        </div>
+                        <div>Users rated it</div>
+                        <div class="flex space-x-10 font-semibold">
+                            <a class="text-green-400">Fun</a>
+                            <a class="text-green-700">Cheap</a>
+                            <a class="text-red-500">Boring</a>
+                        </div>
+                        <button class="book bg-green-500 text-2xl p-2 text-white">
+                            Book
+                        </button>
+                    </div>
+                {% endfor %}
+                {% if barbershops.count == 0 %}
+                    <div class="bg-white rounded-lg shadow-lg barbershop m-10 md:m-0">
+                        <img class="w-full h-56 object-cover rounded-t-lg" src="{% static 'images/example.png' %}" alt="image1"/>
+                        <div class="p-4">
+                            <h1 class="text-xl font-bold text-gray-800">No Barbershops</h1>
+                            <p class="text-gray-600">There are no barbershops available at the moment.</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
     </div>
-	<div class="flex text-black mt-5 max-w-screen space-x-5 items-center justify-center">
-		<!-- For loop comes here -->
-        {% for i in "123" %} {% if forloop.counter > 3 %} {% endif %}
-		<div class="bg-white rounded-xl h-auto flex flex-col items-center space-y-5 shadow-2xl pb-5">
-			<img src="{% static "images/example.png" %}" class="rounded-t-xl "/>
-			<h3 class="mt-5 text-3xl">Barbershop</h3>
-			<div class="flex space-x-1">
-				{% for i in "12345" %} {% if forloop.counter > 5 %} {% endif %}
-				<img src="{% static "images/star.png" %}" class="rounded-t-xl"/>
-				{% endfor %}
-			</div>
-			<div>Users rated it</div>
-			<div class="flex space-x-10 font-semibold">
-				<a class="text-green-400">Fun</a>
-				<a class="text-green-700">Cheap</a>
-				<a class="text-red-500">Boring</a>
-			</div>
-			<button class="book bg-green-500 text-2xl p-2 text-white">
-				Book
-			</button>
-		</div>
-        {% endfor %}
-	</div>
-</div>
 {% endblock %}

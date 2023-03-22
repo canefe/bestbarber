@@ -25,17 +25,18 @@ class ManagerProfile(models.Model):
 
 
 class Barbershop(models.Model):
-    comment_by = models.ForeignKey(UserProfile, on_delete=models.CASCADE ,null=True)
-    manage_by = models.ManyToManyField(ManagerProfile)
+    manage_by = models.ForeignKey(User, on_delete=models.CASCADE)
     max_length = 128
     name = models.CharField(max_length=100, unique=True)
     location = models.CharField(max_length=200, unique=True)
-    picture = models.ImageField(upload_to='shop_profile_images', blank=True)
-    description = models.CharField(max_length=300)
-    service = models.CharField(max_length=300)
-    type = models.CharField(max_length=300)
-    style = models.CharField(max_length=300)
-    price = models.FloatField()
+    picture = models.ImageField(upload_to='shop_profile_images', null=True, blank=True)
+    description = models.CharField(max_length=300, null=True, blank=True)
+    service = models.CharField(max_length=300, null=True, blank=True)
+    type = models.CharField(max_length=300, null=True, blank=True)
+    style = models.CharField(max_length=300, null=True, blank=True)
+    price = models.FloatField(null=True, blank=True)
+    user_rating = models.IntegerField(null=True, blank=True)
+    user_attr = models.CharField(max_length=300, null=True, blank=True)
     slug = models.SlugField(unique=True)
 
     def save(self, *args, **kwargs):
