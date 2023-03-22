@@ -3,7 +3,7 @@ from barbers.models import User;
 
 from django.http import HttpResponse, JsonResponse
 from barbers.forms import UserForm, UserProfileForm, BarberShopForm, CommentForm
-from barbers.models import User, BarberShop, Comment;
+from barbers.models import User, BarberShop, Comment, UserProfile
 from django.contrib.auth import authenticate, login
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
@@ -180,7 +180,9 @@ def add_barber(request):
             barber.manage_by = manage
             barber.picture = barber_form.cleaned_data['picture']
             barber.user_rating = 0
-            manage.type = "Barber"
+            user_profile = UserProfile.objects.get(user=request.user)
+            user_profile.is_barber = True
+            user_profile.save()
             barber.save()
             return redirect(reverse('barbers:index'))
         else:

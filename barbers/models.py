@@ -7,18 +7,16 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    user_type = models.CharField(max_length=20)
     title = models.CharField(max_length=50)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     phone_number = models.CharField(max_length=50, null=True)
-    type = models.CharField(max_length=6, default="User")
+    is_barber = models.BooleanField(default=False)
     email = models.CharField(max_length=50, null=True)
     completed = models.BooleanField(default=False)
 
     def __str__(self):
         return self.first_name + self.last_name
-
 
 
 class BarberShop(models.Model):
@@ -48,10 +46,10 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     barber_shop = models.ForeignKey(BarberShop, on_delete=models.CASCADE, null=True, blank=True)
     comment_text = models.CharField(max_length=300, null=True, blank=True)
-    rating = models.IntegerField(default=0,validators=[
-            MaxValueValidator(5),
-            MinValueValidator(0)
-        ])
+    rating = models.IntegerField(default=0, validators=[
+        MaxValueValidator(5),
+        MinValueValidator(0)
+    ])
     attr = models.CharField(max_length=300, null=True, blank=True)
 
     def __str__(self):
