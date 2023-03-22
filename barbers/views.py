@@ -88,7 +88,7 @@ def barbers(request):
     barbers_list = BarberShop.objects.order_by('-name')
     for shop in barbers_list:
         if shop.user_attr is not None:
-            shop.user_attr = shop.user_attr.split(",")
+            shop.user_attr = shop.user_attr.split(",")  # convert user attributes string into list
 
     context_dict['barberShops'] = barbers_list
 
@@ -107,6 +107,15 @@ def show_barber(request, barber_name_slug):
 
         comments = Comment.objects.filter(barber_shop=barber)
         context_dict['comments'] = comments
+
+        context_dict['attributes'] = ["Clean",
+                                      "Cheap",
+                                      "Boring",
+                                      "Long wait",
+                                      "Professional",
+                                      "Student",
+                                      "Fun"
+                                      ]
 
         try:
             barber = BarberShop.objects.get(slug=barber_name_slug)
@@ -135,11 +144,12 @@ def show_barber(request, barber_name_slug):
                         attr += i.attr + ","
                     attr = attr.rstrip(",")
                     barber.user_rating = rating / counter
-
+                    # rating of a barber shop = average comment rating
                     attr = {elem: attr.split(",").count(elem) for elem in attr.split(",")}
                     attr = dict(sorted(attr.items(), key=lambda x: x[1], reverse=True))
                     barber.user_attr = ",".join(list(attr.keys())[:3])
-
+                    # read the attributes from Comment
+                    # 3 attributes with most repetition will be store in barber model
                     barber.save()
 
                     return redirect(reverse('barbers:show_barber',

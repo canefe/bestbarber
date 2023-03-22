@@ -2,6 +2,7 @@ from django import forms
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class UserProfile(models.Model):
@@ -45,7 +46,10 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     barber_shop = models.ForeignKey(BarberShop, on_delete=models.CASCADE, null=True, blank=True)
     comment_text = models.CharField(max_length=300, null=True, blank=True)
-    rating = models.IntegerField()
+    rating = models.IntegerField(default=0,validators=[
+            MaxValueValidator(5),
+            MinValueValidator(0)
+        ])
     attr = models.CharField(max_length=300, null=True, blank=True)
 
     def __str__(self):

@@ -1,19 +1,16 @@
 {% extends 'barbers/base.html' %} {% load static %} {% block title_block %}
 Barbers {% endblock %} 
 {% block head %}
-<!-- Import js/barbers.js -->
-<script src="{% static 'js/barbers.js' %}"></script>
 {% endblock %}
 {% block body_block %}
 
-<div class="flex flex-col items-center justify-center bg-[#394f66] p-5 text-white">
-
-	<div class=" flex text-black mt-5 w-\[100vw\] space-x-5 justify-center flex-warp">
-		<div class="bg-white rounded-xl h-100 flex flex-col items-center space-y-5 shadow-2xl pb-5">
+<div class=" bg-[#394f66] p-5 text-white">
+	<div class=" text-black">
+		<div class="bg-white rounded-xl h-100 flex flex-col  items-center space-y-5 shadow-2xl pb-5">
 			<img src="{% static "images/example.png" %}" class="rounded-t-xl "/>
 			<h3 class="mt-5 text-3xl">{{ barber.name }}</h3>
 			<div class="flex space-x-1">
-				{% for i in ''|rjust:barber.user_rating %} {% if forloop.counter > 5 %} {% endif %}
+				{% for i in ''|rjust:barber.user_rating %}
 				<img src="{% static "images/star.png" %}" class="rounded-t-xl"/>
 				{% endfor %}
 			</div>
@@ -21,7 +18,7 @@ Barbers {% endblock %}
 				Manage by: {{barber.manage_by}}
 			</div>
 		</div>
-		<div class="bg-white rounded-xl h-100 flex flex-col items-center space-y-5 shadow-2xl pb-5">
+		<div class="bg-white  rounded-xl h-100">
 			<div>
 				location:
 				<div>{{barber.location}}</div>
@@ -48,7 +45,7 @@ Barbers {% endblock %}
 			</div>
 		</div>
 		{% if user.is_authenticated %}
-		<div class="bg-white rounded-xl  h-100 flex flex-col space-y-5 shadow-2xl pb-5">
+		<div class="bg-white rounded-xl h-100 flex flex-col">
 			<form method="post" method="post" enctype="multipart/form-data">
 					{% csrf_token %}
 					<div class="form-element">
@@ -57,9 +54,9 @@ Barbers {% endblock %}
 							{{ field.label_tag }}</b>{{ field }} </div>
 						{% endfor %}
 					</div>
-				<input type="checkbox" name="attr[]" value="Long wait"> Long wait<br>
-  				<input type="checkbox" name="attr[]" value="Boring"> Boring<br>
-  				<input type="checkbox" name="attr[]" value="Clean"> Clean<br>
+					{% for attr in attributes %}
+						<input type="checkbox" name="attr[]" value={attr}}> {{attr}}<br>
+					{% endfor %}
             <button class="form-element form-button_blue center" type="submit" name="submit" value="Register">Submit</button>
           	</form>
 		</div>
