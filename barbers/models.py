@@ -21,7 +21,7 @@ class ManagerProfile(models.Model):
     owned_barbershop = models.ForeignKey('Barbershop', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return self.manger_name
+        return self.user.userprofile.first_name + self.user.userprofile.last_name
 
 
 class Barbershop(models.Model):
