@@ -22,5 +22,6 @@ urlpatterns = [
                   path('register_profile/', views.register, name='register_profile'),
                   path('accounts/', include('registration.backends.simple.urls')),
                   path('profile/<username>/', views.ProfileView.as_view(), name='profile'),
+                  path('profiles/', views.ListProfilesView.as_view(), name='list_profiles')
 
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,5 +1,4 @@
 {% extends 'barbers/base.html' %}
-{% load staticfiles %}
 
 {% block title_block %}
   Profile for {{selected_user.username}}
@@ -28,10 +27,10 @@
       <input type="submit" value="Update" />
     </form>
     {% else %}
-<!--     <p>-->
-<!--      <strong>Website:</strong>-->
-<!--      <a href="{{ user_profile.website }}">{{ user_profile.website }}</a>-->
-<!--     </p>-->
+     <p>
+      <strong>First Name:</strong>
+      <a href="{{ user_profile.first_name }}">{{ user_profile.first_name }}</a>
+     </p>
       {% endif %}
     </div>
   </div>

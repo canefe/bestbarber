@@ -137,4 +137,10 @@ class ProfileView(View):
                         'form': form}
         return render(request, 'barbers/profile.html', context_dict)
 
+class ListProfilesView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        profiles = UserProfile.objects.all()
+        return render(request, 'barbers/list_profiles.html', {'userprofile_list': profiles})
+
 
