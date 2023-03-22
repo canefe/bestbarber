@@ -28,7 +28,8 @@ class BarberShop(models.Model):
     type = models.CharField(max_length=300, null=True, blank=True)
     style = models.CharField(max_length=300, null=True, blank=True)
     price = models.FloatField(null=True, blank=True)
-    rating = models.IntegerField(null=True, blank=True)
+    user_rating = models.IntegerField(null=True, blank=True)
+    user_attr = models.CharField(max_length=300, null=True, blank=True)
     slug = models.SlugField(unique=True)
 
     def save(self, *args, **kwargs):
@@ -48,3 +49,4 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.barber_shop.name + self.user.username
+

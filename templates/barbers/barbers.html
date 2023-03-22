@@ -1,8 +1,8 @@
 {% extends 'barbers/base.html' %} {% load static %} {% block title_block %}
 Barbers {% endblock %} 
 {% block head %}
-<!-- Import js/barbers.js -->
-<script src="{% static 'js/barbers.js' %}"></script>
+<!-- Import js/index.js -->
+    <script src="{% static 'js/index.js' %}"></script>
 {% endblock %}
 {% block body_block %}
 
@@ -20,7 +20,7 @@ Barbers {% endblock %}
 	<div class="flex text-black  flex-warp mt-5 max-w-screen space-x-5 items-center justify-center">
 		<!-- For loop comes here -->
         {% for barber in barberShops %} {% if forloop.counter > 3 %} {% endif %}
-		<div class="bg-white rounded-xl h-auto flex flex-col items-center space-y-5 shadow-2xl pb-5">
+		<div class="bg-white rounded-xl h-auto flex flex-col items-center space-y-5 shadow-2xl pb-5 barbershop">
 			<a href="/barber/{{ barber.slug }}/">
 				{%if barber.picture%}
 				<img src="{{MEDIA_URL}}{{barber.picture}}" class="rounded-t-xl "/>
@@ -30,7 +30,7 @@ Barbers {% endblock %}
 			</a>
 			<h3 class="mt-5 text-3xl">{{ barber.name }}</h3>
 			<div class="flex space-x-1">
-				{% for i in ''|rjust:barber.rating %}
+				{% for i in ''|rjust:barber.user_rating %}
 					<img src="{% static "images/star.png" %}" class="rounded-t-xl"/>
 				{% endfor %}
 			</div>
@@ -38,10 +38,10 @@ Barbers {% endblock %}
 				Manage by: {{barber.manage_by}}
 			</div>
 			<div>Users rated it</div>
-			<div class="flex space-x-10 font-semibold">
-				<a class="text-green-400">Fun</a>
-				<a class="text-green-700">Cheap</a>
-				<a class="text-red-500">Boring</a>
+			<div  class="flex space-x-10 font-semibold">
+				{% for i in barber.user_attr%}
+				<a id = "attr" > {{i}}</a>
+				{%endfor%}
 			</div>
 			<button class="book bg-green-500 text-2xl p-2 text-white">
 				Book
@@ -50,4 +50,6 @@ Barbers {% endblock %}
         {% endfor %}
 	</div>
 </div>
+
+
 {% endblock %}

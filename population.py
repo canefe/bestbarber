@@ -16,7 +16,7 @@ def populate():
             'location': 'location1',
             'description': 'barber1_description',
             'service': 'barber1_service',
-            'rating':0,
+            'rating': 3,
             'type': 'type1',
             'style': 'style1',
             'price': 10},
@@ -25,7 +25,7 @@ def populate():
             'location': 'location2',
             'description': 'barber2_description',
             'service': 'barber2_service',
-            'rating': 0,
+            'rating': 3,
             'type': 'type2',
             'style': 'style2',
             'price': 20},
@@ -34,7 +34,7 @@ def populate():
             'location': 'location3',
             'description': 'barber3_description',
             'service': 'barber3_service',
-            'rating': 0,
+            'rating': 3,
             'type': 'type3',
             'style': 'style3',
             'price': 30},
@@ -43,7 +43,7 @@ def populate():
             'location': 'location4',
             'description': 'barber4_description',
             'service': 'barber4_service',
-            'rating': 0,
+            'rating': 3,
             'type': 'type4',
             'style': 'style4',
             'price': 40},
@@ -55,7 +55,7 @@ def populate():
          'location': 'location5',
          'description': 'barber5_description',
          'service': 'barber5_service',
-         'rating': 0,
+         'rating': 3,
          'type': 'type5',
          'style': 'style5',
          'price': 50},
@@ -77,7 +77,7 @@ def populate():
         c.location = location
         c.description = description
         c.service = service
-        c.rating = rating
+        c.user_rating = rating
         c.type = type
         c.style = style
         c.price = price

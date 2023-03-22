@@ -47,6 +47,7 @@ Barbers {% endblock %}
 				<div>{{barber.type}}</div>
 			</div>
 		</div>
+		{% if user.is_authenticated %}
 		<div class="bg-white rounded-xl  h-100 flex flex-col space-y-5 shadow-2xl pb-5">
 			<form method="post" method="post" enctype="multipart/form-data">
 					{% csrf_token %}
@@ -62,6 +63,7 @@ Barbers {% endblock %}
             <button class="form-element form-button_blue center" type="submit" name="submit" value="Register">Submit</button>
           	</form>
 		</div>
+		{% endif%}
 	</div>
 </div>
 

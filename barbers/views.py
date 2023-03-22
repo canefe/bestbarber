@@ -15,7 +15,7 @@ from django.shortcuts import render, redirect
 
 def index(request):
     barbers_list = BarberShop.objects.order_by('name')
-    trend_list = BarberShop.objects.order_by('-rating')[:3]
+    trend_list = BarberShop.objects.order_by('-user_rating')[:3]
     context_dict = {}
     context_dict['barberShops'] = barbers_list
     context_dict['trend_list'] = trend_list
@@ -81,10 +81,14 @@ def account(request):
 
 
 def barbers(request):
-    barbers_list = BarberShop.objects.order_by('-name')
-
     context_dict = {}
+    barbers_list = BarberShop.objects.order_by('-name')
+    for shop in barbers_list:
+        if shop.user_attr is not None:
+            shop.user_attr = shop.user_attr.split(",")
+
     context_dict['barberShops'] = barbers_list
+
     visitor_cookie_handler(request)
     response = render(request, 'barbers/barbers.html', context=context_dict)
 
@@ -121,10 +125,18 @@ def show_barber(request, barber_name_slug):
 
                     rating = 0
                     counter = 0
+                    attr = ""
                     for i in comments:
                         rating += i.rating
                         counter += 1
-                    barber.rating = rating/counter
+                        attr += i.attr + ","
+                    attr = attr.rstrip(",")
+                    barber.user_rating = rating/counter
+
+                    attr = {elem: attr.split(",").count(elem) for elem in attr.split(",")}
+                    attr = dict(sorted(attr.items(), key=lambda x: x[1],reverse=True))
+                    barber.user_attr = ",".join(list(attr.keys())[:3])
+
                     barber.save()
 
                     return redirect(reverse('barbers:show_barber',
