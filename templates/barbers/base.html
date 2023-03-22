@@ -30,6 +30,7 @@
 				
 					{% if user.is_authenticated %}
 					<!-- Show these links when the user is logged in -->
+					<div class="menuitem"><a class="nav-link" href="{% url 'barbers:profile' user.username %}">Profile</a>
 					<div class="menuitem"><a href="{% url 'auth_logout' %}?next={% url 'barbers:index'%}">Logout</a></div>
 					{% else %}
 					<!-- Show these links when the user is NOT logged in -->

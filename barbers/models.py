@@ -6,25 +6,26 @@ from django.template.defaultfilters import slugify
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
+    picture = models.ImageField(upload_to='profile_images', blank=True)
     title = models.CharField(max_length=50)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    # school = models.CharField(max_length=50, null=True)
     phoneNumber = models.CharField(max_length=50, null=True)
     email = models.CharField(max_length=50, null=True)
 
     def __str__(self):
-        return self.first_name + self.last_name
+        return self.user.username
+            # + self.first_name + self.last_name
 
 
 class ManagerProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-    manger_name = models.CharField(max_length=50, unique=True)
+    manager_name = models.CharField(max_length=50, unique=True)
     role = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
-        return self.manger_name
+        return self.manager_name
 
 
 class BarberShop(models.Model):
