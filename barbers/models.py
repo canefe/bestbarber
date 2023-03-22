@@ -20,8 +20,10 @@ class UserProfile(models.Model):
         return self.first_name + self.last_name
 
 
+
 class BarberShop(models.Model):
     manage_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    max_length = 128
     name = models.CharField(max_length=100, unique=True)
     location = models.CharField(max_length=200, unique=True)
     picture = models.ImageField(upload_to='shop_profile_images', null=True, blank=True)

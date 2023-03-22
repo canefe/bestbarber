@@ -2,13 +2,69 @@
 {% load static %}
 
 {% block title_block %}
-    Account
+  Account
 {% endblock %}
 {% block head %}
 <!-- Import js/index.js -->
-    <script src="{% static 'js/index.js' %}"></script>
+  <script src="{% static 'js/account.js' %}"></script>
 {% endblock %}
 
 {% block body_block %}
-    <div>asd</div>
+  <div class="flex flex-col items-center min-h-screen">
+    <h1 class="text-white text-4xl mt-5">Account</h1>
+    <div class="flex items-center justify-center">
+      <div class="min-h-screen flex flex-col justify-center">
+        <div class="relative py-3 sm:max-w-xl sm:mx-auto">
+          <div class="absolute inset-0 bg-gradient-to-r from-cyan-400 to-light-blue-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+          <div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+            <div class="max-w-md mx-auto">
+              <div class="flex items-center space-x-5">
+                <div class="h-14 w-14 bg-cyan-200 rounded-full flex flex-shrink-0 justify-center items-center text-cyan-500 text-2xl font-mono">
+                  {{ user.userprofile.first_name }}
+                </div>
+                <div class="block pl-2 font-semibold text-xl self-start text-gray-700">
+                  <h2 class="leading-relaxed">{{ user.userprofile.first_name }}</h2>
+                  <p class="text-sm text-gray-500 font-normal">{{ user.email }}</p>
+                  <p class="text-sm text-gray-500 font-normal">{{ user.phone_number }}</p>
+                </div>
+              </div>
+              <div class="divide-y divide-gray-200">
+                <div class="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+                  <p>Here you can view and manage your account information.</p>
+                  <p>You chan change the detail by clicking on it.</p>
+                </div>
+                <div class="pt-6 text-base leading-6 font-bold sm:text-lg sm:leading-7">
+                  <p>Account Information</p>
+                </div>
+                <div class="mt-6">
+                  <div class="clickable-field flex justify-between items-center mb-2" data-field="name">
+                    <div class="text-gray-600">Name</div>
+                    <div class="text-gray-900 font-semibold cursor-pointer">{{ user.userprofile.first_name }} {{ user.userprofile.last_name }}</div>
+                  </div>
+                  <div class="clickable-field flex justify-between items-center mb-2" data-field="email">
+                    <div class="text-gray-600">Email</div>
+                    <div class="text-gray-900 font-semibold cursor-pointer">{{ user.email }}</div>
+                  </div>
+                  <div class="clickable-field flex justify-between items-center mb-2" data-field="phone_number">
+                    <div class="text-gray-600">Phone Number</div>
+                    <div class="text-gray-900 font-semibold cursor-pointer">{{ user.userprofile.phone_number }}</div>
+                  </div>
+                  <div class="clickable-field flex justify-between items-center mb-2">
+                    <div class="text-gray-600">User Type</div>
+                    <div class="text-gray-900 font-semibold">
+                      {% if user.managerprofile %}
+                        Barber
+                      {% else %}
+                        Customer
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
 {% endblock %}

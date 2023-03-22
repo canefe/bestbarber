@@ -1,4 +1,6 @@
-from barbers.forms import LoginForm, UserForm, UserProfileForm
+from barbers.forms import LoginForm, UserForm,UserProfileForm
+from barbers.models import ManagerProfile, User;
+
 from django.http import HttpResponse, JsonResponse
 from barbers.forms import UserForm, UserProfileForm, BarberShopForm, CommentForm
 from barbers.models import User, BarberShop, Comment;
@@ -10,6 +12,7 @@ from django.shortcuts import render, redirect
 
 
 def index(request):
+
     barbers_list = BarberShop.objects.order_by('name')
     trend_list = BarberShop.objects.order_by('-user_rating')[:6]
     context_dict = {}
@@ -18,7 +21,6 @@ def index(request):
 
     visitor_cookie_handler(request)
     response = render(request, 'barbers/index.html', context=context_dict)
-
     return response
 
 

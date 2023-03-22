@@ -11,8 +11,8 @@
 {% endblock %}
 
 {% block body_block %}
-    <div class="flex-col flex items-start justify-start text-white">
-        <div class="bg-slate-800 flex-col flex items-start justify-start p-20 w-[100vw] md:w-[100vw]">
+    <div class="flex-col flex items-center justify-center md:items-start md:justify-start text-white max-h-screen">
+        <div class=" flex-col flex items-center justify-center md:items-start md:justify-start w-[100vw] md:w-[100vw] max-h-screen h-[90vh] md:h-[80vh] p-10">
             <div class="mb-5">
                 <b class="uppercase text-3xl">Register</b>
             </div>
@@ -64,9 +64,13 @@
 				<!-- add submit button-->
                             </div>
                         </div>
-                        <div class="flex flex-col md:flex-row items-start justify-start space-y-5 md:space-y-0 md:space-x-20 text-black">
-                            <div class="pl-0 pt-0 p-12">
-                                <button type="submit" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
+                        <div>
+                            <div class="flex flex-col items-center justify-center md:items-start md:justify-start">
+                                <div class="mb-5">
+                                    Already have an account?
+                                    <a href="{% url 'barbers:auth_login' %}" class="text-indigo-500 hover:text-indigo-700">Login</a>
+                                </div>
+                                <button type="submit" class="w-1/2 md:w-1/5 bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
                                     Submit
                                 </button>
                             </div>
