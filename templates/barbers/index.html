@@ -12,11 +12,62 @@
 {% block body_block %}
     {% if user.is_authenticated %}
         <section class="text-2xl text-white p-5 flex space-x-20 texte-center">
-            <div>
-                <p>Welcome back to Best Barber,</p>
-                {{ user.userprofile.first_name }} {{ user.userprofile.last_name }}!
-            </div>
+            <div class="bg-gray-100 w-full py-10">
+                <div class="container mx-auto px-4">
+                    {% if not user.userprofile.completed %}
+                        {% csrf_token %}
+                        <div class="mb-8 text-center">
+                            <p class="text-3xl font-bold text-gray-800">Welcome to Best Barber,</p>
+                            <p class="text-xl font-bold text-gray-700">{{ user.userprofile.first_name }} {{ user.userprofile.last_name }}!</p>
+                        </div>
+                        <div class="flex flex-col justify-center items-center space-y-5">
+                            <p class="text-lg font-bold text-gray-800 mb-2">Let's complete your profile!</p>
+                            <button id="barberBtn" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700 duration-500">Become a Barber</button>
+                            <div id="barber-confirmation-dialog" class="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 hidden text-black">
+                                <div class="bg-white rounded-md shadow-lg w-3/4 mx-auto my-20">
+                                    <div class="p-4">
+                                        <h2 class="text-2xl font-bold mb-4">Are you sure?</h2>
+                                        <p class="mb-4">This action cannot be undone.</p>
+                                        <div class="flex justify-end">
+                                            <button id="barber-confirm-btn" class="px-4 py-2 bg-green-500 text-white rounded-lg mr-2 hover:bg-green-700 focus:outline-none">Yes</button>
+                                            <button id="barber-cancel-btn" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-700 focus:outline-none">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a id="customerBtn" class="bg-purple-500 p-3 text-lg rounded-lg text-white hover:bg-purple-700 duration-500 cursor-pointer">I am a Customer</a>
+                            <div id="customer-confirmation-dialog" class="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-50 hidden text-black">
+                                <div class="bg-white rounded-md shadow-lg w-3/4 mx-auto my-20">
+                                    <div class="p-4">
+                                        <h2 class="text-2xl font-bold mb-4">Are you sure?</h2>
+                                        <p class="mb-4">This action cannot be undone.</p>
+                                        <div class="flex justify-end">
+                                            <button id="customer-confirm-btn" class="px-4 py-2 bg-green-500 text-white rounded-lg mr-2 hover:bg-green-700 focus:outline-none">Yes</button>
+                                            <button id="customer-cancel-btn" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-700 focus:outline-none">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="text-center">
+                            <p class="text-3xl font-bold text-gray-800">Welcome back,</p>
+                            <p class="text-xl font-bold text-gray-700 mb-5">{{ user.userprofile.first_name }} {{ user.userprofile.last_name }}!</p>
 
+                            {% if user.managerprofile %}
+                                {% if usermanagerprofile.barbershop %}
+                                    <p class="text-lg font-bold text-gray-800 mb-2">You are a barber at {{ user.managerprofile.barbershop.name }}</p>
+                                {% else %}
+                        <!-- You haven't created a barbershop yet -->
+                                    <a class="bg-green-500 text-white px-4 py-2 mt-5 rounded-lg hover:bg-green-700 duration-500">Create a Barbershop</a>
+                                {% endif %}
+                            {% else %}
+                                Are you in a mood for a fresh cut?
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
         </section>
     {% else %}
         <section class="items-center w-100 h-[45vh] md:h-[75vh] bg-cover bg-[url('../images/heading.png')]">
@@ -27,38 +78,37 @@
             </div>
         </section>
     {% endif %}
-    <div>
 	<!-- Trending Barbershops use tailwindcss -->
-        <div class="container mx-auto bg-gray-200 p-3 px-10 m-10">
-            <h2 class="text-3xl font-bold text-black m-10">TRENDING</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {% for barbershop in barbershops %}
-                    <div class="bg-white rounded-lg shadow-lg barbershop m-10 md:m-0">
-                        <a href="/barber/{{ barbershop.slug }}/">
-                            {%if barbershop.picture%}
-                                <img class="w-full h-56 object-cover rounded-t-lg"
-                                     src="{{MEDIA_URL}}{{barbershop.picture}}" alt={{barbershop.name}}/>
-                            {% else %}
-                                <img class="w-full h-56 object-cover rounded-t-lg"
-                                     src="{% static "images/example.png" %}" alt={{barbershop.name}}/>
-                            {% endif%}
-                        </a>
-                        <div class="p-4">
-                            <h1 class="text-xl font-bold text-gray-800">{{ barbershop.name }}</h1>
-                            <p class="text-gray-600">{{ barbershop.description }}</p>
-                        </div>
+    <div class="container mx-auto bg-gray-200 p-3 px-10 m-10">
+        <h2 class="text-3xl font-bold text-black m-10">TRENDING</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {% for barbershop in barbershops %}
+                <div class="bg-white rounded-lg shadow-lg barbershop m-10 md:m-0">
+                    <a href="/barber/{{ barbershop.slug }}/">
+                        {%if barbershop.picture%}
+                            <img class="w-full h-56 object-cover rounded-t-lg"
+                                 src="{{MEDIA_URL}}{{barbershop.picture}}" alt={{barbershop.name}}/>
+                        {% else %}
+                            <img class="w-full h-56 object-cover rounded-t-lg"
+                                 src="{% static "images/example.png" %}" alt={{barbershop.name}}/>
+                        {% endif%}
+                    </a>
+                    <div class="p-4">
+                        <h1 class="text-xl font-bold text-gray-800">{{ barbershop.name }}</h1>
+                        <p class="text-gray-600">{{ barbershop.description }}</p>
                     </div>
-                {% endfor %}
-                {% if barbershops.count == 0 %}
-                    <div class="bg-white rounded-lg shadow-lg barbershop m-10 md:m-0">
-                        <img class="w-full h-56 object-cover rounded-t-lg" src="{% static 'images/example.png' %}" alt="image1"/>
-                        <div class="p-4">
-                            <h1 class="text-xl font-bold text-gray-800">No Barbershops</h1>
-                            <p class="text-gray-600">There are no barbershops available at the moment.</p>
-                        </div>
+                </div>
+            {% endfor %}
+            {% if barbershops.count == 0 %}
+                <div class="bg-white rounded-lg shadow-lg barbershop m-10 md:m-0">
+                    <img class="w-full h-56 object-cover rounded-t-lg" src="{% static 'images/example.png' %}" alt="image1"/>
+                    <div class="p-4">
+                        <h1 class="text-xl font-bold text-gray-800">No Barbershops</h1>
+                        <p class="text-gray-600">There are no barbershops available at the moment.</p>
                     </div>
-                {% endif %}
+                </div>
+            {% endif %}
 
 
-            </div>
+        </div>
 {% endblock %}
