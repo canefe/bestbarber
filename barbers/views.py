@@ -16,7 +16,7 @@ from django.shortcuts import render, redirect
 
 
 def index(request):
-    barbershops = BarberShop.objects.order_by('-user_rating')[:6]
+    barbershops = Barbershop.objects.order_by('-user_rating')[:6]
     if request.method == 'POST':
         # check incoming ajax request action if equal to customer
         user = request.user
@@ -120,7 +120,7 @@ def account(request):
 def barbers(request):
     resetBarber()
     context_dict = {}
-    barbers_list = BarberShop.objects.order_by('-name')
+    barbers_list = Barbershop.objects.order_by('-name')
     for shop in barbers_list:
         if shop.user_attr is not None:
             shop.user_attr = shop.user_attr.split(",")  # convert user attributes string into list
@@ -137,7 +137,7 @@ def show_barber(request, barber_name_slug):
     context_dict = {}
 
     try:
-        barber = BarberShop.objects.get(slug=barber_name_slug)
+        barber = Barbershop.objects.get(slug=barber_name_slug)
         context_dict['barber'] = barber
 
         comments = Comment.objects.filter(barber_shop=barber)
@@ -170,14 +170,14 @@ def show_barber(request, barber_name_slug):
 
         context_dict['comment_form'] = comment_form
         context_dict['barbers'] = barber
-    except BarberShop.DoesNotExist:
+    except Barbershop.DoesNotExist:
         context_dict['comments'] = None
         context_dict['barberShop'] = None
 
     return render(request, 'barbers/show_barber.html', context=context_dict)
 
 def resetBarber():
-    barbers = BarberShop.objects.all()
+    barbers = Barbershop.objects.all()
 
     for barber in barbers:
         comments = Comment.objects.filter(barber_shop=barber)
@@ -207,7 +207,7 @@ def booking(request, barber_name_slug):
     context_dict = {}
 
     try:
-        barber = BarberShop.objects.get(slug=barber_name_slug)
+        barber = Barbershop.objects.get(slug=barber_name_slug)
         context_dict['barber'] = barber
         booking_form = BookingForm(request.POST)
         if request.method == 'POST':
@@ -225,7 +225,7 @@ def booking(request, barber_name_slug):
                 print(booking_form.errors)
         context_dict['booking_form'] = booking_form
         context_dict['barbers'] = barber
-    except BarberShop.DoesNotExist:
+    except Barbershop.DoesNotExist:
         context_dict['barbers'] = None
     return render(request, 'barbers/booking.html', context=context_dict)
 
@@ -234,7 +234,7 @@ def add_barber(request):
     registered = False
     manage = request.user
     if request.method == 'POST':
-        barber_form = BarberShopForm(request.POST, request.FILES)
+        barber_form = BarbershopForm(request.POST, request.FILES)
         barber_form.manage_by = request.user
         if barber_form.is_valid():
             barber = barber_form.save(commit=False)
@@ -247,9 +247,9 @@ def add_barber(request):
             barber.save()
             return redirect(reverse('barbers:index'))
         else:
-            print(BarberShopForm.errors)
+            print(BarbershopForm.errors)
     else:
-        barber_form = BarberShopForm()
+        barber_form = BarbershopForm()
     return render(request,
                   'barbers/add_barbers.html',
                   context={'barber_form': barber_form,

@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.forms import TextInput
 
-from barbers.models import UserProfile, BarberShop, Comment,Booking
+from barbers.models import UserProfile, Barbershop, Comment,Booking
 
 
 class UserForm(forms.ModelForm):
@@ -24,9 +24,9 @@ class LoginForm(forms.Form):
     remember_me = forms.BooleanField(required=False)
 
 
-class BarberShopForm(forms.ModelForm):
+class BarbershopForm(forms.ModelForm):
     class Meta:
-        model = BarberShop
+        model = Barbershop
         fields = ('name', 'location', 'picture', 'description', 'service', 'type', 'style', 'price')
 
 
