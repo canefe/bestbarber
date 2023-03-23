@@ -5,7 +5,6 @@ __pycache__/
 tailwindcss
 *.xml
 *.pyc
-*.py
 /.idea/bestbarber.iml
 /.idea/.gitignore
 /templates/registration/testRegis.html
@@ -138,7 +137,4 @@ static/.DS_Store
 tailwindcss.exe
 barbers/__pycache__/
 bestbarber/__pycache__/
-/media
-/node_modules
-/package-lock.json
-/package.json
+barbers/migrations/
