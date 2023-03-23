@@ -23,22 +23,36 @@
 				<!-- For loop comes here -->
                 {% for barber in barbershops %}
                     <div class="bg-white rounded-xl h-auto flex flex-col items-center space-y-5 shadow-2xl pb-5">
-                        <img src="{% static "images/example.png" %}" class="rounded-t-xl "/>
+                        {%if barber.picture%}
+                            <img src="{{MEDIA_URL}}{{barber.picture}}" class="rounded-t-xl "/>
+                        {% else %}
+                            <img src="{% static "images/example.png" %}" class="rounded-t-xl"/>
+                        {% endif%}
                         <h3 class="mt-5 text-3xl">{{barber.name}}</h3>
                         <div class="flex space-x-1">
-                            {% for i in "x"|ljust:barber.user_rating|slice:"0:barber.user_rating"|make_list %}
+                            {% for i in ''|rjust:barber.user_rating %}
                                 <img src="{% static "images/star.png" %}" class="rounded-t-xl"/>
                             {% endfor %}
                         </div>
                         <div>Users rated it</div>
                         <div class="flex space-x-10 font-semibold">
-                            <a class="text-green-400">Fun</a>
-                            <a class="text-green-700">Cheap</a>
-                            <a class="text-red-500">Boring</a>
+                            {% for i in barber.user_attr%}
+                                <a id = "attr" > {{i}}</a>
+                            {%endfor%}
                         </div>
-                        <button class="book bg-green-500 text-2xl p-2 text-white">
-                            Book
-                        </button>
+                        {% if user.is_authenticated %}
+                            <a href="/barber/{{ barber.slug }}/booking">
+                                <button class="book bg-green-500 text-2xl p-2 text-white" >
+                                    Book
+                                </button>
+                            </a>
+                        {%else%}
+                            <a href={% url 'barbers:auth_login' %}>
+                                <button class="book bg-green-500 text-2xl p-2 text-white" >
+                                    Book
+                                </button>
+                            </a>
+                        {%endif%}
                     </div>
                 {% endfor %}
                 {% if barbershops.count == 0 %}

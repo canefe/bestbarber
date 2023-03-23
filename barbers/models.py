@@ -2,6 +2,7 @@ from django import forms
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class UserProfile(models.Model):
@@ -11,6 +12,7 @@ class UserProfile(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     phone_number = models.CharField(max_length=50, null=True)
+    is_barber = models.BooleanField(default=False)
     email = models.CharField(max_length=50, null=True)
     completed = models.BooleanField(default=False)
 
@@ -48,3 +50,26 @@ class Barbershop(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    barber_shop = models.ForeignKey(Barbershop, on_delete=models.CASCADE, null=True, blank=True)
+    comment_text = models.CharField(max_length=300, null=True, blank=True)
+    rating = models.IntegerField(default=0, validators=[
+        MaxValueValidator(5),
+        MinValueValidator(0)
+    ])
+    attr = models.CharField(max_length=300, null=True, blank=True)
+
+    def __str__(self):
+        return self.barber_shop.name + self.user.username
+
+
+class Booking(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    barber_shop = models.ForeignKey(Barbershop, on_delete=models.CASCADE, null=True, blank=True)
+    date = models.DateTimeField()
+    message = models.CharField(max_length=300, null=True, blank=True)
+    def __str__(self):
+        return self.user.username + "book" + self.barber_shop.name

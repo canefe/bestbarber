@@ -52,7 +52,7 @@
                   <div class="clickable-field flex justify-between items-center mb-2">
                     <div class="text-gray-600">User Type</div>
                     <div class="text-gray-900 font-semibold">
-                      {% if user.managerprofile %}
+                      {% if user.userprofile.is_barber %}
                         Barber
                       {% else %}
                         Customer
