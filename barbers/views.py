@@ -1,6 +1,7 @@
 from django.utils.decorators import method_decorator
 from django.views import View
-from barbers.forms import LoginForm, UserForm,UserProfileForm, BarberShopForm, CommentForm, BookingForm
+from barbers.forms import LoginForm, UserForm, UserProfileForm, BarberShopForm, CommentForm, BookingForm, \
+    EditBarberShopForm
 from barbers.models import User, BarberShop, Comment, UserProfile
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login
@@ -11,13 +12,11 @@ from django.shortcuts import render, redirect
 
 
 def index(request):
-
     barbers_list = BarberShop.objects.order_by('name')
     trend_list = BarberShop.objects.order_by('-user_rating')[:6]
     context_dict = {}
     context_dict['barberShops'] = barbers_list
     context_dict['trend_list'] = trend_list
-    visitor_cookie_handler(request)
     if request.method == 'POST':
         # check incoming ajax request action if equal to customer
         user = request.user
@@ -93,6 +92,7 @@ def register(request):
                            'profile_form': profile_form,
                            'registered': registered})
 
+
 @login_required
 def register_profile(request):
     form = UserProfileForm()
@@ -111,6 +111,7 @@ def register_profile(request):
     context_dict = {'form': form}
     return render(request, 'barbers/profile_registration.html', context_dict)
 
+
 @login_required
 def account(request):
     context_dict = {}
@@ -128,7 +129,6 @@ def barbers(request):
 
     context_dict['barberShops'] = barbers_list
 
-    visitor_cookie_handler(request)
     response = render(request, 'barbers/barbers.html', context=context_dict)
 
     return response
@@ -138,6 +138,7 @@ def show_barber(request, barber_name_slug):
     context_dict = {}
 
     try:
+        barber_form = EditBarberShopForm(request.POST, request.FILES)
         barber = BarberShop.objects.get(slug=barber_name_slug)
         context_dict['barber'] = barber
 
@@ -152,8 +153,8 @@ def show_barber(request, barber_name_slug):
                                       "Student",
                                       "Fun"
                                       ]
-        if request.method == 'POST':
 
+        if request.method == 'POST':
             if comment_form.is_valid():
                 if comment_form:
                     comment = comment_form.save(commit=False)
@@ -166,16 +167,35 @@ def show_barber(request, barber_name_slug):
                     return redirect(reverse('barbers:show_barber',
                                             kwargs={'barber_name_slug':
                                                         barber_name_slug}))
+            elif barber_form.is_valid():
+                if barber_form:
+                    if barber_form.cleaned_data["location"] is not None:
+                        barber.location = barber_form.cleaned_data["location"]
+                    if barber_form.cleaned_data["picture"] is not None:
+                        barber.picture = barber_form.cleaned_data["picture"]
+                    if barber_form.cleaned_data["description"] is not None:
+                        barber.description = barber_form.cleaned_data["description"]
+                    if barber_form.cleaned_data["service"] is not None:
+                        barber.service = barber_form.cleaned_data["service"]
+                    if barber_form.cleaned_data["type"] is not None:
+                        barber.type = barber_form.cleaned_data["type"]
+                    if barber_form.cleaned_data["style"] is not None:
+                        barber.style = barber_form.cleaned_data["style"]
+                    if barber_form.cleaned_data["price"] is not None:
+                        barber.price = barber_form.cleaned_data["price"]
+                    print(barber_form.cleaned_data["picture"])
+                    barber.save()
             else:
-                print(comment_form.errors)
+                print(barber_form.errors)
 
         context_dict['comment_form'] = comment_form
-        context_dict['barbers'] = barber
+        context_dict['barber_form'] = barber_form
     except BarberShop.DoesNotExist:
         context_dict['comments'] = None
         context_dict['barberShop'] = None
 
     return render(request, 'barbers/show_barber.html', context=context_dict)
+
 
 def resetBarber():
     barbers = BarberShop.objects.all()
@@ -191,7 +211,7 @@ def resetBarber():
             if i.attr is not None:
                 attr += i.attr + ","
         attr = attr.rstrip(",")
-        if(counter != 0 ):
+        if (counter != 0):
             barber.user_rating = rating / counter
         else:
             barber.user_rating = 0
@@ -203,6 +223,7 @@ def resetBarber():
         # 3 attributes with most repetition will be store in barber model
         # update everytime comment is submitted
         barber.save()
+
 
 def booking(request, barber_name_slug):
     context_dict = {}
@@ -230,6 +251,7 @@ def booking(request, barber_name_slug):
         context_dict['barbers'] = None
     return render(request, 'barbers/booking.html', context=context_dict)
 
+
 @login_required
 def add_barber(request):
     registered = False
@@ -255,36 +277,6 @@ def add_barber(request):
                   context={'barber_form': barber_form,
                            'registered': registered})
 
-
-# A helper method
-def get_server_side_cookie(request, cookie, default_val=None):
-    val = request.session.get(cookie)
-    if not val:
-        val = default_val
-    return val
-
-
-# Updated the function definition
-def visitor_cookie_handler(request):
-    visits = int(get_server_side_cookie(request, 'visits', '1'))
-    last_visit_cookie = get_server_side_cookie(request,
-                                               'last_visit',
-                                               str(datetime.now()))
-
-    last_visit_time = datetime.strptime(last_visit_cookie[:-7],
-                                        '%Y-%m-%d %H:%M:%S')
-
-    # If it's been more than a day since the last visit...
-    if (datetime.now() - last_visit_time).days > 0:
-        visits = visits + 1
-        # Update the last visit cookie now that we have updated the count
-        request.session['last_visit'] = str(datetime.now())
-    else:
-        # Set the last visit cookie
-        request.session['last_visit'] = last_visit_cookie
-
-    # Update/set the visits cookie
-    request.session['visits'] = visits
 
 class ProfileView(View):
     def get_user_details(self, username):
@@ -330,10 +322,9 @@ class ProfileView(View):
                         'form': form}
         return render(request, 'barbers/profile.html', context_dict)
 
+
 class ListProfilesView(View):
     @method_decorator(login_required)
     def get(self, request):
         profiles = UserProfile.objects.all()
         return render(request, 'barbers/list_profiles.html', {'userprofile_list': profiles})
-
-

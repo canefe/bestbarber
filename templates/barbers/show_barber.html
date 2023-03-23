@@ -1,6 +1,11 @@
-{% extends 'barbers/base.html' %} {% load static %} {% block title_block %}
-Barbers {% endblock %} 
+{% extends 'barbers/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title_block %}
+{{ barber.name }}
+{% endblock %}
 {% block head %}
+
 {% endblock %}
 {% block body_block %}
 
@@ -32,31 +37,62 @@ Barbers {% endblock %}
 
 				</div>
 				<div>
-					Manage by: {{barber.manage_by}}
+					{% if barber.manage_by == request.user %}
+						<a id="editBtn" class="bg-purple-500 p-3 m-5 text-lg rounded-lg text-white hover:bg-purple-700 duration-500 cursor-pointer">Edit</a>
+						<a id="doneEditBtn" class="hidden bg-green-500 p-3 m-5 text-lg rounded-lg text-white hover:bg-purple-700 duration-500 cursor-pointer">Cancel Edit</a>
+					{%else%}
+						Manage by: {{barber.manage_by}}
+					{% endif %}
 				</div>
 			</div>
 		</div>
 	<div class="rounded-xl bg-white h-full m-5 w-3/4 p-2 shadow-2xl">
-		<div class ="flex flex-col justify-between items-left mb-2 space-y-4">
+		<div id="field" class ="flex flex-col justify-between items-left mb-2 space-y-4">
 			<div>
-				<p class="uppercase font-bold text-xl">location:</p> {{barber.location}}
-			</div>
-			<div>
-				<p class="uppercase font-bold text-xl">Description:</p> {{barber.description}}
+				<p class="uppercase font-bold text-l">location:</p>
+				<p class="w-1/2 shadow-sm w-full py-2 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer">{{barber.location}}</p>
 			</div>
 			<div>
-				<p class="uppercase font-bold text-xl">service:</p> {{barber.service}}
+				<p class="uppercase font-bold text-l">Description:</p>
+				<p class="w-1/2 shadow-sm w-full py-2 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer">{{barber.description}}</p>
 			</div>
 			<div>
-				<p class="uppercase font-bold text-xl">style:</p> {{barber.style}}
+				<p class="uppercase font-bold text-l">service:</p>
+				<p class="w-1/2 shadow-sm w-full py-2 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer">{{barber.service}}</p>
 			</div>
 			<div>
-				<p class="uppercase font-bold text-xl">price:</p> {{barber.price}}
+				<p class="uppercase font-bold text-l">style:</p>
+				<p class="w-1/2 shadow-sm w-full py-2 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer">{{barber.style}} </p>
 			</div>
 			<div>
-				<p class="uppercase font-bold text-xl"> type:</p> {{barber.type}}
+				<p class="uppercase font-bold text-l">price:</p>
+				<p class="w-1/2 shadow-sm w-full py-2 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer">{{barber.price}}</p>
+			</div>
+			<div>
+				<p class="uppercase font-bold text-l"> type:</p>
+				<p class="w-1/2 shadow-sm w-full py-2 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer">{{barber.type}}</p>
 			</div>
 			</div>
+		<div id="editField" class =" hidden flex flex-col justify-between items-left mb-2 space-y-4">
+			 <form id="editForm" name="editForm" method="post"> {% csrf_token %}
+
+				 <div >
+					 {% for field in barber_form %}
+					 	{% if field.label != "Name"%}
+					 		<div class="relative">
+						 	<p class="uppercase font-bold text-l">
+							 	{{ field.label }}
+						 	</p> {{field.error}}
+						 	{{field|add_class:" w-1/2 shadow-sm w-full py-2 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer" }}
+							</div>
+					 {% endif %}
+					 {% endfor %}
+					 <button type="submit" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
+						 Submit
+					 </button>
+				 </div>
+			 </form>
+		</div>
 	</div>
 </div>
 	<div class="flex flex-col items-center md:items-start w-[100vw] md:w-[100vw]">
@@ -106,4 +142,6 @@ Barbers {% endblock %}
 		</div>
 </div>
 </div>
+<!-- Import js/index.js -->
+	<script src="{% static 'js/show_barber.js' %}"></script>
 {% endblock %}
