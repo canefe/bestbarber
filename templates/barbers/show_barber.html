@@ -74,7 +74,7 @@
 			</div>
 			</div>
 		<div id="editField" class =" hidden flex flex-col justify-between items-left mb-2 space-y-4">
-			 <form id="editForm" name="editForm" method="post"> {% csrf_token %}
+			 <form id="editForm" name="editForm" method="post"  enctype="multipart/form-data"> {% csrf_token %}
 
 				 <div >
 					 {% for field in barber_form %}
