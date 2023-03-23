@@ -1,0 +1,54 @@
+{% extends 'barbers/base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block title_block %}
+    Booking
+{% endblock %}
+
+{% block head %}
+    <style>
+    </style>
+{% endblock %}
+
+{% block body_block %}
+    <div class="flex-col flex items-center justify-center md:items-start md:justify-start text-black max-h-screen">
+        <div class=" flex-col flex items-center justify-center md:items-start md:justify-start w-[100vw] md:w-[100vw] max-h-screen h-[90vh] md:h-[80vh] p-10">
+            <div class="mb-5">
+                <b class="uppercase text-3xl">Booking</b>
+            </div>
+            <div class="flex-col flex items-center justify-center">
+                {% if registered %}
+                    <b  class=""><strong>Thank you for booking!</strong>
+                        <a href="{% url 'barbers:barbers' %}">Click here back to barbers page.</a><br /></b>
+                {% else %}
+                    <form method="post" action="/barber/{{ barber.slug }}/booking">
+                        {% csrf_token %}
+                        <div class="flex flex-col md:flex-row items-center justify-center space-y-5 md:space-y-0 md:space-x-20 text-black">
+                            <div class="md:pl-0 md:p-12">
+                                {% for field in booking_form %}
+                                    <div class="relative">
+                                        <span class="text-black text-md transition-all duration-100 top-0">
+                                            {{ field.label }}
+                                        </span>
+                                        {{ field|add_class:"border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm w-full py-5 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer" }}
+
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex flex-col items-center justify-center md:items-start md:justify-start">
+                                <button type="submit" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+		<!-- add a submit button that doesnt cause input elements to pushed up-->
+
+
+
+                {% endif %}
+            </div>
+        </div>
+{% endblock %}

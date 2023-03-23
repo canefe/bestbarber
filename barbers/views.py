@@ -1,13 +1,15 @@
-
-from barbers.forms import UserForm,UserProfileForm
+from django.utils.decorators import method_decorator
+from django.views import View
+from barbers.forms import LoginForm, UserForm, UserProfileForm
 from barbers.models import User;
-from django.http import HttpResponse
+
+from barbers.forms import LoginForm, UserForm,UserProfileForm, BarbershopForm, CommentForm, BookingForm
+from barbers.models import User, Barbershop, Comment, UserProfile, ManagerProfile;
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth import authenticate, login
-from django.http import HttpResponse
 from django.urls import reverse
-from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
 from django.shortcuts import render, redirect
@@ -17,25 +19,50 @@ from barbers.forms import AddReviewForm
 
 
 def index(request):
-    response = render(request, 'barbers/index.html')
+    barbershops = Barbershop.objects.order_by('-user_rating')[:6]
+    if request.method == 'POST':
+        # check incoming ajax request action if equal to customer
+        user = request.user
+        if user:
+            if request.POST.get('action') == 'customer':
+                response_data = {'success': True}
+                user.userprofile.completed = True
+                user.userprofile.save()
+                return JsonResponse(response_data)
+            # check incoming ajax request action if equal to barber
+            elif request.POST.get('action') == 'barber':
+                response_data = {'success': True}
+                user.userprofile.completed = True
+                user.userprofile.is_barber = True
+                user.userprofile.save()
+                return JsonResponse(response_data)
+    response = render(request, 'barbers/index.html', context={'barbershops': barbershops})
     return response
 
-def User_login(request):
+
+def user_login(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(username=username, password=password)
-        if user:
-            if user.is_active:
-                login(request, user)
-                return redirect(reverse('barbers:index'))
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            remember_me = form.fields['remember_me']
+            user = authenticate(username=username, password=password)
+            if user:
+                if user.is_active:
+                    login(request, user)
+                    if not remember_me:
+                        request.session.set_expiry(0)
+                    response_data = {'success': True, 'redirect_url': reverse('barbers:index')}
+                    return JsonResponse(response_data)
+                else:
+                    response_data = {'success': False, 'error': 'Your account is disabled.'}
+                    return JsonResponse(response_data)
             else:
-                return HttpResponse("Your account is disabled.")
-        else:
-            print(f"Invalid login details: {username}, {password}")
-            return HttpResponse("Invalid login details supplied.")
+                response_data = {'success': False, 'error': 'Your account is disabled.'}
+                return JsonResponse(response_data)
     else:
-        return render(request, 'registration/login.html')
+        return render(request, 'registration/login.html', {'form': LoginForm()})
 
 
 def register(request):
@@ -54,51 +81,230 @@ def register(request):
 
             registered = True
         else:
-            print(user_form.errors, profile_form.errors)
+            return render(request, 'registration/registration_form.html', {'form': user_form})
     else:
-        # Not a HTTP POST, so we render our form using two ModelForm instances.
-        # These forms will be blank, ready for user input.
+
         user_form = UserForm()
         profile_form = UserProfileForm()
 
-    # Render the template depending on the context.
     return render(request,
                   'registration/registration_form.html',
                   context={'user_form': user_form,
                            'profile_form': profile_form,
                            'registered': registered})
 
+@login_required
+def register_profile(request):
+    form = UserProfileForm()
 
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            user_profile = form.save(commit=False)
+            user_profile.user = request.user
+            user_profile.save()
+
+            return redirect(reverse('barbers:index'))
+        else:
+            print(form.errors)
+    context_dict = {'form': form}
+    return render(request, 'barbers/profile_registration.html', context_dict)
+
+@login_required
+def account(request):
+    context_dict = {}
+    response = render(request, 'barbers/account.html')
+    return response
 
 
 def barbers(request):
-    response = render(request, 'barbers/barbers.html')
+    resetBarber()
+    context_dict = {}
+    barbers_list = Barbershop.objects.order_by('-name')
+    for shop in barbers_list:
+        if len(shop.user_attr) > 1:
+            shop.user_attr = shop.user_attr.split(",")  # convert user attributes string into list]
+        else:
+            shop.user_attr = ['?','?','?']
+        
+
+    context_dict['barbershops'] = barbers_list
+
+    response = render(request, 'barbers/barbers.html', context=context_dict)
+
     return response
 
-def add_barber(request):
-    if request.method == 'POST':
-        Addshopform = AddBarberShopForm(request.POST)
-        if Addshopform.is_valid():
-            Addshopform.save()
-            return index(request)
-        else:
-            print(Addshopform.errors)
-    else:
-        Addshopform = AddBarberShopForm()
-    return render(request, 'barbers/add_barber.html', 
-                  context={'Addshopform': Addshopform})
 
-def add_review(request):
-    ##we still have to add the user.id which is current user.Not finish yet this part
-    if request.method == 'POST':
-        ReviewForm = AddReviewForm(request.POST)
-        if ReviewForm.is_valid():
-            ReviewForm.user = request.user
-            ReviewForm.save()
-            return index(request)
+def show_barber(request, barber_name_slug):
+    context_dict = {}
+
+    try:
+        barber = Barbershop.objects.get(slug=barber_name_slug)
+        context_dict['barber'] = barber
+
+        comments = Comment.objects.filter(barber_shop=barber)
+        context_dict['comments'] = comments
+        comment_form = CommentForm(request.POST)
+        context_dict['attributes'] = ["Clean",
+                                      "Cheap",
+                                      "Boring",
+                                      "Long_wait",
+                                      "Professional",
+                                      "Student",
+                                      "Fun"
+                                      ]
+        if request.method == 'POST':
+
+            if comment_form.is_valid():
+                if comment_form:
+                    comment = comment_form.save(commit=False)
+                    attr = request.POST.getlist("attr[]")
+                    comment.attr = ','.join(attr)
+                    comment.barber_shop = barber
+                    comment.user = request.user
+                    comment.save()
+                    resetBarber()
+                    return redirect(reverse('barbers:show_barber',
+                                            kwargs={'barber_name_slug':
+                                                        barber_name_slug}))
+            else:
+                print(comment_form.errors)
+
+        context_dict['comment_form'] = comment_form
+        context_dict['barbers'] = barber
+    except Barbershop.DoesNotExist:
+        context_dict['comments'] = None
+        context_dict['barberShop'] = None
+
+    return render(request, 'barbers/show_barber.html', context=context_dict)
+
+def resetBarber():
+    barbers = Barbershop.objects.all()
+
+    for barber in barbers:
+        comments = Comment.objects.filter(barber_shop=barber)
+        rating = 0
+        counter = 0
+        attr = ""
+        for i in comments:
+            rating += i.rating
+            counter += 1
+            if i.attr is not None:
+                attr += i.attr + ","
+        attr = attr.rstrip(",")
+        if(counter != 0 ):
+            barber.user_rating = rating / counter
         else:
-            print(ReviewForm.errors)
+            barber.user_rating = 0
+        # rating of a barber shop = average comment rating
+        attr = {elem: attr.split(",").count(elem) for elem in attr.split(",")}
+        attr = dict(sorted(attr.items(), key=lambda x: x[1], reverse=True))
+        barber.user_attr = ",".join(list(attr.keys())[:3])
+        # read the attributes from Comment
+        # 3 attributes with most repetition will be store in barber model
+        # update everytime comment is submitted
+        barber.save()
+
+def booking(request, barber_name_slug):
+    context_dict = {}
+
+    try:
+        barber = Barbershop.objects.get(slug=barber_name_slug)
+        context_dict['barber'] = barber
+        booking_form = BookingForm(request.POST)
+        if request.method == 'POST':
+            if booking_form.is_valid():
+                if booking_form:
+                    booking = booking_form.save(commit=False)
+                    booking.barber_shop = barber
+                    booking.user = request.user
+                    booking.save()
+
+                    return redirect(reverse('barbers:show_barber',
+                                            kwargs={'barber_name_slug':
+                                                        barber_name_slug}))
+            else:
+                print(booking_form.errors)
+        context_dict['booking_form'] = booking_form
+        context_dict['barbers'] = barber
+    except Barbershop.DoesNotExist:
+        context_dict['barbers'] = None
+    return render(request, 'barbers/booking.html', context=context_dict)
+
+@login_required
+def add_barber(request):
+    registered = False
+    manage = request.user
+    if not manage.userprofile.is_barber:
+        return redirect(reverse('barbers:index'))
+    if request.method == 'POST':
+        barber_form = BarbershopForm(request.POST, request.FILES)
+        barber_form.manage_by = request.user
+        if barber_form.is_valid():
+            barber = barber_form.save(commit=False)
+            barber.manage_by = manage
+            barber.picture = barber_form.cleaned_data['picture']
+            barber.user_rating = 0
+            barber.save()
+            return redirect(reverse('barbers:index'))
+        else:
+            print(BarbershopForm.errors)
     else:
-        ReviewForm = AddReviewForm()
-    return render(request, 'barbers/add_review.html',
-                  context={'ReviewForm': ReviewForm})
+        barber_form = BarbershopForm()
+    return render(request,
+                  'barbers/add_barbers.html',
+                  context={'barber_form': barber_form,
+                           'registered': registered})
+
+class ProfileView(View):
+    def get_user_details(self, username):
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return None
+
+        user_profile = UserProfile.objects.get_or_create(user=user)[0]
+        form = UserProfileForm({'picture': user_profile.picture})
+
+        return render(user, user_profile, form)
+
+    @method_decorator(login_required)
+    def get(self, request, username):
+        try:
+            (user, user_profile, form) = self.get_user_details(username)
+        except TypeError:
+            return redirect(reverse('barbers:index'))
+
+        context_dict = {'user_profile': user_profile,
+                        'selected_user': user,
+                        'form': form}
+        return render(request, 'barbers/profile.html', context_dict)
+
+    @method_decorator(login_required)
+    def post(self, request, username):
+        try:
+            (user, user_profile, form) = self.get_user_details(username)
+        except TypeError:
+            return redirect(reverse('barbers:index'))
+
+        form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
+
+        if form.is_valid():
+            form.save(commit=True)
+            return redirect('barbers:profile', user.username)
+        else:
+            print(form.errors)
+
+        context_dict = {'user_profile': user_profile,
+                        'selected_user': user,
+                        'form': form}
+        return render(request, 'barbers/profile.html', context_dict)
+
+class ListProfilesView(View):
+    @method_decorator(login_required)
+    def get(self, request):
+        profiles = UserProfile.objects.all()
+        return render(request, 'barbers/list_profiles.html', {'userprofile_list': profiles})
+
+
