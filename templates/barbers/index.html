@@ -11,19 +11,11 @@
 
 {% block body_block %}
     {% if user.is_authenticated %}
-<<<<<<< HEAD
         <section class="text-2xl p-5 flex space-x-20 texte-center">
                 <div>
                     <p>Welcome back to Best Barber,</p>
                     {{ user.userprofile.first_name }} {{ user.userprofile.last_name }}!
                 </div>
-=======
-        <section class="text-2xl text-white p-5 flex space-x-20 texte-center">
-            <div>
-                <p>Welcome back to Best Barber,</p>
-                {{ user.userprofile.first_name }} {{ user.userprofile.last_name }}!
-            </div>
->>>>>>> 5910adcdb28005facc112fa968ce23a19530c2dd
 
         </section>
     {% else %}
@@ -40,7 +32,6 @@
         <div class="container mx-auto bg-gray-200 p-3 px-10 m-10">
             <h2 class="text-3xl font-bold text-black m-10">TRENDING</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-<<<<<<< HEAD
                 {% for trend in trend_list%}
                     <div class="bg-white rounded-lg shadow-lg barbershop">
                         <a href="/barber/{{ trend.slug }}/">
@@ -59,24 +50,6 @@
                         </p>
                     </div>
                 </div>
-=======
-                {% for barbershop in barbershops %}
-                    <div class="bg-white rounded-lg shadow-lg barbershop m-10 md:m-0">
-                        <a href="/barber/{{ barbershop.slug }}/">
-                            {%if barbershop.picture%}
-                                <img class="w-full h-56 object-cover rounded-t-lg"
-                                     src="{{MEDIA_URL}}{{barbershop.picture}}" alt={{barbershop.name}}/>
-                            {% else %}
-                                <img class="w-full h-56 object-cover rounded-t-lg"
-                                     src="{% static "images/example.png" %}" alt={{barbershop.name}}/>
-                            {% endif%}
-                        </a>
-                        <div class="p-4">
-                            <h1 class="text-xl font-bold text-gray-800">{{ barbershop.name }}</h1>
-                            <p class="text-gray-600">{{ barbershop.description }}</p>
-                        </div>
-                    </div>
->>>>>>> 5910adcdb28005facc112fa968ce23a19530c2dd
                 {% endfor %}
                 {% if barbershops.count == 0 %}
                     <div class="bg-white rounded-lg shadow-lg barbershop m-10 md:m-0">
@@ -87,10 +60,5 @@
                         </div>
                     </div>
                 {% endif %}
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 5910adcdb28005facc112fa968ce23a19530c2dd
             </div>
 {% endblock %}

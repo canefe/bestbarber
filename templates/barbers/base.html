@@ -36,15 +36,12 @@
                     <li class="menuitem"><a href="{% url 'barbers:barbers' %}">Barbers</a></li>
                     {% if user.is_authenticated %}
                         <li class="menuitem"><a href="{% url 'barbers:account'%}">Account</a></li>
-<<<<<<< HEAD
                         <li class="menuitem"><a href="{% url 'barbers:add_barbers'%}">Add Barbershop</a></li>
                         <li class="menuitem"><a href="{% url 'barbers:list_profiles' %}">Profiles</a></li>
-=======
-                        <li class="menuitem"><a href="{% url 'barbers:list_profiles' %}">Profiles</a></li>
+
                         {% if user.userprofile.is_barber %}
                             <li class="menuitem"><a href="{% url 'barbers:add_barbers'%}">Add Barbershop</a></li>
                         {% endif %}
->>>>>>> 5910adcdb28005facc112fa968ce23a19530c2dd
                         <li class="menuitem"><a href="{% url 'auth_logout' %}?next={% url 'barbers:index'%}">Logout</a></li>
                     {% else %}
                         <li class="menuitem"><a href="{% url 'barbers:auth_login' %}">Login</a></li>
