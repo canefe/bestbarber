@@ -8,11 +8,11 @@
             {% endblock %}
         </title>
 		<!-- CSS -->
-        <link rel="stylesheet" href="{% static "css/output.css" %}?{% now " u"="" %}"="">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="{% static "css/output.css" %}?{% now " u"="" %}"=""/>
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 		<!-- Roboto Font -->
-        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"/>
 		<!-- JQuery -->
         <script src="{% static "js/jquery-3.6.3.min.js" %}"></script>
 		<!-- base.js -->
@@ -21,7 +21,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta charset="UTF-8"/>
-        <meta name="description" content="BestBarber is a website that allows you to find the best barbershops in your area.">
+        <meta name="description" content="BestBarber is a website that allows you to find the best barbershops in your area."/>
         <meta name="keywords" content="BestBarber, Barber, Barbershop, Haircut, Hair, Hairdresser, Hairdressers, Haircuts, Barber Shop, Barber Shops, Barber Shop Near Me, Barber Shops Near Me, Barber Shop Open Now, Barber Shops Open Now, Barber Shop Prices, Barber Shops Prices"/>
         {% block head %}
         {% endblock %}
@@ -29,7 +29,7 @@
     <body class="font-['Roboto']">
         <div class="h-20 bg-[#0077be] text-white font-['Roboto'] fixed block z-50 w-full">
             <div class="flex justify-between items-center">
-                <img src="{% static "images/logo.png" %}" id="logo" class="flex-initial ml-3 mt-3 hover:cursor-pointer"/>
+                <img src="{% static "images/logo.png" %}" id="logo" alt="BestBarber" class="flex-initial ml-3 mt-3 hover:cursor-pointer"/>
 
                 <ul  class="hidden md:flex space-x-10 text-xl mt-6 flex-auto justify-end mr-40">
                     <li class="menuitem"><a href="{% url 'barbers:index' %}">Home</a></li>
@@ -42,7 +42,7 @@
                         <li class="menuitem"><a href="{% url 'barbers:auth_login' %}">Login</a></li>
                     {% endif %}
                 </ul>
-                <img src="{% static "images/burger.png" %}" class="burger md:hidden mt-5 mr-5"/>
+                <img src="{% static "images/burger.png" %}" alt="Burger menu" class="burger md:hidden mt-5 mr-5"/>
                 <div
                     class="menu md:hidden z-100 absolute top-0 left-0 right-0 opacity-0 invisible flex flex-col bottom-0 justify-center  items-center w-full h-screen mt-20 bg-[#d0eaff] text-center ease-in duration-300">
                     <ul class="flex flex-col mt-6 flex-auto justify-start text-4xl w-full">
