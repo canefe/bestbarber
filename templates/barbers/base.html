@@ -36,6 +36,7 @@
                     <li class="menuitem"><a href="{% url 'barbers:barbers' %}">Barbers</a></li>
                     {% if user.is_authenticated %}
                         <li class="menuitem"><a href="{% url 'barbers:account'%}">Account</a></li>
+                        <li class="menuitem"><a href="{% url 'barbers:list_profiles' %}">Profiles</a></li>
                         <li class="menuitem"><a href="{% url 'auth_logout' %}?next={% url 'barbers:index'%}">Logout</a></li>
                     {% else %}
                         <li class="menuitem"><a href="{% url 'barbers:auth_login' %}">Login</a></li>
@@ -49,6 +50,7 @@
                         <li class="burgeritem"><a href="{% url 'barbers:barbers' %}">Barbers</a></li>
                         {% if user.is_authenticated %}
                             <li class="burgeritem"><a href="{% url 'barbers:account'%}">Account</a></li>
+                            <li class="burgeritem"><a href="{% url 'barbers:list_profiles' %}">Profiles</a></li>
                             <li class="burgeritem"><a href="{% url 'auth_logout' %}?next={% url 'barbers:index'%}">Logout</a></li>
                         {% else %}
                             <li class="burgeritem"><a href="{% url 'barbers:auth_login' %}">Login</a></li>

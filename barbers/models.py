@@ -6,6 +6,8 @@ from django.template.defaultfilters import slugify
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    picture = models.ImageField(upload_to='profile_images', blank=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     phone_number = models.CharField(max_length=50, null=True)
@@ -13,7 +15,8 @@ class UserProfile(models.Model):
     completed = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.first_name + self.last_name
+        return self.user.username
+            # + self.first_name + self.last_name
 
 
 class ManagerProfile(models.Model):
