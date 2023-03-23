@@ -38,7 +38,7 @@ def index(request):
     return response
 
 
-def User_login(request):
+def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -67,7 +67,8 @@ def register(request):
     registered = False
     if request.method == 'POST':
         user_form = UserForm(request.POST)
-        profile_form = UserProfileForm(request.POST)
+        profile_form = UserProfileForm(request.POST, request.FILES)
+
         if user_form.is_valid() and profile_form.is_valid():
 
             user = user_form.save()
@@ -75,6 +76,7 @@ def register(request):
             user.save()
 
             profile = profile_form.save(commit=False)
+            profile.picture = profile_form.cleaned_data['picture']
             profile.user = user
             profile.save()
 
@@ -124,13 +126,14 @@ def barbers(request):
     context_dict = {}
     barbers_list = BarberShop.objects.order_by('-name')
     for shop in barbers_list:
-        if shop.user_attr is not None:
-            shop.user_attr = shop.user_attr.split(",")  # convert user attributes string into list
+        if len(shop.user_attr) > 1:
+            shop.user_attr = shop.user_attr.split(",")  # convert user attributes string into list]
+        else:
+            shop.user_attr = ['?', '?', '?']
 
-    context_dict['barberShops'] = barbers_list
+    context_dict['barbershops'] = barbers_list
 
     response = render(request, 'barbers/barbers.html', context=context_dict)
-
     return response
 
 

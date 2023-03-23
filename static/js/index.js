@@ -49,6 +49,7 @@ $(function() {
             success: function(data) {
                 // Handle the server's response
                 alert("You are now a customer");
+                location.reload()
             },
             error: function(xhr, status, error) {
                 // Handle errors
@@ -85,6 +86,7 @@ $(function() {
             success: function(data) {
                 // Handle the server's response
                 alert("You are now a Barber!");
+                location.reload()
             },
             error: function(xhr, status, error) {
                 // Handle errors
