@@ -4,9 +4,9 @@ Barbers {% endblock %}
 {% endblock %}
 {% block body_block %}
 
-<div class=" bg-[#394f66] p-5 text-white">
-	<div class="text-black">
-		<div class="bg-white rounded-xl flex">
+<div class=" bg-[#394f66] p-5  flex text-black">
+
+	<div class="bg-white rounded-xl flex">
 			<div class="flex flex-col  items-center space-y-4">
 			<img src="{% static "images/example.png" %}" />
 			<h3 class="mt-5 text-3xl">{{ barber.name }}</h3>
@@ -39,12 +39,12 @@ Barbers {% endblock %}
 			</div></div>
 		</div>
 		{% if user.is_authenticated %}
-		<div class="bg-white rounded-xl h-100 flex flex-col">
+	<div class="bg-white rounded-xl h-100 flex flex-col">
 			<form method="post" enctype="multipart/form-data">
 					{% csrf_token %}
 					<div>
 						{% for field in comment_form %}
-						<div > <b class="form-text input_box">{{ field.errors }}
+						<div > <b class="form-text input_box">
 							{{ field.label_tag }}</b>{{ field }} </div>
 						{% endfor %}
 					</div>
@@ -55,7 +55,7 @@ Barbers {% endblock %}
           	</form>
 		</div>
 		{% endif%}
-		<div class="bg-white rounded-xl flex-col flex">
+	<div class="bg-white rounded-xl flex-col flex">
 			{% for i in comments %}
 				<div>
 					User : {{i.user}}
@@ -75,7 +75,7 @@ Barbers {% endblock %}
 			{% endfor %}
 		</div>
 
-	</div>
+
 </div>
 
 {% endblock %}

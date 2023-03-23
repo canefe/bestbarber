@@ -42,11 +42,19 @@ Barbers
 					<a id = "attr" > {{i}}</a>
 				{%endfor%}
 			</div>
+			{% if user.is_authenticated %}
 			<a href="/barber/{{ barber.slug }}/booking">
 			<button class="book bg-green-500 text-2xl p-2 text-white" >
 				Book
 			</button>
 			</a>
+			{%else%}
+			<a href={% url 'barbers:auth_login' %}>
+			<button class="book bg-green-500 text-2xl p-2 text-white" >
+				Book
+			</button>
+			</a>
+			{%endif%}
 		</div>
         {% endfor %}
 	</div>

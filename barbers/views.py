@@ -80,11 +80,13 @@ def register(request):
 
 @login_required
 def account(request):
+    context_dict = {}
     response = render(request, 'barbers/account.html')
     return response
 
 
 def barbers(request):
+    resetBarber()
     context_dict = {}
     barbers_list = BarberShop.objects.order_by('-name')
     for shop in barbers_list:
@@ -127,26 +129,7 @@ def show_barber(request, barber_name_slug):
                     comment.barber_shop = barber
                     comment.user = request.user
                     comment.save()
-
-                    rating = 0
-                    counter = 0
-                    attr = ""
-                    for i in comments:
-                        rating += i.rating
-                        counter += 1
-                        if i.attr is not None:
-                            attr += i.attr + ","
-                    attr = attr.rstrip(",")
-                    barber.user_rating = rating / counter
-                    # rating of a barber shop = average comment rating
-                    attr = {elem: attr.split(",").count(elem) for elem in attr.split(",")}
-                    attr = dict(sorted(attr.items(), key=lambda x: x[1], reverse=True))
-                    barber.user_attr = ",".join(list(attr.keys())[:3])
-                    # read the attributes from Comment
-                    # 3 attributes with most repetition will be store in barber model
-                    # update everytime comment is submitted
-                    barber.save()
-
+                    resetBarber()
                     return redirect(reverse('barbers:show_barber',
                                             kwargs={'barber_name_slug':
                                                         barber_name_slug}))
@@ -161,6 +144,32 @@ def show_barber(request, barber_name_slug):
 
     return render(request, 'barbers/show_barber.html', context=context_dict)
 
+def resetBarber():
+    barbers = BarberShop.objects.all()
+
+    for barber in barbers:
+        comments = Comment.objects.filter(barber_shop=barber)
+        rating = 0
+        counter = 0
+        attr = ""
+        for i in comments:
+            rating += i.rating
+            counter += 1
+            if i.attr is not None:
+                attr += i.attr + ","
+        attr = attr.rstrip(",")
+        if(counter != 0 ):
+            barber.user_rating = rating / counter
+        else:
+            barber.user_rating = 0
+        # rating of a barber shop = average comment rating
+        attr = {elem: attr.split(",").count(elem) for elem in attr.split(",")}
+        attr = dict(sorted(attr.items(), key=lambda x: x[1], reverse=True))
+        barber.user_attr = ",".join(list(attr.keys())[:3])
+        # read the attributes from Comment
+        # 3 attributes with most repetition will be store in barber model
+        # update everytime comment is submitted
+        barber.save()
 
 def booking(request, barber_name_slug):
     context_dict = {}
