@@ -22,7 +22,7 @@
                         <a href="{% url 'barbers:auth_login' %}">Now you may login.</a><br /></b>
                 {% else %}
 		<!-- Make a good looking form using django form and tailwindcss-->
-                    <form method="post" action="{% url 'barbers:auth_register' %}">
+                    <form method="post" action="{% url 'barbers:auth_register' %}  enctype="multipart/form-data"">
 			<!-- add django errorlist form-->
                         {% if form.errors %}
                             <div class=" p-5 m-5 bg-red-900 ounded-sm text-center items-center justify-center">
