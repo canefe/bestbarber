@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block body_block %}
-    <div class="flex-col flex items-center justify-center md:items-start md:justify-start text-white max-h-screen">
+    <div class="flex-col flex items-center justify-center md:items-start md:justify-start max-h-screen">
         <div class=" flex-col flex items-center justify-center md:items-start md:justify-start w-[100vw] md:w-[100vw] max-h-screen h-[90vh] md:h-[80vh] p-10">
             <div class="mb-5">
                 <b class="uppercase text-3xl">Register</b>
@@ -25,7 +25,7 @@
                     <form method="post" action="{% url 'barbers:auth_register' %}">
 			<!-- add django errorlist form-->
                         {% if form.errors %}
-                            <div class="text-white p-5 m-5 bg-red-900 ounded-sm text-center items-center justify-center">
+                            <div class=" p-5 m-5 bg-red-900 ounded-sm text-center items-center justify-center">
                                 {{ form.errors }}
                             </div>
                         {% endif %}

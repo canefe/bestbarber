@@ -7,7 +7,8 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=50)
+
+    picture = models.ImageField(upload_to='profile_images', blank=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     phone_number = models.CharField(max_length=50, null=True)
@@ -16,10 +17,19 @@ class UserProfile(models.Model):
     completed = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.first_name + self.last_name
+        return self.user.username
+            # + self.first_name + self.last_name
 
 
-class BarberShop(models.Model):
+class ManagerProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    owned_barbershop = models.ForeignKey('Barbershop', on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.user.userprofile.first_name + self.user.userprofile.last_name
+
+
+class Barbershop(models.Model):
     manage_by = models.ForeignKey(User, on_delete=models.CASCADE)
     max_length = 128
     name = models.CharField(max_length=100, unique=True)

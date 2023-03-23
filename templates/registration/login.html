@@ -8,15 +8,15 @@
     <style></style>
 {% endblock %}
 {% block body_block %}
-    <div class="flex-col flex items-start justify-start text-white">
+    <div class="flex-col flex items-start justify-start h-screen">
         <div
-            class="bg-slate-800 flex-col flex items-start justify-start p-20 w-[100vw] md:w-[100vw]"
+            class="w-screen"
         >
-            <div class="mb-5">
-                <b class="uppercase text-3xl">Login</b>
-            </div>
-            <div class="flex-col flex items-center justify-center">
-                <form id="form" method="post" action="{% url 'barbers:auth_login' %}">
+            <div class="flex flex-col md:flex-row items-center justify-center w-screen">
+                <form id="form" method="post" action="{% url 'barbers:auth_login' %}" class="md:m-20 mt-10 md:mt-0 md:w-1/2 bg-gray-200 p-5 pb-0">
+                    <div class="mb-5 items-center justify-center flex md:items-start md:justify-start">
+                        <b class="uppercase text-3xl">Login</b>
+                    </div>
 				<!-- add django errorlist form-->
                     {% if form.errors %}
                         <div
@@ -26,31 +26,31 @@
                         </div>
                     {% endif %} {% csrf_token %}
                     <div
-                        class="flex flex-col md:flex-row items-center justify-center space-y-5 md:space-y-0 md:space-x-20 text-black"
+                        class="flex flex-col md:flex-row items-center justify-center md:items-start md:justify-start space-y-5 md:space-y-0 md:space-x-20 text-black"
                     >
 					<!-- add title, first name, last name-->
-                        <div class="pl-0 p-12">
+                        <div>
                             <div class="relative z-30">
-                                <div id="form-messages" class="absolute hidden p-3 bg-green-500 -top-14 duration-75  rounded-sm text-center items-center justify-center m-5 text-white">
+                                <div id="form-messages" class="absolute hidden p-3 bg-green-500 -top-24 duration-75  rounded-sm text-center items-center justify-center m-5 text-white">
+
                                 </div>
                             </div>
                             <br>
                             <br>
                             {% for field in form %}
                                 <div class="relative">
-                                    {% if field.label == "Remember me"%}
-                                        <div class = "text-white"> {{ field.label }} {{ field}}</div>
-                                    {% else %}
+                                    {% if field.name != "remember_me" %}
                                         {{ field|add_class:"border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm w-full py-5 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer" }}
-                                        <div class="absolute inset-y-0 left-0 -top-5 flex items-center px-2 pointer-events-none peer-focus:hidden peer-span">
 
+                                        <div class="absolute inset-y-0 left-0 -top-5 flex items-center px-2 pointer-events-none peer-focus:hidden peer-span">
                                             <span class="text-gray-700 text-md transition-all duration-100 top-0">
-                                            {{ field.label }}
+                                                {{ field.label }}
                                             </span>
                                         </div>
-                                    {%endif%}
-
-
+                                    {% else %}
+                                        {{ field.label }}
+                                        {{ field|add_class:"m-5" }}
+                                    {% endif %}
                                 </div>
                             {% endfor %}
                         </div>
@@ -58,96 +58,94 @@
                     <div
                         class="flex flex-col items-start justify-start space-y-10 text-black"
                     >
-                        <div class="text-white">
-                            Don't have an account?
-                            <a
-                                class="text-blue-500 hover:text-blue-600 duration-75"
-                                href="{% url 'barbers:auth_register' %}"
-                            >Register</a
-                                >
-                            </div>
-                            <div class="pl-0 pt-0 p-12">
-                                <button
-                                    type="submit"
-                                    class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
-                                >
-                                    Login
-                                </button>
-                            </div>
+                        <div class="pl-0 pt-0 p-12 flex items-center justify-center w-full md:w-min">
+                            <button
+                                type="submit"
+                                class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
+                            >
+                                Login
+                            </button>
                         </div>
-                    </form>
+                    </div>
+                </form>
+                <div class="m-5 md:hidden">Not a member? <a href="{% url 'barbers:auth_register' %}" class="text-blue-500 hover:text-blue-600">Join us</a></div>
+                <div class="hidden md:flex md:flex-col w-0 md:w-1/2 h-screen text-white from-green-600 to-green-600 bg-gradient-to-r p-20 text-5xl border-l-2 drop-shadow-2xl">
+                    <p class="">First time?</p>
+                    <p class="text-3xl mt-10 text-center">Many things await you.</p>
+                    <p class="text-3xl mt-5 text-center"><a href="{% url 'barbers:auth_register' %}" class="p-2 bg-green-900 rounded-lg hover:bg-green-700 duration-500 hover:scale-125 cursor-pointer">Join now</a> and discover.</p>
                 </div>
             </div>
+        </div>
 
-            <script>
-                $(document).ready(function () {
-                    $('.peer').each(function() {
+        <script>
+            $(document).ready(function () {
+                $('.peer').each(function() {
                     // Get the value of the current input field
-                        var inputValue = $(this).val();
+                    var inputValue = $(this).val();
 
                     // Check if the input has text
-                        if (inputValue.length > 0) {
-                            $(this).siblings(".peer-span").addClass("hidden");
-                        }
-                    });
-                    $(".peer").on("input", function () {
-                        var $span = $(this).siblings(".peer-span");
-                        if ($(this).val().length > 0) {
-                            $span.addClass("hidden");
-                        } else {
-                            $span.removeClass("hidden");
-                            $span.addClass("flex");
-                            $span.addClass("peer-focus:hidden");
-                        }
-                    });
+                    if (inputValue.length > 0) {
+                        $(this).siblings(".peer-span").addClass("hidden");
+                    }
+                });
+                $(".peer").on("input", function () {
+                    var $span = $(this).siblings(".peer-span");
+                    if ($(this).val().length > 0) {
+                        $span.addClass("hidden");
+                    } else {
+                        $span.removeClass("hidden");
+                        $span.addClass("flex");
+                        $span.addClass("peer-focus:hidden");
+                    }
+                });
                 // create an ajax request on submit form
-                    $('#form', this).submit(function (e) {
-                        e.preventDefault();
-                        var form = $(this);
+                $('#form', this).submit(function (e) {
+                    e.preventDefault();
+                    var form = $(this);
         // create an ajax post request
-                        $.ajax({
-                            url: form.attr('action'),
-                            type: form.attr('method'),
-                            data: form.serialize(),
-                            success: function (response) {
+                    $.ajax({
+                        url: form.attr('action'),
+                        type: form.attr('method'),
+                        data: form.serialize(),
+                        success: function (response) {
                     // check if the response contains a success message
-                                if (response.success) {
+                            if (response.success) {
                         // update the login status
                         // display the success message and show a countdown of 3 seconds then redirect to the home page
-                                    let countdown = 3;
-                                    const countdownInterval = setInterval(() => {
-                                        $('#form-messages').removeClass("bg-red-900").html(`Login successful. Redirecting in ${countdown} seconds...`).fadeIn(500); // 500ms duration
-                                        countdown--;
-                                        if (countdown < 0) {
-                                            clearInterval(countdownInterval);
+                                let countdown = 3;
+                                const countdownInterval = setInterval(() => {
+                                    $('#form-messages').removeClass("bg-red-900").html(`Login successful. Redirecting in ${countdown} seconds...`).fadeIn(500); // 500ms duration
+                                    countdown--;
+                                    if (countdown < 0) {
+                                        clearInterval(countdownInterval);
               // Redirect to the home page
-                                            window.location.href = '/';
-                                        }
-                                    }, 1000);
+                                        window.location.href = '/';
+                                    }
+                                }, 1000);
 
-                                } else {
+                            } else {
                         // display the error message
-                                    console.log('error')
-                                    $('#form-messages').html("Invalid details. Please try again.").addClass("bg-red-900").fadeIn(500);
+                                console.log('error')
+                                $('#form-messages').html("Invalid details. Please try again.").addClass("bg-red-900").fadeIn(500);
                         // fade out the error message after 3 seconds
-                                    setTimeout(function () {
-                                        $('#form-messages').fadeOut(500);
-                                    }, 1500);
-                                }
-                            },
-                            error: function () {
-                    // display a generic error message
-                                $('#form-messages').html('An error occurred. Please try again later.').addClass("bg-red-900").fadeIn(500);
-                    // fade out the error message after 3 seconds
                                 setTimeout(function () {
                                     $('#form-messages').fadeOut(500);
-                                    location.reload();
                                 }, 1500);
                             }
-                        });
+                        },
+                        error: function () {
+                    // display a generic error message
+                            $('#form-messages').html('An error occurred. Please try again later.').addClass("bg-red-900").fadeIn(500);
+                    // fade out the error message after 3 seconds
+                            setTimeout(function () {
+                                $('#form-messages').fadeOut(500);
+                                location.reload();
+                            }, 1500);
+                        }
                     });
                 });
-            </script>
+            });
+        </script>
 
 {% endblock %}
 </div>
