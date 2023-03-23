@@ -46,7 +46,7 @@ class Barbershop(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
-        super(BarberShop, self).save(*args, **kwargs)
+        super(Barbershop, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -54,7 +54,7 @@ class Barbershop(models.Model):
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    barber_shop = models.ForeignKey(BarberShop, on_delete=models.CASCADE, null=True, blank=True)
+    barber_shop = models.ForeignKey(Barbershop, on_delete=models.CASCADE, null=True, blank=True)
     comment_text = models.CharField(max_length=300, null=True, blank=True)
     rating = models.IntegerField(default=0, validators=[
         MaxValueValidator(5),
@@ -68,7 +68,7 @@ class Comment(models.Model):
 
 class Booking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    barber_shop = models.ForeignKey(BarberShop, on_delete=models.CASCADE, null=True, blank=True)
+    barber_shop = models.ForeignKey(Barbershop, on_delete=models.CASCADE, null=True, blank=True)
     date = models.DateTimeField()
     message = models.CharField(max_length=300, null=True, blank=True)
     def __str__(self):
