@@ -2,47 +2,38 @@
 {% load widget_tweaks %}
 {% load static %}
 {% block title_block %}
-    Login
+    Add Barber shop
 {% endblock %}
 {% block head %}
     <style></style>
 {% endblock %}
 {% block body_block %}
-    <div class="flex-col flex items-start justify-start text-white">
-        <div
-            class="bg-slate-800 flex-col flex items-start justify-start p-20 w-[100vw] md:w-[100vw]"
-        >
-            <div class="mb-5">
-                <b class="uppercase text-3xl">Add Barber Shop</b>
-            </div>
-            <div class="flex-col flex items-center justify-center">
-                <form id="form" method="post">
+    <div class="flex-col flex items-start justify-start">
+        <div class="bg-slate-800 flex-col flex items-start justify-start p-20 w-full">
+
+                <form id="form" method="post" class="bg-gray-200 p-5 pb-0 w-1/2">
+                    <div class="mb-5">
+                        <b class="uppercase text-3xl">Add Barber Shop</b>
+                    </div>
                     {% if form.errors %}
-                        <div
-                            class="text-white p-5 m-5 bg-red-900 ounded-sm text-center items-center justify-center"
-                        >
+                        <div class=" p-5 m-5 bg-red-900 ounded-sm text-center items-center justify-center">
                             {{ form.errors }}
                         </div>
                     {% endif %} {% csrf_token %}
-                    <div
-                        class="flex flex-col md:flex-row items-center justify-center space-y-5 md:space-y-0 md:space-x-20 text-black"
-                    >
                         <div class="pl-0 p-12">
                             <div class="relative z-30">
-                                <div id="form-messages" class="absolute hidden p-3 bg-green-500 -top-14 duration-75  rounded-sm text-center items-center justify-center m-5 text-white">
-                                </div>
                             </div>
                             {% for field in barber_form %}
                                 <div class="relative">
-                                    <p class="text-white text-md transition-all duration-100 top-0">
+                                    <p class="text-md transition-all duration-100 top-0">
                                                 {{ field.label }}
                                             </p>
-                                        {{ field|add_class:"border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm w-full py-5 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer" }}
+                                        {{ field|add_class:" w-1/2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm w-full py-5 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer" }}
 
                                 </div>
                             {% endfor %}
                         </div>
-                    </div>
+
                     <div
                         class="flex flex-col items-start justify-start space-y-10 text-black"
                     >
@@ -57,7 +48,6 @@
                             </div>
                         </div>
                     </form>
-                </div>
             </div>
 {% endblock %}
 </div>

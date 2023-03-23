@@ -10,6 +10,7 @@ class UserProfile(models.Model):
     title = models.CharField(max_length=50)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
+    picture = models.ImageField(upload_to='user_profile_images', null=True, blank=True)
     phone_number = models.CharField(max_length=50, null=True)
     is_barber = models.BooleanField(default=False)
     email = models.CharField(max_length=50, null=True)

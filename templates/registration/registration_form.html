@@ -11,12 +11,12 @@
 {% endblock %}
 
 {% block body_block %}
-    <div class="flex-col flex items-center justify-center md:items-start md:justify-start text-white max-h-screen">
+    <div class="flex-col flex items-center justify-center md:items-start md:justify-start max-h-screen">
         <div class=" flex-col flex items-center justify-center md:items-start md:justify-start w-[100vw] md:w-[100vw] max-h-screen h-[90vh] md:h-[80vh] p-10">
             <div class="mb-5">
                 <b class="uppercase text-3xl">Register</b>
             </div>
-            <div class="flex-col flex items-center justify-center">
+            <div class="flex-col flex items-center flow-warp  justify-center">
                 {% if registered %}
                     <b  class=""><strong>Thank you for registering!</strong>
                         <a href="{% url 'barbers:auth_login' %}">Now you may login.</a><br /></b>
@@ -25,13 +25,13 @@
                     <form method="post" action="{% url 'barbers:auth_register' %}">
 			<!-- add django errorlist form-->
                         {% if form.errors %}
-                            <div class="text-white p-5 m-5 bg-red-900 ounded-sm text-center items-center justify-center">
+                            <div class=" p-5 m-5 bg-red-900 ounded-sm text-center items-center justify-center">
                                 {{ form.errors }}
                             </div>
                         {% endif %}
 
                         {% csrf_token %}
-                        <div class="flex flex-col md:flex-row items-center justify-center space-y-5 md:space-y-0 md:space-x-20 text-black">
+                        <div class="flex flex-col md:flex-row  items-center justify-center space-y-5 md:space-y-0 md:space-x-20 text-black">
 				<!-- add title, first name, last name-->
                             <div class="md:pl-0 md:p-12">
                                 {% for field in user_form %}
@@ -49,6 +49,7 @@
                             <div class="pl-0">
                                 {% for field in profile_form %}
 					<!-- if the field is called title ignore-->
+                                {% if field.name != "picture" %}
                                     <div class="relative">
                                         {{ field|add_class:"border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm w-full py-5 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer" }}
 
@@ -59,6 +60,8 @@
                                         </div>
                                     </div>
 
+                                {%endif%}
+
                                 {% endfor %}
 				<!-- use tailwindcss to make a django form -->
 				<!-- add submit button-->
@@ -66,6 +69,10 @@
                         </div>
                         <div>
                             <div class="flex flex-col items-center justify-center md:items-start md:justify-start">
+                                <div class="relative">
+
+                                        Picture : <input type="file" name="picture" accept="image/*" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm w-full py-5 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer" id="id_picture">
+                                    </div>
                                 <div class="mb-5">
                                     Already have an account?
                                     <a href="{% url 'barbers:auth_login' %}" class="text-indigo-500 hover:text-indigo-700">Login</a>

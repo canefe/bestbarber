@@ -1,13 +1,16 @@
-{% extends 'barbers/base.html' %} {% load static %}
+{% extends 'barbers/base.html' %}
+{% load static %}
+
 {% block title_block %}
-Barbers
+    Barbers
 {% endblock %}
+
 {% block head %}
 <!-- Import js/barbers.js -->
-<script src="{% static 'js/barbers.js' %}"></script>
+    <script src="{% static 'js/barbers.js' %}"></script>
 {% endblock %}
-{% block body_block %}
 
+{% block body_block %}
 <div
 	class="flex flex-col items-center justify-center bg-[#394f66] p-5 text-white"
 >
@@ -17,8 +20,6 @@ Barbers
         
         <div class="relative inline-block">
 
-          </div>
-    </div>
 	<div class="flex text-black mt-5 max-w-screen space-x-5 items-center justify-center">
 		<!-- For loop comes here -->
         {% for barber in barberShops %} {% if forloop.counter > 3 %} {% endif %}

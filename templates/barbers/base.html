@@ -26,8 +26,8 @@
         {% block head %}
         {% endblock %}
     </head>
-    <body>
-        <div class="h-20 bg-slate-700 text-white font-['Roboto'] fixed block z-50 w-full">
+    <body class="font-['Roboto']">
+        <div class="h-20 bg-[#0077be] text-white font-['Roboto'] fixed block z-50 w-full">
             <div class="flex justify-between items-center">
                 <img src="{% static "images/logo.png" %}" id="logo" class="flex-initial ml-3 mt-3 hover:cursor-pointer"/>
 
@@ -37,6 +37,7 @@
                     {% if user.is_authenticated %}
                         <li class="menuitem"><a href="{% url 'barbers:account'%}">Account</a></li>
                         <li class="menuitem"><a href="{% url 'barbers:add_barbers'%}">Add Barbershop</a></li>
+                        <li class="menuitem"><a href="{% url 'barbers:list_profiles' %}">Profiles</a></li>
                         <li class="menuitem"><a href="{% url 'auth_logout' %}?next={% url 'barbers:index'%}">Logout</a></li>
                     {% else %}
                         <li class="menuitem"><a href="{% url 'barbers:auth_login' %}">Login</a></li>
@@ -44,12 +45,13 @@
                 </ul>
                 <img src="{% static "images/burger.png" %}" class="burger md:hidden mt-5 mr-5"/>
                 <div
-                    class="menu md:hidden z-100 absolute top-0 left-0 right-0 opacity-0 invisible flex flex-col bottom-0 justify-center  items-center w-full h-screen mt-20 bg-slate-900 text-center ease-in duration-300">
-                    <ul class="flex flex-col space-y-10 mt-6 flex-auto justify-center text-4xl w-full">
+                    class="menu md:hidden z-100 absolute top-0 left-0 right-0 opacity-0 invisible flex flex-col bottom-0 justify-center  items-center w-full h-screen mt-20 bg-[#d0eaff] text-center ease-in duration-300">
+                    <ul class="flex flex-col mt-6 flex-auto justify-start text-4xl w-full">
                         <li class="burgeritem"><a href="{% url 'barbers:index' %}">Home</a></li>
                         <li class="burgeritem"><a href="{% url 'barbers:barbers' %}">Barbers</a></li>
                         {% if user.is_authenticated %}
                             <li class="burgeritem"><a href="{% url 'barbers:account'%}">Account</a></li>
+                            <li class="burgeritem"><a href="{% url 'barbers:list_profiles' %}">Profiles</a></li>
                             <li class="burgeritem"><a href="{% url 'auth_logout' %}?next={% url 'barbers:index'%}">Logout</a></li>
                         {% else %}
                             <li class="burgeritem"><a href="{% url 'barbers:auth_login' %}">Login</a></li>
@@ -59,10 +61,10 @@
 
             </div>
         </div>
-        <div class="bg-[#394f66] min-h-screen pt-20 flex flex-col">{% block body_block %} {% endblock %}</div>
+        <div class="bg-[#f5f5f5] min-h-screen pt-20 flex flex-col">{% block body_block %} {% endblock %}</div>
         <footer>
-            <div class="bg-slate-700 text-white text-center py-5">
-                <p>BestBarber &copy; 2023</p>
+            <div class="bg-[#0077be] text-white text-center py-5">
+                <p>BestBarber © 2023</p>
             </div>
         </footer>
         <script>

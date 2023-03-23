@@ -1,8 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.forms import TextInput
-
-from barbers.models import UserProfile, BarberShop, Comment,Booking
+from barbers.models import UserProfile, BarberShop, Comment, Booking
 
 
 class UserForm(forms.ModelForm):
@@ -16,7 +15,7 @@ class UserForm(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ('first_name', 'last_name', 'phone_number')
+        fields = ('first_name', 'last_name', 'phone_number', 'picture')
 
 
 class LoginForm(forms.Form):
@@ -36,14 +35,15 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ('comment_text', 'rating')
 
-
 class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
-        fields = ('message','date')
+        fields = ('message', 'date')
+
     def __init__(self, *args, **kwargs):
         super(BookingForm, self).__init__(*args, **kwargs)
         self.fields['date'].widget = TextInput(attrs={
-            'type':"datetime-local",
-            'name':"date",
-})
+            'type': "datetime-local",
+            'name': "date",
+        })
+
