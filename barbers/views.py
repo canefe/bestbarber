@@ -229,10 +229,12 @@ def booking(request, barber_name_slug):
         context_dict['barbers'] = None
     return render(request, 'barbers/booking.html', context=context_dict)
 
-
+@login_required
 def add_barber(request):
     registered = False
     manage = request.user
+    if not manage.userprofile.is_barber:
+        return redirect(reverse('barbers:index'))
     if request.method == 'POST':
         barber_form = BarbershopForm(request.POST, request.FILES)
         barber_form.manage_by = request.user
@@ -241,9 +243,6 @@ def add_barber(request):
             barber.manage_by = manage
             barber.picture = barber_form.cleaned_data['picture']
             barber.user_rating = 0
-            user_profile = UserProfile.objects.get(user=request.user)
-            user_profile.is_barber = True
-            user_profile.save()
             barber.save()
             return redirect(reverse('barbers:index'))
         else:

@@ -8,7 +8,7 @@
     <style></style>
 {% endblock %}
 {% block body_block %}
-    <div class="flex-col flex items-start justify-start text-white">
+    <div class="flex-col flex items-start justify-start text-black">
         <div
             class="bg-slate-800 flex-col flex items-start justify-start p-20 w-[100vw] md:w-[100vw]"
         >
@@ -19,7 +19,7 @@
                 <form id="form" method="post">
                     {% if form.errors %}
                         <div
-                            class="text-white p-5 m-5 bg-red-900 ounded-sm text-center items-center justify-center"
+                            class="text-black p-5 m-5 bg-red-900 ounded-sm text-center items-center justify-center"
                         >
                             {{ form.errors }}
                         </div>
@@ -29,15 +29,15 @@
                     >
                         <div class="pl-0 p-12">
                             <div class="relative z-30">
-                                <div id="form-messages" class="absolute hidden p-3 bg-green-500 -top-14 duration-75  rounded-sm text-center items-center justify-center m-5 text-white">
+                                <div id="form-messages" class="absolute hidden p-3 bg-green-500 -top-14 duration-75  rounded-sm text-center items-center justify-center m-5 text-black">
                                 </div>
                             </div>
                             {% for field in barber_form %}
                                 <div class="relative">
-                                    <p class="text-white text-md transition-all duration-100 top-0">
-                                                {{ field.label }}
-                                            </p>
-                                        {{ field|add_class:"border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm w-full py-5 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer" }}
+                                    <p class="text-black text-md transition-all duration-100 top-0">
+                                        {{ field.label }}
+                                    </p>
+                                    {{ field|add_class:"border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm w-full py-5 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer" }}
 
                                 </div>
                             {% endfor %}
@@ -47,17 +47,17 @@
                         class="flex flex-col items-start justify-start space-y-10 text-black"
                     >
 
-                            <div class="pl-0 pt-0 p-12">
-                                <button
-                                    type="submit"
-                                    class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
-                                >
-                                    Submit
-                                </button>
-                            </div>
+                        <div class="pl-0 pt-0 p-12">
+                            <button
+                                type="submit"
+                                class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded"
+                            >
+                                Submit
+                            </button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
+        </div>
 {% endblock %}
 </div>
