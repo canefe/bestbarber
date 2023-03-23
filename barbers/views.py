@@ -30,15 +30,14 @@ def index(request):
             elif request.POST.get('action') == 'barber':
                 response_data = {'success': True}
                 user.userprofile.completed = True
-                manager_profile = ManagerProfile(user=user)
-                manager_profile.save()
+                user.userprofile.is_barber = True
                 user.userprofile.save()
                 return JsonResponse(response_data)
     response = render(request, 'barbers/index.html', context={'barbershops': barbershops})
     return response
 
 
-def User_login(request):
+def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
