@@ -119,27 +119,31 @@
 	{% endif%}
 
 	<div class="rounded-xl p-2 shadow-2xl bg-white m-5 flex-grow-0 flex-col w-full flex h-auto">
+
 		<p class="text-2xl">
 			Comments
 		</p>
 			{% for i in comments %}
-				<div>
+				<div class="rounded-xl p-2 shadow-2xl bg-white m-5  w-full">
+					<div>
 					User : {{i.user}}
-				</div>
-				<div>
+					</div>
+					<div>
 					Comment : {{i.comment_text}}
-				</div>
-				<div class="flex space-x-1">
+					</div>
+					<div class="flex space-x-1">
 					{% for i in ''|rjust:i.rating %}
 					<img src="{% static "images/star.png" %}" class="rounded-t-xl"/>
 					{% endfor %}
-				</div>
-				{% if i.attr %}
+					</div>
+					{% if i.attr %}
 					{{i.attr}}
-				{% endif %}
+					{% endif %}
+				</div>
+
 
 			{% endfor %}
-		</div>
+	</div>
 </div>
 </div>
 <!-- Import js/index.js -->

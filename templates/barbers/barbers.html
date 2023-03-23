@@ -6,8 +6,7 @@
 {% endblock %}
 
 {% block head %}
-<!-- Import js/barbers.js -->
-    <script src="{% static 'js/barbers.js' %}"></script>
+
 {% endblock %}
 
 {% block body_block %}
@@ -40,7 +39,7 @@
 			<div>Users rated it</div>
 			<div  class="flex space-x-10 font-semibold">
 				{% for i in barber.user_attr%}
-					<a id = "attr" > {{i}}</a>
+					<a class={{i}}> {{i}}</a>
 				{%endfor%}
 			</div>
 			{% if user.is_authenticated %}
@@ -60,4 +59,7 @@
         {% endfor %}
 	</div>
 </div>
+
+<!-- Import js/barbers.js -->
+<script src="{% static 'js/barbers.js' %}"></script>
 {% endblock %}
