@@ -1,13 +1,8 @@
 from django.utils.decorators import method_decorator
 from django.views import View
-
-from barbers.forms import UserForm, UserProfileForm, BarberShopForm, CommentForm, BookingForm
+from barbers.forms import LoginForm, UserForm,UserProfileForm, BarberShopForm, CommentForm, BookingForm
 from barbers.models import User, BarberShop, Comment, UserProfile
-
-
-from barbers.forms import LoginForm, UserForm,UserProfileForm
-from barbers.models import BarberShop, User, UserProfile;
-from django.http import HttpResponse, JsonResponse, request
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
@@ -16,12 +11,30 @@ from django.shortcuts import render, redirect
 
 
 def index(request):
+
     barbers_list = BarberShop.objects.order_by('name')
     trend_list = BarberShop.objects.order_by('-user_rating')[:6]
     context_dict = {}
     context_dict['barberShops'] = barbers_list
     context_dict['trend_list'] = trend_list
     visitor_cookie_handler(request)
+    response = render(request, 'barbers/index.html', context=context_dict)
+    barbershops = BarberShop.objects.order_by('-user_rating')[:6]
+    if request.method == 'POST':
+        # check incoming ajax request action if equal to customer
+        user = request.user
+        if user:
+            if request.POST.get('action') == 'customer':
+                response_data = {'success': True}
+                user.userprofile.completed = True
+                user.userprofile.save()
+                return JsonResponse(response_data)
+            # check incoming ajax request action if equal to barber
+            elif request.POST.get('action') == 'barber':
+                response_data = {'success': True}
+                user.userprofile.completed = True
+                user.userprofile.save()
+                return JsonResponse(response_data)
     response = render(request, 'barbers/index.html', context=context_dict)
     return response
 
@@ -217,10 +230,12 @@ def booking(request, barber_name_slug):
         context_dict['barbers'] = None
     return render(request, 'barbers/booking.html', context=context_dict)
 
-
+@login_required
 def add_barber(request):
     registered = False
     manage = request.user
+    if not manage.userprofile.is_barber:
+        return redirect(reverse('barbers:index'))
     if request.method == 'POST':
         barber_form = BarberShopForm(request.POST, request.FILES)
         barber_form.manage_by = request.user
@@ -229,9 +244,6 @@ def add_barber(request):
             barber.manage_by = manage
             barber.picture = barber_form.cleaned_data['picture']
             barber.user_rating = 0
-            user_profile = UserProfile.objects.get(user=request.user)
-            user_profile.is_barber = True
-            user_profile.save()
             barber.save()
             return redirect(reverse('barbers:index'))
         else:
@@ -273,6 +285,7 @@ def visitor_cookie_handler(request):
 
     # Update/set the visits cookie
     request.session['visits'] = visits
+
 class ProfileView(View):
     def get_user_details(self, username):
         try:
