@@ -1,4 +1,5 @@
 {% extends 'barbers/base.html' %}
+{% load custom_filter %}
 {% load static %}
 {% block title_block %}
     Barbers {% endblock %}
@@ -30,9 +31,22 @@
                         {% endif%}
                         <h3 class="mt-5 text-3xl">{{barber.name}}</h3>
                         <div class="flex space-x-1">
-                            {% for i in ''|rjust:barber.user_rating %}
-                                <img src="{% static "images/star.png" %}" class="rounded-t-xl"/>
-                            {% endfor %}
+                            {% if barber.user_rating is not None and barber.user_rating > 0 %}
+                                {% for i in 'x'|ljust:barber.user_rating %}
+                                    <img src="{% static 'images/star.png' %}" class="rounded-t-xl contrast-200"/>
+                                {% endfor %}
+                                {% if barber.user_rating < 5 %}
+                                    {% for i in barber.user_rating|star_range %}
+                                        <img src="{% static 'images/empty_star.png' %}" class="rounded-t-xl contrast-200"/>
+                                    {% endfor %}
+                                {% endif %}
+                            {% else %}
+                                {% for i in 'x'|ljust:5 %}
+                                    <img src="{% static 'images/empty_star.png' %}" class="rounded-t-xl contrast-200"/>
+                                {% endfor %}
+                            {% endif %}
+
+
                         </div>
                         <div>Users rated it</div>
                         <div class="flex space-x-10 font-semibold">
