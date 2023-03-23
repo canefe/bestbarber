@@ -18,8 +18,6 @@ def index(request):
     context_dict['barberShops'] = barbers_list
     context_dict['trend_list'] = trend_list
     visitor_cookie_handler(request)
-    response = render(request, 'barbers/index.html', context=context_dict)
-    barbershops = BarberShop.objects.order_by('-user_rating')[:6]
     if request.method == 'POST':
         # check incoming ajax request action if equal to customer
         user = request.user
@@ -31,8 +29,10 @@ def index(request):
                 return JsonResponse(response_data)
             # check incoming ajax request action if equal to barber
             elif request.POST.get('action') == 'barber':
+                print(114514)
                 response_data = {'success': True}
                 user.userprofile.completed = True
+                user.userprofile.is_barber = True
                 user.userprofile.save()
                 return JsonResponse(response_data)
     response = render(request, 'barbers/index.html', context=context_dict)

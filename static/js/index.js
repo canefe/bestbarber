@@ -84,7 +84,7 @@ $(function() {
             },
             success: function(data) {
                 // Handle the server's response
-                alert(data.message);
+                alert("You are now a Barber!");
             },
             error: function(xhr, status, error) {
                 // Handle errors
