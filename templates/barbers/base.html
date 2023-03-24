@@ -45,22 +45,25 @@
                     {% endif %}
                 </ul>
                 <img src="{% static "images/burger.png" %}" alt="Burger menu" class="burger md:hidden mt-5 mr-5"/>
-                <div
-                    class="menu md:hidden z-100 absolute top-0 left-0 right-0 opacity-0 invisible flex flex-col bottom-0 justify-center  items-center w-full h-screen mt-20 bg-[#d0eaff] text-center ease-in duration-300">
-                    <ul class="flex flex-col mt-6 flex-auto justify-start text-4xl w-full">
-                        <li class="burgeritem"><a href="{% url 'barbers:index' %}">Home</a></li>
-                        <li class="burgeritem"><a href="{% url 'barbers:barbers' %}">Barbers</a></li>
-                        {% if user.is_authenticated %}
-                            <li class="burgeritem"><a href="{% url 'barbers:account'%}">Account</a></li>
-                            {% if user.userprofile.is_barber %}
-                                <li class="burgeritem"><a href="{% url 'barbers:add_barbers'%}">Add Barbershop</a></li>
+                <div class="menu md:hidden z-100 absolute top-0 left-0 right-0 opacity-0 invisible flex flex-col bottom-0 justify-center items-center w-full h-screen mt-20 bg-transparent text-center ease-in duration-300">
+                    <div class="backdrop-filter backdrop-blur bg-opacity-[0.8] text-black bg-white absolute top-0 left-0 w-full h-full">
+                        <ul class="flex flex-col mt-6 w-full">
+                            <li class="burgeritem"><a href="{% url 'barbers:index' %}">Home</a></li>
+                            <li class="burgeritem"><a href="{% url 'barbers:barbers' %}">Barbers</a></li>
+                            {% if user.is_authenticated %}
+                                <li class="burgeritem"><a href="{% url 'barbers:account'%}">Account</a></li>
+                                {% if user.userprofile.is_barber %}
+                                    <li class="burgeritem"><a href="{% url 'barbers:add_barbers'%}">Add Barbershop</a></li>
+                                {% endif %}
+                                <li class="burgeritem"><a href="{% url 'barbers:list_profiles' %}">Profiles</a></li>
+                                <li class="burgeritem"><a href="{% url 'auth_logout' %}?next={% url 'barbers:index'%}">Logout</a></li>
+                            {% else %}
+                                <li class="burgeritem"><a href="{% url 'barbers:auth_login' %}">Login</a></li>
                             {% endif %}
-                            <li class="burgeritem"><a href="{% url 'auth_logout' %}?next={% url 'barbers:index'%}">Logout</a></li>
-                        {% else %}
-                            <li class="burgeritem"><a href="{% url 'barbers:auth_login' %}">Login</a></li>
-                        {% endif %}
-                    </ul>
+                        </ul>
+                    </div>
                 </div>
+
 
             </div>
         </div>
