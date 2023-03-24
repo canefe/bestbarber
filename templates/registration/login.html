@@ -6,7 +6,7 @@
     Login
 {% endblock %}
 {% block head %}
-    <style></style>
+    <script src="{% static 'js/forms_util.js' %}"></script>
 {% endblock %}
 {% block body_block %}
     <div class="flex-col flex items-start justify-start h-screen">
@@ -78,25 +78,6 @@
 
         <script>
             $(document).ready(function () {
-                $('.peer').each(function() {
-                    // Get the value of the current input field
-                    var inputValue = $(this).val();
-
-                    // Check if the input has text
-                    if (inputValue.length > 0) {
-                        $(this).siblings(".peer-span").addClass("hidden");
-                    }
-                });
-                $(".peer").on("input", function () {
-                    var $span = $(this).siblings(".peer-span");
-                    if ($(this).val().length > 0) {
-                        $span.addClass("hidden");
-                    } else {
-                        $span.removeClass("hidden");
-                        $span.addClass("flex");
-                        $span.addClass("peer-focus:hidden");
-                    }
-                });
                 // create an ajax request on submit form
                 $('#form', this).submit(function (e) {
                     e.preventDefault();
