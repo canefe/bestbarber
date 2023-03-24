@@ -83,6 +83,10 @@ $(function() {
         // change the html of #success > div > .message 
 
                 $('#success > div > .message').html("<p class='text-lg font-bold'>Success!</p><p>You are now a barber.</p> <p>Redirecting you to index page in 3 seconds</p>");
+                setTimeout(function(){
+                    window.location.href = "/";
+                }
+                    , 3000);
             },
             error: function(xhr, status, error) {
           // Handle errors
