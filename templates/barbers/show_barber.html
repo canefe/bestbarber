@@ -108,7 +108,7 @@
 						<br>
 						<b class="form-text input_box">
 							<label for="id_rating">Rating:</label></b>
-						<input type="number" name="rating" required="" id="id_rating">
+						<input type="number" name="rating" required="" id="id_rating"  min="0" max="5">
 					</div>
 					{% for attr in attributes %}
 						<input type="checkbox" name="attr[]" value={{attr}}> {{attr}} <br>
