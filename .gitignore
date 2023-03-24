@@ -139,7 +139,6 @@ tailwindcss.exe
 barbers/__pycache__/
 bestbarber/__pycache__/
 __pycache__/
-barbers/migrations/
 
 /media
 /node_modules
