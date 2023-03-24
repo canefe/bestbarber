@@ -33,7 +33,7 @@ class BarberShopForm(forms.ModelForm):
 class EditBarberShopForm(forms.ModelForm):
     class Meta:
         model = BarberShop
-        fields = ('location', 'picture', 'description', 'service', 'type', 'style', 'price')
+        fields = ('location', 'description', 'service', 'type', 'style', 'price', 'picture')
 
 
 class CommentForm(forms.ModelForm):
