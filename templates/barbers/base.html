@@ -55,7 +55,6 @@
                                 {% if user.userprofile.is_barber %}
                                     <li class="burgeritem"><a href="{% url 'barbers:add_barbers'%}">Add Barbershop</a></li>
                                 {% endif %}
-                                <li class="burgeritem"><a href="{% url 'barbers:list_profiles' %}">Profiles</a></li>
                                 <li class="burgeritem"><a href="{% url 'auth_logout' %}?next={% url 'barbers:index'%}">Logout</a></li>
                             {% else %}
                                 <li class="burgeritem"><a href="{% url 'barbers:auth_login' %}">Login</a></li>
