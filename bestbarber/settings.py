@@ -30,7 +30,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "192.168.0.160",
     "127.0.0.1",
-    "ryker.pythonanywhere.com"
+    "ryker.pythonanywhere.com",
+    "2541919z.pythonanywhere.com/"
 ]
 
 

@@ -19,7 +19,7 @@
                 <b class="uppercase text-3xl">Add Barber Shop</b>
             </div>
             <div class="flex-col flex items-center justify-center">
-                <form id="form" method="post">
+                <form id="form" method="post" enctype="multipart/form-data">
                     {% if form.errors %}
                         <div class=" p-5 m-5 bg-red-900 ounded-sm text-center items-center justify-center">
                             {{ form.errors }}
@@ -39,10 +39,7 @@
                             {% endfor %}
                         </div>
 
-                    <div
-                        class="flex flex-col items-start justify-start space-y-10 text-black"
-                    >
-
+                    <div class="flex flex-col items-start justify-start space-y-10 text-black">
                             <div class="pl-0 pt-0 p-12">
                                 <button
                                     type="submit"
