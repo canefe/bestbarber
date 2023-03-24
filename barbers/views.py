@@ -201,7 +201,7 @@ def show_barber(request, barber_name_slug):
                         barber.style = barber_form.cleaned_data["style"]
                     if barber_form.cleaned_data["price"] is not None:
                         barber.price = barber_form.cleaned_data["price"]
-                    print(barber_form.cleaned_data["picture"])
+
                     barber.save()
             else:
                 print(barber_form.errors)
@@ -211,7 +211,6 @@ def show_barber(request, barber_name_slug):
     except BarberShop.DoesNotExist:
         context_dict['comments'] = None
         context_dict['barberShop'] = None
-
     return render(request, 'barbers/show_barber.html', context=context_dict)
 
 
@@ -273,10 +272,9 @@ def booking(request, barber_name_slug):
 @login_required
 def add_barber(request):
     registered = False
+
     manage = request.user
     if not manage.userprofile.is_barber:
-        return redirect(reverse('barbers:index'))
-    if Barbershop.objects.filter(manage_by=manage) is not None:
         return redirect(reverse('barbers:index'))
     if request.method == 'POST':
         barber_form = BarberShopForm(request.POST, request.FILES)
@@ -285,10 +283,12 @@ def add_barber(request):
             barber = barber_form.save(commit=False)
             barber.manage_by = manage
             barber.picture = barber_form.cleaned_data['picture']
+            print(barber_form.cleaned_data['picture'])
             barber.user_rating = 0
             barber.save()
             return redirect(reverse('barbers:index'))
         else:
+            print("Error")
             print(BarberShopForm.errors)
     else:
         barber_form = BarberShopForm()
@@ -341,7 +341,6 @@ class ProfileView(View):
                         'selected_user': user,
                         'form': form}
         return render(request, 'barbers/profile.html', context_dict)
-
 
 
 class ListProfilesView(View):

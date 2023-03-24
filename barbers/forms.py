@@ -17,6 +17,7 @@ class UserProfileForm(forms.ModelForm):
         model = UserProfile
         fields = ('first_name', 'last_name', 'phone_number', 'picture')
 
+
 class LoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
@@ -29,17 +30,17 @@ class BarberShopForm(forms.ModelForm):
         fields = ('name', 'location', 'picture', 'description', 'service', 'type', 'style', 'price')
 
 
-
-
 class EditBarberShopForm(forms.ModelForm):
     class Meta:
         model = BarberShop
         fields = ('location', 'picture', 'description', 'service', 'type', 'style', 'price')
 
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('comment_text', 'rating')
+
 
 class BookingForm(forms.ModelForm):
     class Meta:
@@ -52,4 +53,3 @@ class BookingForm(forms.ModelForm):
             'type': "datetime-local",
             'name': "date",
         })
-

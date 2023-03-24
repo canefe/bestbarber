@@ -19,4 +19,3 @@ urlpatterns = [
     path('profile/<username>/', views.ProfileView.as_view(), name='profile'),
     path('profiles/', views.ListProfilesView.as_view(), name='list_profiles'),
 ]
-

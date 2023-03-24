@@ -24,7 +24,7 @@ class BarberShop(models.Model):
     manage_by = models.ForeignKey(User, on_delete=models.CASCADE)
     max_length = 128
     name = models.CharField(max_length=100, unique=True)
-    location = models.CharField(max_length=200,null=True, blank=True, unique=True)
+    location = models.CharField(max_length=200, null=True, blank=True, unique=True)
     picture = models.ImageField(upload_to='shop_profile_images', null=True, blank=True)
     description = models.CharField(max_length=300, null=True, blank=True)
     service = models.CharField(max_length=300, null=True, blank=True)
@@ -62,5 +62,6 @@ class Booking(models.Model):
     barber_shop = models.ForeignKey(BarberShop, on_delete=models.CASCADE, null=True, blank=True)
     date = models.DateTimeField()
     message = models.CharField(max_length=300, null=True, blank=True)
+
     def __str__(self):
         return self.user.username + "book" + self.barber_shop.name
