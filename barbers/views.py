@@ -92,26 +92,23 @@ def register(request):
                            'registered': registered})
 
 @login_required
-def register_profile(request):
-    form = UserProfileForm()
-
-    if request.method == 'POST':
-        form = UserProfileForm(request.POST, request.FILES)
-
-        if form.is_valid():
-            user_profile = form.save(commit=False)
-            user_profile.user = request.user
-            user_profile.save()
-
-            return redirect(reverse('barbers:index'))
-        else:
-            print(form.errors)
-    context_dict = {'form': form}
-    return render(request, 'barbers/profile_registration.html', context_dict)
-
-@login_required
 def account(request):
-    context_dict = {}
+    if request.method == 'POST':
+        # check incoming ajax request action if equal to customer
+        user = request.user
+        if user:
+            if request.POST.get('action') == 'customer':
+                response_data = {'success': True}
+                user.userprofile.completed = True
+                user.userprofile.save()
+                return JsonResponse(response_data)
+            # check incoming ajax request action if equal to barber
+            elif request.POST.get('action') == 'barber':
+                response_data = {'success': True}
+                user.userprofile.completed = True
+                user.userprofile.is_barber = True
+                user.userprofile.save()
+                return JsonResponse(response_data)
     response = render(request, 'barbers/account.html')
     return response
 
@@ -236,6 +233,8 @@ def add_barber(request):
     manage = request.user
     if not manage.userprofile.is_barber:
         return redirect(reverse('barbers:index'))
+    if Barbershop.objects.filter(manage_by=manage) is not None:
+        return redirect(reverse('barbers:index'))
     if request.method == 'POST':
         barber_form = BarbershopForm(request.POST, request.FILES)
         barber_form.manage_by = request.user
@@ -298,11 +297,4 @@ class ProfileView(View):
                         'selected_user': user,
                         'form': form}
         return render(request, 'barbers/profile.html', context_dict)
-
-class ListProfilesView(View):
-    @method_decorator(login_required)
-    def get(self, request):
-        profiles = UserProfile.objects.all()
-        return render(request, 'barbers/list_profiles.html', {'userprofile_list': profiles})
-
 

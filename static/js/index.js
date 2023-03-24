@@ -48,7 +48,8 @@ $(function() {
             },
             success: function(data) {
                 // Handle the server's response
-                alert("You are now a customer");
+                // reload the page
+                location.reload();
             },
             error: function(xhr, status, error) {
                 // Handle errors
@@ -83,8 +84,8 @@ $(function() {
                 'X-CSRFToken': getCookie('csrftoken')
             },
             success: function(data) {
-                // Handle the server's response
-                alert(data.message);
+               // reload the page
+                location.reload();
             },
             error: function(xhr, status, error) {
                 // Handle errors

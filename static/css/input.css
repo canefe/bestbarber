@@ -17,6 +17,9 @@
     /*
     Make select box look like input box and make it not impact the layout make it not take up space make it absolute
     */
+    .peer-span{
+        @apply absolute inset-y-0 left-0 -top-5 flex items-center px-2 pointer-events-none peer-focus:-top-12 peer-focus:text-sm duration-150;
+    }
     #id_title {
         @apply border-gray-300  h-5 text-black rounded-lg text-sm focus:outline-none;
         position: absolute;
