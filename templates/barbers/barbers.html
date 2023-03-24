@@ -8,74 +8,74 @@
 
 {% block head %}
 <!-- Import js/barbers.js -->
-<script src="{% static 'js/barbers.js' %}"></script>
+    <script src="{% static 'js/barbers.js' %}"></script>
 {% endblock %}
 
 {% block body_block %}
-<div class="flex flex-col items-center justify-center bg-[#394f66] p-5 text-white">
-    <div class="flex flex-col flex-shrink-0 flex-grow-0 md:flex-row text-black mt-5 space-y-5 md:space-y-0 md:space-x-5 items-center justify-center md:items-start md:justify-start">
+    <div class="flex flex-col items-center justify-center bg-grey-200 p-5 text-white">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-black mt-5 space-y-5 md:space-y-0 md:space-x-5 items-center justify-center md:items-start md:justify-start">
         <!-- For loop comes here -->
-        {% for barber in barbershops %}
-            <div class="bg-white rounded-xl h-auto flex flex-col items-center space-y-5 shadow-2xl pb-5">
-                <a href="/barber/{{ barber.slug }}/">
-                {%if barber.picture%}
-                    <img class="w-full h-56 object-cover rounded-t-lg" src="{{MEDIA_URL}}{{barber.picture}}" class="rounded-t-xl "/>
-                {% else %}
-                    <img class="w-full h-56 object-cover rounded-t-lg" src="{% static "images/example.png" %}" class="rounded-t-xl"/>
-                {% endif%}
-                </a>
-                <h3 class="mt-5 text-3xl">{{barber.name}}</h3>
+            {% for barber in barbershops %}
+                <div class="bg-white rounded-xl h-auto flex flex-col items-center space-y-5 shadow-2xl pb-5">
+                    <a href="/barber/{{ barber.slug }}/">
+                        {%if barber.picture%}
+                            <img class="w-full h-56 object-cover rounded-t-lg" src="{{MEDIA_URL}}{{barber.picture}}" class="rounded-t-xl "/>
+                        {% else %}
+                            <img class="w-full h-56 object-cover rounded-t-lg" src="{% static "images/example.png" %}" class="rounded-t-xl"/>
+                        {% endif%}
+                    </a>
+                    <h3 class="mt-5 text-3xl">{{barber.name}}</h3>
 
                     <div class="flex space-x-1">
-                            {% if barber.user_rating is not None and barber.user_rating > 0 %}
-                                {% for i in 'x'|ljust:barber.user_rating %}
-                                    <img src="{% static 'images/star.png' %}" class="rounded-t-xl contrast-200"/>
-                                {% endfor %}
-                                {% if barber.user_rating < 5 %}
-                                    {% for i in barber.user_rating|star_range %}
-                                        <img src="{% static 'images/empty_star.png' %}" class="rounded-t-xl contrast-200"/>
-                                    {% endfor %}
-                                {% endif %}
-                            {% else %}
-                                {% for i in 'x'|ljust:5 %}
+                        {% if barber.user_rating is not None and barber.user_rating > 0 %}
+                            {% for i in 'x'|ljust:barber.user_rating %}
+                                <img src="{% static 'images/star.png' %}" class="rounded-t-xl contrast-200"/>
+                            {% endfor %}
+                            {% if barber.user_rating < 5 %}
+                                {% for i in barber.user_rating|star_range %}
                                     <img src="{% static 'images/empty_star.png' %}" class="rounded-t-xl contrast-200"/>
                                 {% endfor %}
                             {% endif %}
+                        {% else %}
+                            {% for i in 'x'|ljust:5 %}
+                                <img src="{% static 'images/empty_star.png' %}" class="rounded-t-xl contrast-200"/>
+                            {% endfor %}
+                        {% endif %}
 
 
-                        </div>
-                        <div>Users rated it</div>
-                        <div class="flex space-x-10 font-semibold">
-                            {% for i in barber.user_attr%}
-                                <a class={{i}}  > {{i}}</a>
-                            {%endfor%}
-                        </div>
-                        {% if user.is_authenticated %}
-                            <a href="/barber/{{ barber.slug }}/booking">
-                                <button class="book bg-green-500 text-2xl p-2 text-white" >
-                                    Book
-                                </button>
-                            </a>
-                        {%else%}
-                            <a href={% url 'barbers:auth_login' %}>
-                                <button class="book bg-green-500 text-2xl p-2 text-white" >
-                                    Book
-                                </button>
-                            </a>
-                        {%endif%}
                     </div>
-                {% endfor %}
-                {% if barbershops.count == 0 %}
-                    <div class="bg-white rounded-lg shadow-lg barbershop m-10 md:m-0">
-                        <img class="w-full h-56 object-cover rounded-t-lg" src="{% static 'images/example.png' %}" alt="image1"/>
-                        <div class="p-4">
-                            <h1 class="text-xl font-bold text-gray-800">No Barbershops</h1>
-                            <p class="text-gray-600">There are no barbershops available at the moment.</p>
-                        </div>
+                    <div>Users rated it</div>
+                    <div class="flex space-x-10 font-semibold">
+                        {% for i in barber.user_attr%}
+                            <a class={{i}}  > {{i}}</a>
+                        {%endfor%}
                     </div>
-                {% endif %}
-            </div>
+                    {% if user.is_authenticated %}
+                        <a href="/barber/{{ barber.slug }}/booking">
+                            <button class="book bg-green-500 text-2xl p-2 text-white" >
+                                Book
+                            </button>
+                        </a>
+                    {%else%}
+                        <a href={% url 'barbers:auth_login' %}>
+                            <button class="book bg-green-500 text-2xl p-2 text-white" >
+                                Book
+                            </button>
+                        </a>
+                    {%endif%}
+                </div>
+            {% endfor %}
+            {% if barbershops.count == 0 %}
+                <div class="bg-white rounded-lg shadow-lg barbershop m-10 md:m-0">
+                    <img class="w-full h-56 object-cover rounded-t-lg" src="{% static 'images/example.png' %}" alt="image1"/>
+                    <div class="p-4">
+                        <h1 class="text-xl font-bold text-gray-800">No Barbershops</h1>
+                        <p class="text-gray-600">There are no barbershops available at the moment.</p>
+                    </div>
+                </div>
+            {% endif %}
         </div>
+    </div>
     </div>
 
 {% endblock %}
