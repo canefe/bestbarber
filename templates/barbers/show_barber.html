@@ -1,64 +1,151 @@
-{% extends 'barbers/base.html' %} {% load static %} {% block title_block %}
-    Barbers {% endblock %}
+{% extends 'barbers/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title_block %}
+    {{ barber.name }}
+{% endblock %}
 {% block head %}
+
 {% endblock %}
 {% block body_block %}
 
-    <div class=" bg-white p-5  flex flex-col text-black">
+    <style>
 
-        <div class="flex space-x-20">
-            <div class="bg-gray-200 rounded-xl flex">
-                <div class="flex flex-col  items-center space-y-4">
-                    <img src="{% static "images/example.png" %}"  class="m-5 rounded-md"/>
+        .text-area{
+            resize: none;
+            border-collapse:collapse;
+            border-style: solid;
+            border-width: 1px;
+            border-color:black;
+        }
+    </style>
+    <div>
+        <div class="flex items-center md:items-start w-[100vw] md:w-[100vw] h-auto">
+
+            <div class="rounded-xl bg-white h-full m-5 w-1/4 p-2 shadow-2xl">
+                <div class="flex flex-col items-center space-y-4">
+                    {%if barber.picture%}
+                        <img src="{{MEDIA_URL}}{{barber.picture}}" class="rounded-t-xl "/>
+                    {% else %}
+                        <img src="{% static "images/example.png" %}" class="rounded-t-xl"/>
+                    {% endif%}
                     <h3 class="mt-5 text-3xl">{{ barber.name }}</h3>
-                    <div class="flex flex-col space-x-1">
+                    <div class="flex space-x-1">
                         {% for i in ''|rjust:barber.user_rating %}
                             <img src="{% static "images/star.png" %}" class="rounded-t-xl"/>
                         {% endfor %}
-                    </div><div>
-                        Manage by: {{barber.manage_by}}
+
+                    </div>
+                    <div>
+                        {% if barber.manage_by == request.user %}
+                            <a id="editBtn" class="bg-purple-500 p-3 m-5 text-lg rounded-lg text-white hover:bg-purple-700 duration-500 cursor-pointer">Edit</a>
+                            <a id="doneEditBtn" class="hidden bg-green-500 p-3 m-5 text-lg rounded-lg text-white hover:bg-purple-700 duration-500 cursor-pointer">Cancel Edit</a>
+                        {%else%}
+                            Manage by: {{barber.manage_by}}
+                        {% endif %}
                     </div>
                 </div>
             </div>
+            <div class="rounded-xl bg-white h-full m-5 w-3/4 p-2 shadow-2xl">
+                <div id="field" class ="flex flex-col justify-between items-left mb-2 space-y-4">
+                    <div>
+                        <p class="uppercase font-bold text-l">location:</p>
+                        <p class="w-1/2 shadow-sm w-full py-2 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer">{{barber.location}}</p>
+                    </div>
+                    <div>
+                        <p class="uppercase font-bold text-l">Description:</p>
+                        <p class="w-1/2 shadow-sm w-full py-2 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer">{{barber.description}}</p>
+                    </div>
+                    <div>
+                        <p class="uppercase font-bold text-l">service:</p>
+                        <p class="w-1/2 shadow-sm w-full py-2 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer">{{barber.service}}</p>
+                    </div>
+                    <div>
+                        <p class="uppercase font-bold text-l">style:</p>
+                        <p class="w-1/2 shadow-sm w-full py-2 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer">{{barber.style}} </p>
+                    </div>
+                    <div>
+                        <p class="uppercase font-bold text-l">price:</p>
+                        <p class="w-1/2 shadow-sm w-full py-2 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer">{{barber.price}}</p>
+                    </div>
+                    <div>
+                        <p class="uppercase font-bold text-l"> type:</p>
+                        <p class="w-1/2 shadow-sm w-full py-2 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer">{{barber.type}}</p>
+                    </div>
+                </div>
+                <div id="editField" class =" hidden flex flex-col justify-between items-left mb-2 space-y-4">
+                    <form id="editForm" name="editForm" method="post"  enctype="multipart/form-data"> {% csrf_token %}
+
+                        <div >
+                            {% for field in barber_form %}
+                                {% if field.label != "Name"%}
+                                    <div class="relative">
+                                        <p class="uppercase font-bold text-l">
+                                            {{ field.label }}
+                                        </p> {{field.error}}
+                                        {{field|add_class:" w-1/2 shadow-sm w-full py-2 pl-3 pr-24 leading-5 text-gray-900 sm:text-sm sm:leading-5 mb-5 peer" }}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                            <button type="submit" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col items-center md:items-start w-[100vw] md:w-[100vw]">
             {% if user.is_authenticated %}
-                <div class="bg-gray-200 rounded-xl h-100 flex flex-col">
-                    <form method="post" enctype="multipart/form-data">
+                <div class="rounded-xl p-2 shadow-2xl  bg-white m-5 h-100 w-full flex flex-col">
+                    <form class="items-center" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div>
-                            {% for field in comment_form %}
-                                <div > <b class="form-text input_box">
-                                    {{ field.label_tag }}</b>{{ field }} </div>
-                            {% endfor %}
+                            <div> <b class="form-text input_box">
+                                <label for="id_comment_text">Comment text:</label></b>
+                            </div>
+                            <textarea class="w-full h-20 border-black text-area" name="comment_text" maxlength="300" id="id_comment_text"> </textarea>
+                            <br>
+                            <b class="form-text input_box">
+                                <label for="id_rating">Rating:</label></b>
+                            <input type="number" name="rating" required="" id="id_rating"  min="0" max="5">
                         </div>
                         {% for attr in attributes %}
                             <input type="checkbox" name="attr[]" value={{attr}}> {{attr}} <br>
                         {% endfor %}
-                        <button class="book bg-green-500 text-2xl p-2 text-white" type="submit" name="submit">Submit</button>
+                        <button class="rounded-xl bg-green-500 text-2xl p-2 text-white" type="submit" name="submit">Submit</button>
                     </form>
                 </div>
             {% endif%}
+
+            <div class="rounded-xl p-2 shadow-2xl bg-white m-5 flex-grow-0 flex-col w-full flex h-auto">
+
+                <p class="text-2xl">
+                    Comments
+                </p>
+                {% for i in comments %}
+                    <div class="rounded-xl p-2 shadow-2xl bg-white m-5  w-full">
+                        <div>
+                            User : {{i.user}}
+                        </div>
+                        <div>
+                            Comment : {{i.comment_text}}
+                        </div>
+                        <div class="flex space-x-1">
+                            {% for i in ''|rjust:i.rating %}
+                                <img src="{% static "images/star.png" %}" class="rounded-t-xl"/>
+                            {% endfor %}
+                        </div>
+                        {% if i.attr %}
+                            {{i.attr}}
+                        {% endif %}
+                    </div>
+
+
+                {% endfor %}
+            </div>
         </div>
-        <div class="bg-gray-200 rounded-xl flex-col flex">
-            {% for i in comments %}
-                <div>
-                    User : {{i.user}}
-                </div>
-                <div>
-                    Comment : {{i.comment_text}}
-                </div>
-                <div class="flex space-x-1">
-                    {% for i in ''|rjust:i.rating %}
-                        <img src="{% static "images/star.png" %}" class="rounded-t-xl"/>
-                    {% endfor %}
-                </div>
-                {% if i.attr %}
-                    {{i.attr}}
-                {% endif %}
-
-            {% endfor %}
-        </div>
-
-
     </div>
-
+<!-- Import js/index.js -->
+    <script src="{% static 'js/show_barber.js' %}"></script>
 {% endblock %}

@@ -36,6 +36,7 @@
                     <li class="menuitem"><a href="{% url 'barbers:barbers' %}">Barbers</a></li>
                     {% if user.is_authenticated %}
                         <li class="menuitem"><a href="{% url 'barbers:account'%}">Account</a></li>
+                        <li class="menuitem"><a href="{% url 'barbers:list_profiles' %}">Profiles</a></li>
                         {% if user.userprofile.is_barber %}
                             <li class="menuitem"><a href="{% url 'barbers:add_barbers'%}">Add Barbershop</a></li>
                         {% endif %}
@@ -66,7 +67,7 @@
 
             </div>
         </div>
-        <div class="bg-[#f5f5f5] min-h-screen pt-20 flex flex-col">{% block body_block %} {% endblock %}</div>
+        <div class="bg-[#f5f5f5] min-h-screen flex pt-20 flex-col">{% block body_block %} {% endblock %}</div>
         <footer>
             <div class="bg-[#0077be] text-white text-center py-5">
                 <p>BestBarber © 2023</p>
@@ -75,7 +76,6 @@
         <script>
             $(document).ready(function() {
                 $('.burger').click(function() {
-                    console.log('burger clicked');
                     $('.menu').toggleClass('invisible');
                     $('.menu').toggleClass('opacity-100');
                 });

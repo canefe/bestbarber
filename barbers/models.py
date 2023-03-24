@@ -7,33 +7,23 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-
-    picture = models.ImageField(upload_to='profile_images', blank=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
+    picture = models.ImageField(upload_to='user_profile_images', null=True, blank=True)
     phone_number = models.CharField(max_length=50, null=True)
     is_barber = models.BooleanField(default=False)
     email = models.CharField(max_length=50, null=True)
     completed = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.user.username
-            # + self.first_name + self.last_name
+        return self.first_name + self.last_name
 
 
-class ManagerProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    owned_barbershop = models.ForeignKey('Barbershop', on_delete=models.CASCADE, null=True)
-
-    def __str__(self):
-        return self.user.userprofile.first_name + self.user.userprofile.last_name
-
-
-class Barbershop(models.Model):
+class BarberShop(models.Model):
     manage_by = models.ForeignKey(User, on_delete=models.CASCADE)
     max_length = 128
     name = models.CharField(max_length=100, unique=True)
-    location = models.CharField(max_length=200, unique=True)
+    location = models.CharField(max_length=200,null=True, blank=True, unique=True)
     picture = models.ImageField(upload_to='shop_profile_images', null=True, blank=True)
     description = models.CharField(max_length=300, null=True, blank=True)
     service = models.CharField(max_length=300, null=True, blank=True)
@@ -46,7 +36,7 @@ class Barbershop(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
-        super(Barbershop, self).save(*args, **kwargs)
+        super(BarberShop, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -54,7 +44,7 @@ class Barbershop(models.Model):
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    barber_shop = models.ForeignKey(Barbershop, on_delete=models.CASCADE, null=True, blank=True)
+    barber_shop = models.ForeignKey(BarberShop, on_delete=models.CASCADE, null=True, blank=True)
     comment_text = models.CharField(max_length=300, null=True, blank=True)
     rating = models.IntegerField(default=0, validators=[
         MaxValueValidator(5),
@@ -68,7 +58,7 @@ class Comment(models.Model):
 
 class Booking(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    barber_shop = models.ForeignKey(Barbershop, on_delete=models.CASCADE, null=True, blank=True)
+    barber_shop = models.ForeignKey(BarberShop, on_delete=models.CASCADE, null=True, blank=True)
     date = models.DateTimeField()
     message = models.CharField(max_length=300, null=True, blank=True)
     def __str__(self):

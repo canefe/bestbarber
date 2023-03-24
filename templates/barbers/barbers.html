@@ -1,36 +1,32 @@
 {% extends 'barbers/base.html' %}
 {% load custom_filter %}
 {% load static %}
+
 {% block title_block %}
-    Barbers {% endblock %}
+    Barbers
+{% endblock %}
+
 {% block head %}
 <!-- Import js/barbers.js -->
-    <script src="{% static 'js/barbers.js' %}"></script>
+<script src="{% static 'js/barbers.js' %}"></script>
 {% endblock %}
+
 {% block body_block %}
+<div class="flex flex-col items-center justify-center bg-[#394f66] p-5 text-white">
+    <div class="flex flex-col md:flex-row text-black mt-5 space-y-5 md:space-y-0 md:space-x-5 items-center justify-center md:items-start md:justify-start">
+        <!-- For loop comes here -->
+        {% for barber in barbershops %}
+            <div class="bg-white rounded-xl h-auto flex flex-col items-center space-y-5 shadow-2xl pb-5">
+                <a href="/barber/{{ barber.slug }}/">
+                {%if barber.picture%}
+                    <img src="{{MEDIA_URL}}{{barber.picture}}" class="rounded-t-xl "/>
+                {% else %}
+                    <img src="{% static "images/example.png" %}" class="rounded-t-xl"/>
+                {% endif%}
+                </a>
+                <h3 class="mt-5 text-3xl">{{barber.name}}</h3>
 
-    <div
-        class="flex flex-col items-center justify-center md:items-start md:justify-start m-5 min-w-screen"
-    >
-        <div class="bg-gray-200 p-20 w-full">
-            <div class="min-w-min relative flex my-10 justify-center items-center md:items-start md:justify-start flex-1 w-full">
-                <h1 class="text-4xl absolute  left-1/2 md:left-12 md:bottom-5 -translate-x-1/2">Barbers</h1>
-                <h1 class="text-lg absolute right-0">Filter</h1>
-
-                <div class="relative inline-block">
-                </div>
-            </div>
-            <div class="flex flex-col md:flex-row text-black mt-5 space-y-5 md:space-y-0 md:space-x-5 items-center justify-center md:items-start md:justify-start">
-				<!-- For loop comes here -->
-                {% for barber in barbershops %}
-                    <div class="bg-white rounded-xl h-auto flex flex-col items-center space-y-5 shadow-2xl pb-5">
-                        {%if barber.picture%}
-                            <img src="{{MEDIA_URL}}{{barber.picture}}" class="rounded-t-xl "/>
-                        {% else %}
-                            <img src="{% static "images/example.png" %}" class="rounded-t-xl"/>
-                        {% endif%}
-                        <h3 class="mt-5 text-3xl">{{barber.name}}</h3>
-                        <div class="flex space-x-1">
+                    <div class="flex space-x-1">
                             {% if barber.user_rating is not None and barber.user_rating > 0 %}
                                 {% for i in 'x'|ljust:barber.user_rating %}
                                     <img src="{% static 'images/star.png' %}" class="rounded-t-xl contrast-200"/>
@@ -51,7 +47,7 @@
                         <div>Users rated it</div>
                         <div class="flex space-x-10 font-semibold">
                             {% for i in barber.user_attr%}
-                                <a id = "attr" > {{i}}</a>
+                                <a class={{i}}  > {{i}}</a>
                             {%endfor%}
                         </div>
                         {% if user.is_authenticated %}
@@ -81,4 +77,5 @@
             </div>
         </div>
     </div>
+
 {% endblock %}
